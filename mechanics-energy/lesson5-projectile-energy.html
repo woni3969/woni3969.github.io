@@ -148,6 +148,19 @@
   .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
   .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
   .fn-side span.disabled{opacity:.4;}
+
+  .numin{width:72px;font-family:'Space Mono',monospace;font-size:15px;padding:6px 8px;border:1.5px solid #33405e;border-radius:8px;background:#fff;color:#111;text-align:center;}
+  .numin:focus{outline:none;border-color:var(--accent);}
+  .unit{font-size:12px;color:#9fb1cf;margin-left:7px;}
+  .angbtns{display:flex;gap:6px;flex-wrap:wrap;}
+  .angb{font-family:'Pretendard',sans-serif;font-size:13px;color:#cbd6ef;background:#182134;border:1px solid #33405e;border-radius:9px;padding:6px 12px;cursor:pointer;transition:.12s;}
+  .angb:hover{border-color:var(--accent);}
+  .angb.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .calc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;margin:12px 0 0;box-shadow:var(--shadow);}
+  .calc .t{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--accent);margin-bottom:8px;}
+  .calc .eqn{font-family:'Space Mono',monospace;font-size:14px;color:var(--ink);margin:5px 0;line-height:1.55;}
+  .calc .eqn .lab{display:inline-block;min-width:104px;color:var(--ink-soft);}
+  .calc .eqn .r{color:var(--accent);font-weight:700;}
 </style>
 </head>
 <body>
@@ -237,8 +250,8 @@
           <span><i style="background:#22c55e"></i>역학적 에너지(합)</span>
         </div>
         <div class="controls">
-          <div class="ctrl"><label>처음 속도 v₀</label><input id="s5_v0" type="range" min="10" max="28" step="1" value="20"><span class="val" id="s5_vv0">20 m/s</span></div>
-          <div class="ctrl"><label>던진 각도 θ</label><input id="s5_th" type="range" min="20" max="75" step="1" value="55"><span class="val" id="s5_vth">55°</span></div>
+          <div class="ctrl"><label>처음 속도 v₀</label><input id="s5_v0" type="number" class="numin" min="5" max="50" step="1" value="20"><span class="unit">m/s · 5~50</span></div>
+          <div class="ctrl"><label>던진 각도 θ</label><div class="angbtns"><button class="angb" data-th="15">15°</button><button class="angb" data-th="30">30°</button><button class="angb on" data-th="45">45°</button><button class="angb" data-th="60">60°</button><button class="angb" data-th="75">75°</button></div></div>
           <div class="readouts">
             <span class="chip">운동E <b id="s5_ke">0</b> J</span>
             <span class="chip">위치E <b id="s5_pe">0</b> J</span>
@@ -253,7 +266,16 @@
       </div>
     </div>
     <p class="body" style="font-size:14.5px;color:var(--ink-soft);margin-top:10px;">막대에서 파랑(위치E) 위에 주황(운동E)을 쌓으면 전체 높이(합)는 항상 같습니다. 오른쪽 그래프의 초록 선이 평평한 것도 같은 뜻이에요.</p>
-  </section>
+      <div class="calc">
+      <div class="t">지금 값으로 계산 (질량 1 kg, g = 10)</div>
+      <div class="eqn"><span class="lab">수평 성분</span> v₀cosθ = <span id="c5_vx">—</span></div>
+      <div class="eqn"><span class="lab">수직 성분</span> v₀sinθ = <span id="c5_vy">—</span></div>
+      <div class="eqn"><span class="lab">처음 운동E</span> ½mv₀² <span id="c5_e0">—</span></div>
+      <div class="eqn"><span class="lab">최고점 운동E</span> ½m(v₀cosθ)² <span id="c5_kea">—</span></div>
+      <div class="eqn"><span class="lab">최고점 위치E</span> ½m(v₀sinθ)² <span id="c5_pea">—</span></div>
+      <div class="eqn"><span class="lab">역학적E(일정)</span> <span id="c5_me">—</span></div>
+    </div>
+</section>
 
   <!-- 형성평가 -->
   <section id="quiz">
@@ -294,12 +316,28 @@
     var cv=document.getElementById('sim5'); if(!cv) return;
     var ctx=cv.getContext('2d');
     var goB=document.getElementById('s5_go'), resetB=document.getElementById('s5_reset'),
-        v0S=document.getElementById('s5_v0'), thS=document.getElementById('s5_th'),
-        vv0=document.getElementById('s5_vv0'), vth=document.getElementById('s5_vth');
+        v0S=document.getElementById('s5_v0');
+    var c5vx=document.getElementById('c5_vx'), c5vy=document.getElementById('c5_vy'), c5e0=document.getElementById('c5_e0'), c5kea=document.getElementById('c5_kea'), c5pea=document.getElementById('c5_pea'), c5me=document.getElementById('c5_me');
     var keEl=document.getElementById('s5_ke'), peEl=document.getElementById('s5_pe'),
         meEl=document.getElementById('s5_me'), verdict=document.getElementById('s5_verdict');
     var g=10, m=1;
-    var st={v0:20, th:55, t:0, running:false, done:false, hist:[]}, lastT=0;
+
+    var _COS={15:null,30:'√3/2',45:'√2/2',60:'1/2',75:null},
+        _SIN={15:null,30:'1/2',45:'√2/2',60:'√3/2',75:null},
+        _S2={15:'1/2',30:'√3/2',45:'1',60:'√3/2',75:'1/2'},
+        _SINSQ={15:null,30:'1/4',45:'1/2',60:'3/4',75:null},
+        _COSSQ={15:null,30:'3/4',45:'1/2',60:'1/4',75:null};
+    function _eq(v){ return (Math.abs(v-Math.round(v))<1e-9)?('= '+Math.round(v)):('≈ '+v.toFixed(1)); }
+    function compLine(v0,th,which){
+      var isc=(which==='cos'), r=isc?_COS[th]:_SIN[th];
+      var trig=isc?Math.cos(th*Math.PI/180):Math.sin(th*Math.PI/180);
+      var val=v0*trig;
+      var head=v0+' × '+(r?('('+r+')'):trig.toFixed(3));
+      var res=(r?_eq(val):('≈ '+val.toFixed(1)))+' m/s';
+      return head+' <span class="r">'+res+'</span>';
+    }
+    function syncAng(){ document.querySelectorAll('.angb').forEach(function(b){ b.classList.toggle('on', (+b.getAttribute('data-th'))===st.th); }); }
+    var st={v0:20, th:45, t:0, running:false, done:false, hist:[]}, lastT=0;
     function rad(){ return st.th*Math.PI/180; }
     function vx0(){ return st.v0*Math.cos(rad()); }
     function vy0(){ return st.v0*Math.sin(rad()); }
@@ -312,7 +350,7 @@
       var v2=vx*vx+vy*vy, ke=0.5*m*v2, pe=m*g*y;
       return {x:vx0()*t, y:y, vx:vx, vy:vy, ke:ke, pe:pe, me:ke+pe};
     }
-    function reset(){ st.t=0; st.running=false; st.done=false; st.hist=[]; goB.classList.add('play'); goB.textContent='던지기 ▶'; vv0.textContent=st.v0+' m/s'; vth.textContent=st.th+'°'; }
+    function reset(){ st.t=0; st.running=false; st.done=false; st.hist=[]; goB.classList.add('play'); goB.textContent='던지기 ▶'; v0S.value=st.v0; syncAng(); }
 
     function draw(){
       var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.58);
@@ -358,6 +396,15 @@
       eCurve(function(s){return s.ke;}, '#f59e0b');
       // 읽기값
       keEl.textContent=cur.ke.toFixed(0); peEl.textContent=cur.pe.toFixed(0); meEl.textContent=cur.me.toFixed(0);
+      c5vx.innerHTML=compLine(st.v0,st.th,'cos');
+      c5vy.innerHTML=compLine(st.v0,st.th,'sin');
+      var _E0=0.5*m*st.v0*st.v0, _cs=_COSSQ[st.th], _ss=_SINSQ[st.th];
+      c5e0.innerHTML='½ × '+m+' × '+st.v0+'² <span class="r">'+_eq(_E0)+' J</span>';
+      c5kea.innerHTML=_cs ? ('½ × '+m+' × '+st.v0+'² × ('+_cs+') <span class="r">'+_eq(0.5*m*st.v0*st.v0*Math.pow(Math.cos(rad()),2))+' J</span>')
+        : ('½ × '+m+' × ('+vx0().toFixed(1)+')² <span class="r">≈ '+(0.5*m*vx0()*vx0()).toFixed(0)+' J</span>');
+      c5pea.innerHTML=_ss ? ('½ × '+m+' × '+st.v0+'² × ('+_ss+') <span class="r">'+_eq(0.5*m*st.v0*st.v0*Math.pow(Math.sin(rad()),2))+' J</span>')
+        : ('½ × '+m+' × ('+vy0().toFixed(1)+')² <span class="r">≈ '+(0.5*m*vy0()*vy0()).toFixed(0)+' J</span>');
+      c5me.innerHTML='½ × '+m+' × '+st.v0+'² <span class="r">'+_eq(_E0)+' J</span>';
     }
     function loop(tm){
       if(st.running){ var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; st.t+=dt;
@@ -369,8 +416,8 @@
     }
     goB.addEventListener('click',function(){ if(st.running){st.running=false;goB.classList.add('play');goB.textContent='이어서 ▶';return;} if(st.done)reset(); st.running=true; goB.classList.remove('play'); goB.textContent='날아가는 중…'; });
     resetB.addEventListener('click',reset);
-    v0S.addEventListener('input',function(){ st.v0=+v0S.value; reset(); });
-    thS.addEventListener('input',function(){ st.th=+thS.value; reset(); });
+    v0S.addEventListener('change',function(){ var x=Math.round(+v0S.value||0); x=Math.max(5,Math.min(50,x)); st.v0=x; v0S.value=x; reset(); });
+    document.querySelectorAll('.angb').forEach(function(b){ b.addEventListener('click',function(){ st.th=+b.getAttribute('data-th'); syncAng(); reset(); }); });
     window.addEventListener('resize',draw); reset(); setTimeout(draw,50); requestAnimationFrame(loop);
   })();
 </script>

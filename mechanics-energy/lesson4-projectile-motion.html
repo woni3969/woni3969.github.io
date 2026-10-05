@@ -161,6 +161,14 @@
   .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
   .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
   .fn-side span.disabled{opacity:.4;}
+
+  .numin{width:72px;font-family:'Space Mono',monospace;font-size:15px;padding:6px 8px;border:1.5px solid #33405e;border-radius:8px;background:#fff;color:#111;text-align:center;}
+  .numin:focus{outline:none;border-color:var(--accent);}
+  .unit{font-size:12px;color:#9fb1cf;margin-left:7px;}
+  .angbtns{display:flex;gap:6px;flex-wrap:wrap;}
+  .angb{font-family:'Pretendard',sans-serif;font-size:13px;color:#cbd6ef;background:#182134;border:1px solid #33405e;border-radius:9px;padding:6px 12px;cursor:pointer;transition:.12s;}
+  .angb:hover{border-color:var(--accent);}
+  .angb.on{background:var(--accent);color:#fff;border-color:var(--accent);}
 </style>
 </head>
 <body>
@@ -279,8 +287,8 @@
           <span><i style="background:#a78bfa"></i>최고점</span>
         </div>
         <div class="controls">
-          <div class="ctrl"><label>처음 속도 v₀</label><input id="s4b_v0" type="range" min="10" max="30" step="1" value="20"><span class="val" id="s4b_vv0">20 m/s</span></div>
-          <div class="ctrl"><label>던진 각도 θ</label><input id="s4b_th" type="range" min="15" max="75" step="1" value="45"><span class="val" id="s4b_vth">45°</span></div>
+          <div class="ctrl"><label>처음 속도 v₀</label><input id="s4b_v0" type="number" class="numin" min="5" max="50" step="1" value="20"><span class="unit">m/s · 5~50</span></div>
+          <div class="ctrl"><label>던진 각도 θ</label><div class="angbtns"><button class="angb" data-th="15">15°</button><button class="angb" data-th="30">30°</button><button class="angb on" data-th="45">45°</button><button class="angb" data-th="60">60°</button><button class="angb" data-th="75">75°</button></div></div>
           <div class="readouts">
             <span class="chip">v₀cosθ <b id="s4b_vx">14.1</b></span>
             <span class="chip">v₀sinθ <b id="s4b_vy0">14.1</b></span>
@@ -290,9 +298,6 @@
           <div class="presets">
             <button class="pbtn play" id="s4b_go">던지기 ▶</button>
             <button class="pbtn" id="s4b_reset">처음으로 ⟳</button>
-            <button class="pbtn" data-th="30">30°</button>
-            <button class="pbtn on" data-th="45">45°(최대)</button>
-            <button class="pbtn" data-th="60">60°</button>
           </div>
           <div class="verdict" id="s4b_verdict">파란 화살표(수평 속도)는 <b>일정</b>, 빨간 화살표(수직 속도)는 <b>줄었다가 커집니다</b>. 45°에서 가장 멀리!</div>
         </div>
@@ -374,6 +379,22 @@
         vxEl=document.getElementById('s4a_vx'), vyEl=document.getElementById('s4a_vy'), verdict=document.getElementById('s4a_verdict');
     var c4x=document.getElementById('c4a_x'), c4y=document.getElementById('c4a_y'), c4vy=document.getElementById('c4a_vy');
     var g=10, Hm=40, STROBE=0.28;
+
+    var _COS={15:null,30:'√3/2',45:'√2/2',60:'1/2',75:null},
+        _SIN={15:null,30:'1/2',45:'√2/2',60:'√3/2',75:null},
+        _S2={15:'1/2',30:'√3/2',45:'1',60:'√3/2',75:'1/2'},
+        _SINSQ={15:null,30:'1/4',45:'1/2',60:'3/4',75:null},
+        _COSSQ={15:null,30:'3/4',45:'1/2',60:'1/4',75:null};
+    function _eq(v){ return (Math.abs(v-Math.round(v))<1e-9)?('= '+Math.round(v)):('≈ '+v.toFixed(1)); }
+    function compLine(v0,th,which){
+      var isc=(which==='cos'), r=isc?_COS[th]:_SIN[th];
+      var trig=isc?Math.cos(th*Math.PI/180):Math.sin(th*Math.PI/180);
+      var val=v0*trig;
+      var head=v0+' × '+(r?('('+r+')'):trig.toFixed(3));
+      var res=(r?_eq(val):('≈ '+val.toFixed(1)))+' m/s';
+      return head+' <span class="r">'+res+'</span>';
+    }
+    function syncAng(){ document.querySelectorAll('.angb').forEach(function(b){ b.classList.toggle('on', (+b.getAttribute('data-th'))===st.th); }); }
     var st={v0:15, t:0, running:false, done:false}, lastT=0;
     function tFall(){ return Math.sqrt(2*Hm/g); }
     function reset(){ st.t=0; st.running=false; st.done=false; goB.classList.add('play'); goB.textContent='던지기 ▶'; vv0.textContent=st.v0+' m/s'; vxEl.textContent=st.v0; }
@@ -424,7 +445,7 @@
     function loop(tm){ if(st.running){ var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; st.t+=dt; if(st.t>=tFall()){ st.t=tFall(); st.running=false; st.done=true; goB.classList.add('play'); goB.textContent='다시 ⟳'; verdict.innerHTML='두 공이 <b>동시에</b> 바닥에 닿았습니다! 수평 속도와 상관없이 낙하 시간은 같아요.'; } } lastT=tm; draw(); requestAnimationFrame(loop); }
     goB.addEventListener('click',function(){ if(st.running){st.running=false;goB.classList.add('play');goB.textContent='이어서 ▶';return;} if(st.done)reset(); st.running=true; goB.classList.remove('play'); goB.textContent='날아가는 중…'; });
     resetB.addEventListener('click',reset);
-    v0S.addEventListener('input',function(){ st.v0=+v0S.value; reset(); });
+    v0S.addEventListener('change',function(){ var x=Math.round(+v0S.value||0); x=Math.max(5,Math.min(50,x)); st.v0=x; v0S.value=x; reset(); });
     window.addEventListener('resize',draw); reset(); setTimeout(draw,50); requestAnimationFrame(loop);
   })();
 
@@ -433,8 +454,7 @@
     var cv=document.getElementById('sim4b'); if(!cv) return;
     var ctx=cv.getContext('2d');
     var goB=document.getElementById('s4b_go'), resetB=document.getElementById('s4b_reset'),
-        v0S=document.getElementById('s4b_v0'), thS=document.getElementById('s4b_th'),
-        vv0=document.getElementById('s4b_vv0'), vth=document.getElementById('s4b_vth');
+        v0S=document.getElementById('s4b_v0');
     var vxEl=document.getElementById('s4b_vx'), vy0El=document.getElementById('s4b_vy0'),
         HEl=document.getElementById('s4b_H'), REl=document.getElementById('s4b_R'), verdict=document.getElementById('s4b_verdict');
     var c4vx=document.getElementById('c4b_vx'), c4vy=document.getElementById('c4b_vy'), c4H=document.getElementById('c4b_H'), c4R=document.getElementById('c4b_R');
@@ -446,7 +466,7 @@
     function Tflight(){ return 2*vy0()/g; }
     function Hmax(){ return vy0()*vy0()/(2*g); }
     function Rng(){ return st.v0*st.v0*Math.sin(2*rad())/g; }
-    function targets(){ vv0.textContent=st.v0+' m/s'; vth.textContent=st.th+'°'; vxEl.textContent=vx0().toFixed(1); vy0El.textContent=vy0().toFixed(1); HEl.textContent=Hmax().toFixed(1); REl.textContent=Rng().toFixed(1); }
+    function targets(){ v0S.value=st.v0; syncAng(); vxEl.textContent=vx0().toFixed(1); vy0El.textContent=vy0().toFixed(1); HEl.textContent=Hmax().toFixed(1); REl.textContent=Rng().toFixed(1); }
     function reset(){ st.t=0; st.running=false; st.done=false; goB.classList.add('play'); goB.textContent='던지기 ▶'; targets(); }
     function draw(){
       var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.58);
@@ -480,17 +500,18 @@
       ctx.fillStyle='#f79338'; ctx.strokeStyle='#120e0b'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cp.x,cp.y,9,0,2*Math.PI); ctx.fill(); ctx.stroke();
       // 계산 갱신
       targets();
-      c4vx.innerHTML=st.v0+' × cos'+st.th+'° = <span class="r">'+vx0().toFixed(1)+' m/s</span>';
-      c4vy.innerHTML=st.v0+' × sin'+st.th+'° = <span class="r">'+vy0().toFixed(1)+' m/s</span>';
-      c4H.innerHTML=vy0().toFixed(1)+'² / (2×'+g+') = <span class="r">'+Hmax().toFixed(1)+' m</span>';
-      c4R.innerHTML=st.v0+'² × sin'+(2*st.th)+'° / '+g+' = <span class="r">'+Rng().toFixed(1)+' m</span>';
+      c4vx.innerHTML=compLine(st.v0,st.th,'cos');
+      c4vy.innerHTML=compLine(st.v0,st.th,'sin');
+      var _hs=_SINSQ[st.th];
+      c4H.innerHTML=_hs ? (st.v0+'² × ('+_hs+') / (2×'+g+') <span class="r">'+_eq(Hmax())+' m</span>')
+        : (st.v0+'² × '+Math.pow(Math.sin(rad()),2).toFixed(3)+' / (2×'+g+') <span class="r">≈ '+Hmax().toFixed(1)+' m</span>');
+      c4R.innerHTML=st.v0+'² × ('+_S2[st.th]+') / '+g+' <span class="r">'+_eq(Rng())+' m</span>';
     }
     function loop(tm){ if(st.running){ var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; st.t+=dt; if(st.t>=Tflight()){ st.t=Tflight(); st.running=false; st.done=true; goB.classList.add('play'); goB.textContent='다시 ⟳'; } } lastT=tm; draw(); requestAnimationFrame(loop); }
     goB.addEventListener('click',function(){ if(st.running){st.running=false;goB.classList.add('play');goB.textContent='이어서 ▶';return;} if(st.done)reset(); st.running=true; goB.classList.remove('play'); goB.textContent='날아가는 중…'; });
     resetB.addEventListener('click',reset);
-    v0S.addEventListener('input',function(){ st.v0=+v0S.value; reset(); });
-    thS.addEventListener('input',function(){ st.th=+thS.value; document.querySelectorAll('.pbtn[data-th]').forEach(function(o){o.classList.remove('on');}); reset(); });
-    document.querySelectorAll('.pbtn[data-th]').forEach(function(b){ b.addEventListener('click',function(){ document.querySelectorAll('.pbtn[data-th]').forEach(function(o){o.classList.remove('on');}); b.classList.add('on'); st.th=+b.getAttribute('data-th'); thS.value=st.th; reset(); }); });
+    v0S.addEventListener('change',function(){ var x=Math.round(+v0S.value||0); x=Math.max(5,Math.min(50,x)); st.v0=x; v0S.value=x; reset(); });
+    document.querySelectorAll('.angb').forEach(function(b){ b.addEventListener('click',function(){ st.th=+b.getAttribute('data-th'); syncAng(); reset(); }); });
     window.addEventListener('resize',draw); reset(); setTimeout(draw,50); requestAnimationFrame(loop);
   })();
 </script>
