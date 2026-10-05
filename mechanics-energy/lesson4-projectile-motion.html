@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포물선 운동 · 4차시 — 수평으로 던진 물체와 포물선 운동</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#fbf7f1; --grid:#efe7db; --ink:#241a12; --ink-soft:#6a5a49;
+    --line:#ece0d1; --card:#ffffff;
+    --panel:#181310; --panel-grid:#2b241d; --panel-ink:#f2e9df;
+    --accent:#e8730c; --accent-soft:#fce8d3; --vector:#e11d48; --good:#18b463;
+    --shadow:0 1px 2px rgba(36,26,18,.06), 0 8px 24px rgba(36,26,18,.09);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 96px;}
+
+  header.top{position:relative;margin:0 -20px 40px;padding:34px 20px 30px;background:linear-gradient(180deg,#1c1610 0%,#2c211a 100%);color:#f6ede2;overflow:hidden;}
+  header.top::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:27px 27px;}
+  .top-inner{max-width:920px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#f6a860;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:#f6a860;display:inline-block;}
+  h1.title{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(27px,5.4vw,42px);line-height:1.15;margin:0 0 6px;letter-spacing:-.01em;}
+  h1.title .accent{color:#f79338;}
+  .subtitle{color:#dcc9b4;font-size:17px;margin:0;}
+  .standard{margin-top:22px;padding:15px 18px;border-radius:12px;background:rgba(247,147,56,.12);border:1px solid rgba(247,147,56,.3);display:flex;gap:12px;align-items:flex-start;}
+  .standard .tag{flex:none;font-family:'Do Hyeon',sans-serif;font-size:13px;background:#f79338;color:#1c1610;padding:3px 10px;border-radius:20px;margin-top:2px;}
+  .standard p{margin:0;font-size:15px;color:#eaddcc;}
+
+  .lesson-nav{display:flex;gap:8px;margin:-18px auto 34px;max-width:920px;flex-wrap:wrap;}
+  .lesson-nav a{flex:1 1 0;min-width:120px;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;box-shadow:var(--shadow);transition:.15s;display:flex;align-items:center;gap:9px;}
+  .lesson-nav a:hover{transform:translateY(-2px);border-color:var(--accent);}
+  .lesson-nav .num{font-family:'Black Han Sans',sans-serif;font-size:17px;width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;background:var(--paper);color:var(--ink-soft);}
+  .lesson-nav a.current .num{background:var(--accent);color:#fff;}
+  .lesson-nav .lbl{font-size:13px;line-height:1.3;color:var(--ink-soft);}
+  .lesson-nav a.current .lbl{color:var(--ink);font-weight:600;}
+
+  .goals{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:40px;}
+  .goals h2{margin:0 0 12px;font-size:16px;font-family:'Do Hyeon',sans-serif;color:var(--accent);}
+  .goals ul{margin:0;padding-left:0;list-style:none;}
+  .goals li{padding:5px 0 5px 30px;position:relative;font-size:16px;}
+  .goals li::before{content:"";position:absolute;left:4px;top:13px;width:9px;height:9px;border:2.5px solid var(--accent);border-radius:50%;}
+
+  section{margin-bottom:44px;scroll-margin-top:16px;}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .sec-num{font-family:'Black Han Sans',sans-serif;font-size:22px;color:#fff;background:var(--accent);width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;box-shadow:var(--shadow);}
+  .sec-head h2{margin:0;font-size:clamp(21px,3.6vw,27px);letter-spacing:-.01em;}
+  .sec-head .eng{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+
+  p.body{font-size:16.5px;margin:0 0 14px;}
+  .hl{background:linear-gradient(transparent 55%,var(--accent-soft) 55%);padding:0 2px;font-weight:600;}
+  b.key{color:var(--accent);}
+
+  .think{background:#fff7ed;border:1px solid #fcd9a8;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+  .think .badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#b45309;background:#fde6c4;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .think p{margin:0;font-size:17px;}
+  .think .q{font-weight:700;color:#9a3412;}
+
+  .define{display:flex;gap:14px;align-items:flex-start;background:#fdefdf;border:1px solid #f6dcc0;border-left:5px solid var(--accent);border-radius:12px;padding:15px 18px;margin:14px 0;box-shadow:var(--shadow);}
+  .define .term{flex:none;font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:#fff;background:var(--accent);padding:5px 12px;border-radius:8px;white-space:nowrap;}
+  .define .ko{font-size:15.5px;margin:2px 0 0;}
+  .define .ko .en{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .define .ko b{color:var(--accent);}
+
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.08;margin:0 3px;}
+  .frac .num{border-bottom:1.6px solid currentColor;padding:0 5px 1px;}
+  .frac .den{padding:1px 5px 0;}
+
+  /* 수평·수직 두 칼럼 */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
+  .split .col{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);}
+  .split .col h3{margin:0 0 8px;font-size:17px;display:flex;align-items:center;gap:8px;}
+  .split .col h3 .ic{width:28px;height:28px;flex:none;border-radius:8px;display:grid;place-items:center;font-size:15px;}
+  .split .col p{margin:0 0 8px;font-size:15px;color:var(--ink-soft);}
+  .split .col .eq{font-family:'Space Mono',monospace;font-size:15px;background:var(--accent-soft);color:#a5510a;border-radius:8px;padding:8px 10px;text-align:center;}
+
+  .formula{background:var(--panel);color:var(--panel-ink);border-radius:12px;padding:16px 20px;font-family:'Space Mono',monospace;font-size:18px;text-align:center;margin:14px 0;letter-spacing:.02em;box-shadow:var(--shadow);}
+  .formula small{display:block;font-family:'Pretendard',sans-serif;color:#c9ad8e;font-size:13px;margin-top:6px;letter-spacing:0;}
+
+  .sim-shell{background:var(--panel);border-radius:20px;padding:8px;box-shadow:0 20px 50px rgba(24,19,16,.4);position:relative;margin:20px 0 8px;}
+  .sim-body{background-color:#120e0b;background-image:linear-gradient(#2b241d 1px,transparent 1px),linear-gradient(90deg,#2b241d 1px,transparent 1px);background-size:24px 24px;border-radius:14px;padding:14px;}
+  .sim-title{font-family:'Do Hyeon',sans-serif;color:#d8bfa3;font-size:15px;margin:2px 4px 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .sim-title .live{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#120e0b;background:var(--accent);padding:2px 8px;border-radius:20px;}
+  canvas.stage{width:100%;height:auto;display:block;border-radius:10px;touch-action:none;}
+  .controls{margin-top:12px;display:grid;gap:11px;}
+  .ctrl{display:grid;grid-template-columns:98px 1fr 62px;align-items:center;gap:10px;}
+  .ctrl label{color:#d8bfa3;font-size:13px;}
+  .ctrl .val{font-family:'Space Mono',monospace;font-size:13px;color:#f2e9df;text-align:right;}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:#4a3a2b;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #120e0b;box-shadow:0 0 0 1px var(--accent);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #120e0b;}
+  .readouts{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{font-family:'Space Mono',monospace;font-size:13px;background:#211a14;border:1px solid #4a3a2b;color:#d8c3aa;padding:7px 12px;border-radius:9px;}
+  .chip b{color:#fff;}
+  .chip.hot{border-color:#7a4a1e;}
+  .chip.hot b{color:#ffbd7a;}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;}
+  .pbtn{font-family:'Pretendard',sans-serif;font-size:13px;color:#e6d5c2;background:#241b14;border:1px solid #4a3a2b;border-radius:20px;padding:7px 14px;cursor:pointer;transition:.15s;}
+  .pbtn:hover{background:#33271d;border-color:var(--accent);}
+  .pbtn.play,.pbtn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .verdict{margin-top:8px;padding:11px 14px;border-radius:10px;background:rgba(247,147,56,.1);border:1px solid rgba(247,147,56,.25);color:#f0dcc4;font-size:14px;}
+  .verdict b{color:#fff;}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:#d8bfa3;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  .calc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;margin:10px 0 0;box-shadow:var(--shadow);}
+  .calc .t{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--accent);margin-bottom:8px;}
+  .calc .eqn{font-family:'Space Mono',monospace;font-size:14.5px;color:var(--ink);margin:5px 0;line-height:1.5;}
+  .calc .eqn .lab{display:inline-block;min-width:92px;color:var(--ink-soft);}
+  .calc .eqn .r{color:var(--accent);font-weight:700;}
+
+  .btn{font-family:'Pretendard',sans-serif;font-weight:600;font-size:15px;cursor:pointer;border:none;border-radius:10px;padding:11px 20px;background:var(--accent);color:#fff;transition:.15s;}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+  .check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+  .check .lead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .check .lead .tag{font-family:'Do Hyeon',sans-serif;background:var(--good);color:#fff;font-size:14px;padding:4px 12px;border-radius:20px;}
+  .check .lead b{font-size:17px;}
+  .check .prob{font-size:16.5px;margin:0 0 16px;}
+  .answer{margin-top:16px;padding:16px 18px;border-radius:12px;background:var(--accent-soft);border:1px solid #f6d3ad;font-size:15.5px;display:none;}
+  .answer.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .answer .res{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:16px;}
+
+  .link-card{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#a5510a,#e8730c);color:#fff;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);text-decoration:none;transition:.15s;}
+  .link-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(232,115,12,.35);}
+  .link-card .lc-ic{flex:none;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;}
+  .link-card .lc-body{flex:1;}
+  .link-card .lc-body h3{margin:0 0 3px;font-size:19px;}
+  .link-card .lc-body p{margin:0;font-size:14px;color:#fbe6d3;}
+  .link-card .lc-go{font-family:'Do Hyeon',sans-serif;font-size:15px;background:rgba(255,255,255,.2);padding:9px 16px;border-radius:22px;white-space:nowrap;}
+
+  .summary{background:linear-gradient(180deg,#1c1610,#2c211a);color:#f6ede2;border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);}
+  .summary h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:19px;margin:0 0 16px;color:#f79338;}
+  .summary ul{margin:0;padding-left:0;list-style:none;}
+  .summary li{padding:8px 0 8px 30px;position:relative;font-size:15.5px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .summary li:last-child{border-bottom:none;}
+  .summary li::before{content:"✓";position:absolute;left:2px;color:#f79338;font-weight:700;}
+  .summary b{color:#fff;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:40px;}
+
+  @media (max-width:640px){
+    .split{grid-template-columns:1fr;}
+    .lesson-nav a{min-width:0;}
+  }
+
+  .eyebrow a.toc-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;}
+  .eyebrow a.toc-link:hover{border-color:currentColor;}
+  .foot-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:40px 0 0;padding-top:22px;border-top:1px solid var(--line);}
+  .foot-nav a{text-decoration:none;}
+  .fn-home{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#fff;background:var(--accent);padding:10px 18px;border-radius:22px;}
+  .fn-home:hover{filter:brightness(1.08);}
+  .fn-side{display:flex;gap:8px;}
+  .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
+  .fn-side span.disabled{opacity:.4;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="eyebrow"><a class="toc-link" href="index.html">← 역학과 에너지 목차</a></div>
+    <h1 class="title">수평으로, 그리고 <span class="accent">비스듬히</span> 던지면</h1>
+    <p class="subtitle">4차시 — 수평 방향과 수직 방향으로 나누어 보는 포물선 운동</p>
+    <div class="standard">
+      <span class="tag">성취기준</span>
+      <p>뉴턴 운동 법칙을 이용하여 물체의 포물선 운동을 정량적으로 설명하고, 포물선 운동에서의 역학적 에너지를 구할 수 있다.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="lesson-nav">
+    <a href="lesson1-force-and-net-force.html"><span class="num">1</span><span class="lbl">힘·알짜힘</span></a>
+    <a href="lesson2-motion-and-energy.html"><span class="num">2</span><span class="lbl">운동·E</span></a>
+    <a href="lesson3-free-fall.html"><span class="num">3</span><span class="lbl">자유낙하</span></a>
+    <a href="#" class="current"><span class="num">4</span><span class="lbl">포물선</span></a>
+    <a href="lesson5-projectile-energy.html"><span class="num">5</span><span class="lbl">포물선E</span></a>
+    <a href="lesson6-circular-motion.html"><span class="num">6</span><span class="lbl">원운동</span></a>
+    <a href="lesson7-kepler-and-gravity.html"><span class="num">7</span><span class="lbl">케플러</span></a>
+    <a href="lesson8-gravity-and-satellites.html"><span class="num">8</span><span class="lbl">인공위성</span></a>
+    <a href="lesson9-general-relativity.html"><span class="num">9</span><span class="lbl">상대성</span></a>
+  </nav>
+
+  <div class="goals">
+    <h2>오늘 이만큼 알게 됩니다</h2>
+    <ul>
+      <li>수평으로 던진 물체의 운동을 <b>수평 방향(등속)</b>과 <b>수직 방향(자유 낙하)</b>으로 나누어 설명할 수 있다.</li>
+      <li>포물선 운동에서 처음 속도를 <b>v₀cos θ</b>와 <b>v₀sin θ</b>로 분해할 수 있다.</li>
+      <li>포물선 운동의 최고점 높이와 수평 도달 거리를 공식으로 구할 수 있다.</li>
+    </ul>
+  </div>
+
+  <!-- 생각 나누기 -->
+  <section id="think">
+    <div class="think">
+      <span class="badge">생각 나누기</span>
+      <p><span class="q">농구공을 골대로 던지면 포물선을 그리며 날아갑니다.</span> 그런데 그 전에 — 절벽에서 공을 <b>수평으로</b> 던지면 어떤 길을 그릴까요? 그리고 그 공은, 같은 곳에서 그냥 <b>아래로 떨어뜨린</b> 공과 비교하면 언제 바닥에 닿을까요?</p>
+    </div>
+  </section>
+
+  <!-- 1. 수평으로 던진 물체 -->
+  <section id="horizontal">
+    <div class="sec-head"><span class="sec-num">1</span><div><h2>수평으로 던진 물체</h2><span class="eng">horizontal projectile</span></div></div>
+    <p class="body">수평으로 던진 물체는 <span class="hl">두 가지 운동을 동시에</span> 합니다. 공기 저항을 무시하면 물체에 작용하는 힘은 <b>아래로 향하는 중력뿐</b>이라서, 수평 방향과 수직 방향을 <b class="key">따로 떼어</b> 생각할 수 있어요.</p>
+
+    <div class="split">
+      <div class="col"><h3><span class="ic" style="background:#dbeafe;color:#2563eb;">→</span>수평 방향</h3><p>힘이 없으므로 속도가 그대로. <b style="color:#2563eb;">등속 운동</b>.</p><div class="eq" style="background:#dbeafe;color:#1d4ed8;">x = v₀·t &nbsp;·&nbsp; v<sub>x</sub> = v₀ (일정)</div></div>
+      <div class="col"><h3><span class="ic" style="background:#fee2e2;color:#dc2626;">↓</span>수직 방향</h3><p>중력만 작용. 3차시의 <b style="color:#dc2626;">자유 낙하</b>와 똑같음.</p><div class="eq" style="background:#fee2e2;color:#b91c1c;">y = ½gt² &nbsp;·&nbsp; v<sub>y</sub> = gt (증가)</div></div>
+    </div>
+
+    <p class="body">두 운동은 서로 <span class="hl">영향을 주지 않습니다(독립)</span>. 그래서 수평으로 던진 공과, 같은 높이에서 가만히 떨어뜨린 공은 <b class="key">항상 같은 높이</b>에 있고 <b class="key">동시에 바닥에 닿습니다</b>.</p>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 수평 던지기 실험실 <span style="font-size:12px;color:#9a7d5f;">· 높이 40 m, g = 10 m/s²</span></div>
+        <canvas id="sim4a" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#f79338"></i>던진 공</span>
+          <span><i style="background:#9a7d5f"></i>떨어뜨린 공</span>
+          <span><i style="background:#2563eb"></i>수평 속도 v<sub>x</sub></span>
+          <span><i style="background:#e11d48"></i>수직 속도 v<sub>y</sub></span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>수평 속도 v₀</label><input id="s4a_v0" type="range" min="5" max="30" step="1" value="15"><span class="val" id="s4a_vv0">15 m/s</span></div>
+          <div class="readouts">
+            <span class="chip">시간 <b id="s4a_t">0.0</b> s</span>
+            <span class="chip">수평거리 x <b id="s4a_x">0.0</b> m</span>
+            <span class="chip">낙하 y <b id="s4a_y">0.0</b> m</span>
+            <span class="chip">v<sub>x</sub> <b id="s4a_vx">15</b></span>
+            <span class="chip hot">v<sub>y</sub> <b id="s4a_vy">0.0</b></span>
+          </div>
+          <div class="presets">
+            <button class="pbtn play" id="s4a_go">던지기 ▶</button>
+            <button class="pbtn" id="s4a_reset">처음으로 ⟳</button>
+          </div>
+          <div class="verdict" id="s4a_verdict">바닥 눈금은 <b>등간격</b>(수평=등속), 왼쪽 눈금은 <b>간격이 벌어짐</b>(수직=자유 낙하). 두 공은 항상 같은 높이!</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc">
+      <div class="t">지금 이 순간의 계산</div>
+      <div class="eqn"><span class="lab">수평거리</span> x = v₀·t = <span id="c4a_x">—</span></div>
+      <div class="eqn"><span class="lab">낙하 거리</span> y = ½·g·t² = <span id="c4a_y">—</span></div>
+      <div class="eqn"><span class="lab">수직 속도</span> v<sub>y</sub> = g·t = <span id="c4a_vy">—</span></div>
+    </div>
+  </section>
+
+  <!-- 2. 포물선 운동 -->
+  <section id="parabola">
+    <div class="sec-head"><span class="sec-num">2</span><div><h2>비스듬히 던진 물체 — 포물선 운동</h2><span class="eng">projectile motion</span></div></div>
+    <p class="body">이번엔 각도 <b>θ</b>로 비스듬히 던져 봅시다. 처음 속도 v₀를 <span class="hl">수평 성분과 수직 성분으로 분해</span>하면, 앞에서 배운 두 운동을 그대로 이어 붙일 수 있어요.</p>
+
+    <div class="split">
+      <div class="col"><h3><span class="ic" style="background:#dbeafe;color:#2563eb;">→</span>수평 방향</h3><p>처음 속도 <b>v₀cos θ</b>로 <b style="color:#2563eb;">등속 운동</b>.</p><div class="eq" style="background:#dbeafe;color:#1d4ed8;">x = v₀cos θ · t</div></div>
+      <div class="col"><h3><span class="ic" style="background:#fee2e2;color:#dc2626;">↑</span>수직 방향</h3><p>처음 속도 <b>v₀sin θ</b>로 <b style="color:#dc2626;">위로 던진 운동</b>(a = −g).</p><div class="eq" style="background:#fee2e2;color:#b91c1c;">y = v₀sin θ · t − ½gt²</div></div>
+    </div>
+
+    <p class="body">이 두 운동이 합쳐져 <b class="key">포물선</b> 경로가 됩니다. 수직 성분이 위로 던진 운동이므로, 최고점과 도달 거리도 공식으로 구할 수 있어요.</p>
+    <div class="formula">최고점 높이 H = <span class="frac"><span class="num">v₀²sin²θ</span><span class="den">2g</span></span> &nbsp;·&nbsp; 수평 도달 거리 R = <span class="frac"><span class="num">v₀²sin 2θ</span><span class="den">g</span></span><small>R은 θ = 45°일 때 가장 크다 (가장 멀리 날아감)</small></div>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 포물선 운동 실험실 <span style="font-size:12px;color:#9a7d5f;">· g = 10 m/s²</span></div>
+        <canvas id="sim4b" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#f79338"></i>공 · 궤적</span>
+          <span><i style="background:#2563eb"></i>수평 속도 v₀cosθ</span>
+          <span><i style="background:#e11d48"></i>수직 속도 v₀sinθ−gt</span>
+          <span><i style="background:#a78bfa"></i>최고점</span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>처음 속도 v₀</label><input id="s4b_v0" type="range" min="10" max="30" step="1" value="20"><span class="val" id="s4b_vv0">20 m/s</span></div>
+          <div class="ctrl"><label>던진 각도 θ</label><input id="s4b_th" type="range" min="15" max="75" step="1" value="45"><span class="val" id="s4b_vth">45°</span></div>
+          <div class="readouts">
+            <span class="chip">v₀cosθ <b id="s4b_vx">14.1</b></span>
+            <span class="chip">v₀sinθ <b id="s4b_vy0">14.1</b></span>
+            <span class="chip hot">최고점 H <b id="s4b_H">10.0</b> m</span>
+            <span class="chip hot">도달거리 R <b id="s4b_R">40.0</b> m</span>
+          </div>
+          <div class="presets">
+            <button class="pbtn play" id="s4b_go">던지기 ▶</button>
+            <button class="pbtn" id="s4b_reset">처음으로 ⟳</button>
+            <button class="pbtn" data-th="30">30°</button>
+            <button class="pbtn on" data-th="45">45°(최대)</button>
+            <button class="pbtn" data-th="60">60°</button>
+          </div>
+          <div class="verdict" id="s4b_verdict">파란 화살표(수평 속도)는 <b>일정</b>, 빨간 화살표(수직 속도)는 <b>줄었다가 커집니다</b>. 45°에서 가장 멀리!</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc">
+      <div class="t">지금 이 순간의 계산 (v₀, θ)</div>
+      <div class="eqn"><span class="lab">수평 성분</span> v₀cosθ = <span id="c4b_vx">—</span></div>
+      <div class="eqn"><span class="lab">수직 성분</span> v₀sinθ = <span id="c4b_vy">—</span></div>
+      <div class="eqn"><span class="lab">최고점 높이</span> H = v₀²sin²θ / 2g = <span id="c4b_H">—</span></div>
+      <div class="eqn"><span class="lab">도달 거리</span> R = v₀²sin2θ / g = <span id="c4b_R">—</span></div>
+    </div>
+
+    <div class="check" style="margin-top:18px;">
+      <div class="lead"><span class="tag">확인</span><b>교과서 확인 문제</b></div>
+      <p class="prob">야구공을 <b>20 m/s</b>의 속력으로 수평면과 <b>45°</b>로 던졌을 때, 수평 도달 거리는 몇 m인가? <span style="color:var(--ink-soft);font-size:14px;">(단, g = 10 m/s²)</span></p>
+      <button class="btn" onclick="toggleAnswer('ans1')">정답 확인</button>
+      <div class="answer" id="ans1">
+        R = <span class="frac"><span class="num">v₀²sin 2θ</span><span class="den">g</span></span> = <span class="frac"><span class="num">20² × sin 90°</span><span class="den">10</span></span> = <span class="frac"><span class="num">400 × 1</span><span class="den">10</span></span> = <span class="res">40 m</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 형성평가 -->
+  <section id="quiz">
+    <div class="sec-head"><span class="sec-num" style="background:var(--good);">✎</span><div><h2>형성평가</h2><span class="eng">check your understanding</span></div></div>
+    <p class="body">개념 정리용 <b>OX 퀴즈 10문항</b>과 <b>모의고사 2문항</b>으로 스스로 확인해 보세요.</p>
+    <a class="link-card" href="lesson4-quiz.html">
+      <span class="lc-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <div class="lc-body"><h3>형성평가 풀러 가기</h3><p>OX 10문항 · 모의고사 2문항 · 바로 풀기</p></div>
+      <span class="lc-go">열기 →</span>
+    </a>
+  </section>
+
+  <!-- 핵심 정리 -->
+  <section id="summary">
+    <div class="summary">
+      <h2>이것만은 꼭!</h2>
+      <ul>
+        <li>포물선 운동은 <b>수평 방향(등속) + 수직 방향(중력)</b>으로 나누어 분석한다.</li>
+        <li>수평으로 던진 물체: 수평은 v₀로 등속, 수직은 <b>자유 낙하</b>. 떨어뜨린 공과 동시에 착지.</li>
+        <li>비스듬히 던진 물체: 수평 <b>v₀cos θ</b>(등속), 수직 <b>v₀sin θ</b>(위로 던진 운동).</li>
+        <li>최고점 H = v₀²sin²θ/2g, 도달거리 R = v₀²sin 2θ/g (<b>45°에서 최대</b>).</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="foot-nav">
+    <a class="fn-home" href="index.html">☰ 역학과 에너지 목차</a>
+    <div class="fn-side"><a href="lesson3-free-fall.html">← 3차시</a><a href="lesson5-projectile-energy.html">5차시 →</a></div>
+  </nav>
+
+  <footer>역학과 에너지 · 포물선 운동 · 4차시 &nbsp;|&nbsp; 수업용 학습자료</footer>
+
+</div>
+
+<script>
+  function toggleAnswer(id){ document.getElementById(id).classList.toggle('show'); }
+  function arrow(ctx,x0,y0,x1,y1,color,w,label){
+    var ang=Math.atan2(y1-y0,x1-x0), len=Math.hypot(x1-x0,y1-y0);
+    ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=w; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    if(len>4){ var hl=8+w; ctx.beginPath(); ctx.moveTo(x1,y1);
+      ctx.lineTo(x1-hl*Math.cos(ang-0.42), y1-hl*Math.sin(ang-0.42));
+      ctx.lineTo(x1-hl*Math.cos(ang+0.42), y1-hl*Math.sin(ang+0.42)); ctx.closePath(); ctx.fill(); }
+    if(label){ ctx.font="700 12px 'Space Mono',monospace"; var lx=x1+12*Math.cos(ang), ly=y1+12*Math.sin(ang);
+      ctx.textAlign=Math.cos(ang)>=-0.1?'left':'right'; ctx.textBaseline='middle';
+      ctx.lineWidth=3.5; ctx.strokeStyle='rgba(10,8,6,.9)'; ctx.lineJoin='round'; ctx.strokeText(label,lx,ly-4);
+      ctx.fillStyle=color; ctx.fillText(label,lx,ly-4); ctx.textAlign='left'; ctx.textBaseline='alphabetic'; }
+  }
+
+  /* ===== 수평 던지기 실험실 ===== */
+  (function(){
+    var cv=document.getElementById('sim4a'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var goB=document.getElementById('s4a_go'), resetB=document.getElementById('s4a_reset'),
+        v0S=document.getElementById('s4a_v0'), vv0=document.getElementById('s4a_vv0');
+    var tEl=document.getElementById('s4a_t'), xEl=document.getElementById('s4a_x'), yEl=document.getElementById('s4a_y'),
+        vxEl=document.getElementById('s4a_vx'), vyEl=document.getElementById('s4a_vy'), verdict=document.getElementById('s4a_verdict');
+    var c4x=document.getElementById('c4a_x'), c4y=document.getElementById('c4a_y'), c4vy=document.getElementById('c4a_vy');
+    var g=10, Hm=40, STROBE=0.28;
+    var st={v0:15, t:0, running:false, done:false}, lastT=0;
+    function tFall(){ return Math.sqrt(2*Hm/g); }
+    function reset(){ st.t=0; st.running=false; st.done=false; goB.classList.add('play'); goB.textContent='던지기 ▶'; vv0.textContent=st.v0+' m/s'; vxEl.textContent=st.v0; }
+    function draw(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.62);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var mL=W*0.13, mT=H*0.10, mR=W*0.05, mB=H*0.12;
+      var plotW=W-mL-mR, plotH=H-mT-mB;
+      var xmax=Math.max(st.v0*tFall(),1), sc=Math.min(plotW/xmax, plotH/Hm);
+      function P(x,y){ return {x:mL+x*sc, y:mT+y*sc}; }
+      var gY=P(0,Hm).y;
+      // 축
+      ctx.strokeStyle='#4a3a2b'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(mL,mT-4); ctx.lineTo(mL,gY); ctx.lineTo(mL+plotW,gY); ctx.stroke();
+      ctx.fillStyle='#9a7d5f'; ctx.font="10px 'Space Mono',monospace";
+      ctx.textAlign='left'; ctx.fillText('수평(등속) →', mL+6, gY+14);
+      ctx.save(); ctx.translate(mL-18, mT+plotH*0.5); ctx.rotate(-Math.PI/2); ctx.textAlign='center'; ctx.fillText('수직(자유낙하) ↓', 0,0); ctx.restore();
+      // 궤적(점선)
+      ctx.strokeStyle='rgba(247,147,56,.35)'; ctx.setLineDash([4,4]); ctx.lineWidth=1.5; ctx.beginPath();
+      for(var tt=0;tt<=tFall()+0.001;tt+=tFall()/40){ var p=P(st.v0*tt, 0.5*g*tt*tt); if(tt===0)ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y); }
+      ctx.stroke(); ctx.setLineDash([]);
+      // 스트로브 점 + 축 투영
+      var tc=Math.min(st.t,tFall());
+      for(var s=STROBE; s<=tc+0.001; s+=STROBE){
+        var xx=st.v0*s, yy=0.5*g*s*s; var p=P(xx,yy);
+        ctx.fillStyle='rgba(247,147,56,.9)'; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,2*Math.PI); ctx.fill();
+        ctx.strokeStyle='rgba(37,99,235,.35)'; ctx.setLineDash([2,3]); ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x,gY); ctx.stroke();
+        ctx.strokeStyle='rgba(225,29,72,.35)'; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mL,p.y); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle='#2563eb'; ctx.beginPath(); ctx.arc(p.x,gY,2.5,0,2*Math.PI); ctx.fill();
+        ctx.fillStyle='#e11d48'; ctx.beginPath(); ctx.arc(mL,p.y,2.5,0,2*Math.PI); ctx.fill();
+      }
+      // 현재 공
+      var x=st.v0*tc, y=0.5*g*tc*tc, cp=P(x,y);
+      // 성분 속도 화살표
+      arrow(ctx, cp.x, cp.y, cp.x+Math.min(st.v0*1.2,60), cp.y, '#2563eb', 3, 'v'+String.fromCharCode(0x2093));
+      var vy=g*tc; arrow(ctx, cp.x, cp.y, cp.x, cp.y+Math.min(vy*1.0,70), '#e11d48', 3, 'v'+String.fromCharCode(0x1d67));
+      // 떨어뜨린 공(왼쪽)
+      ctx.fillStyle='#9a7d5f'; ctx.beginPath(); ctx.arc(mL, P(0,y).y, 8, 0, 2*Math.PI); ctx.fill();
+      // 던진 공
+      ctx.fillStyle='#f79338'; ctx.strokeStyle='#120e0b'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cp.x,cp.y,10,0,2*Math.PI); ctx.fill(); ctx.stroke();
+      // 읽기값
+      tEl.textContent=tc.toFixed(1); xEl.textContent=x.toFixed(1); yEl.textContent=y.toFixed(1);
+      vxEl.textContent=st.v0; vyEl.textContent=vy.toFixed(1);
+      c4x.innerHTML=st.v0+' × '+tc.toFixed(1)+' = <span class="r">'+x.toFixed(1)+' m</span>';
+      c4y.innerHTML='½ × '+g+' × '+tc.toFixed(1)+'² = <span class="r">'+y.toFixed(1)+' m</span>';
+      c4vy.innerHTML=g+' × '+tc.toFixed(1)+' = <span class="r">'+vy.toFixed(1)+' m/s</span>';
+    }
+    function loop(tm){ if(st.running){ var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; st.t+=dt; if(st.t>=tFall()){ st.t=tFall(); st.running=false; st.done=true; goB.classList.add('play'); goB.textContent='다시 ⟳'; verdict.innerHTML='두 공이 <b>동시에</b> 바닥에 닿았습니다! 수평 속도와 상관없이 낙하 시간은 같아요.'; } } lastT=tm; draw(); requestAnimationFrame(loop); }
+    goB.addEventListener('click',function(){ if(st.running){st.running=false;goB.classList.add('play');goB.textContent='이어서 ▶';return;} if(st.done)reset(); st.running=true; goB.classList.remove('play'); goB.textContent='날아가는 중…'; });
+    resetB.addEventListener('click',reset);
+    v0S.addEventListener('input',function(){ st.v0=+v0S.value; reset(); });
+    window.addEventListener('resize',draw); reset(); setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+
+  /* ===== 포물선 운동 실험실 ===== */
+  (function(){
+    var cv=document.getElementById('sim4b'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var goB=document.getElementById('s4b_go'), resetB=document.getElementById('s4b_reset'),
+        v0S=document.getElementById('s4b_v0'), thS=document.getElementById('s4b_th'),
+        vv0=document.getElementById('s4b_vv0'), vth=document.getElementById('s4b_vth');
+    var vxEl=document.getElementById('s4b_vx'), vy0El=document.getElementById('s4b_vy0'),
+        HEl=document.getElementById('s4b_H'), REl=document.getElementById('s4b_R'), verdict=document.getElementById('s4b_verdict');
+    var c4vx=document.getElementById('c4b_vx'), c4vy=document.getElementById('c4b_vy'), c4H=document.getElementById('c4b_H'), c4R=document.getElementById('c4b_R');
+    var g=10;
+    var st={v0:20, th:45, t:0, running:false, done:false}, lastT=0;
+    function rad(){ return st.th*Math.PI/180; }
+    function vx0(){ return st.v0*Math.cos(rad()); }
+    function vy0(){ return st.v0*Math.sin(rad()); }
+    function Tflight(){ return 2*vy0()/g; }
+    function Hmax(){ return vy0()*vy0()/(2*g); }
+    function Rng(){ return st.v0*st.v0*Math.sin(2*rad())/g; }
+    function targets(){ vv0.textContent=st.v0+' m/s'; vth.textContent=st.th+'°'; vxEl.textContent=vx0().toFixed(1); vy0El.textContent=vy0().toFixed(1); HEl.textContent=Hmax().toFixed(1); REl.textContent=Rng().toFixed(1); }
+    function reset(){ st.t=0; st.running=false; st.done=false; goB.classList.add('play'); goB.textContent='던지기 ▶'; targets(); }
+    function draw(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.58);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var mL=W*0.08, mR=W*0.05, mT=H*0.10, mB=H*0.14;
+      var plotW=W-mL-mR, plotH=H-mT-mB;
+      var Rmax=Math.max(Rng(),1), Hmx=Math.max(Hmax(),1);
+      var sc=Math.min(plotW/Rmax, plotH/Hmx);
+      var gY=mT+plotH;
+      function P(x,y){ return {x:mL+x*sc, y:gY-y*sc}; }
+      // 바닥
+      ctx.strokeStyle='#4a3a2b'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(mL,gY); ctx.lineTo(mL+plotW,gY); ctx.stroke();
+      // 궤적
+      var Tf=Tflight();
+      ctx.strokeStyle='rgba(247,147,56,.4)'; ctx.setLineDash([4,4]); ctx.lineWidth=1.5; ctx.beginPath();
+      for(var tt=0;tt<=Tf+0.001;tt+=Tf/50){ var p=P(vx0()*tt, vy0()*tt-0.5*g*tt*tt); if(tt===0)ctx.moveTo(p.x,p.y); else ctx.lineTo(p.x,p.y); }
+      ctx.stroke(); ctx.setLineDash([]);
+      // 최고점 선
+      var apex=P(Rng()/2, Hmax());
+      ctx.strokeStyle='rgba(167,139,250,.6)'; ctx.setLineDash([5,4]); ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(mL,apex.y); ctx.lineTo(mL+plotW,apex.y); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#b9a4f0'; ctx.font="10px 'Space Mono',monospace"; ctx.textAlign='left'; ctx.fillText('H='+Hmax().toFixed(1)+'m', mL+4, apex.y-4);
+      // R 표시
+      ctx.fillStyle='#9a7d5f'; ctx.textAlign='center'; ctx.fillText('R='+Rng().toFixed(1)+'m', P(Rng()/2,0).x, gY+16);
+      // 현재 공
+      var tc=Math.min(st.t,Tf), x=vx0()*tc, y=vy0()*tc-0.5*g*tc*tc; if(y<0)y=0;
+      var cp=P(x,y);
+      // 성분 화살표
+      arrow(ctx, cp.x, cp.y, cp.x+Math.min(vx0()*1.1,55), cp.y, '#2563eb', 3, null);
+      var vy=vy0()-g*tc; arrow(ctx, cp.x, cp.y, cp.x, cp.y-Math.min(Math.max(vy*1.1,-70),70), '#e11d48', 3, null);
+      ctx.fillStyle='#f79338'; ctx.strokeStyle='#120e0b'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cp.x,cp.y,9,0,2*Math.PI); ctx.fill(); ctx.stroke();
+      // 계산 갱신
+      targets();
+      c4vx.innerHTML=st.v0+' × cos'+st.th+'° = <span class="r">'+vx0().toFixed(1)+' m/s</span>';
+      c4vy.innerHTML=st.v0+' × sin'+st.th+'° = <span class="r">'+vy0().toFixed(1)+' m/s</span>';
+      c4H.innerHTML=vy0().toFixed(1)+'² / (2×'+g+') = <span class="r">'+Hmax().toFixed(1)+' m</span>';
+      c4R.innerHTML=st.v0+'² × sin'+(2*st.th)+'° / '+g+' = <span class="r">'+Rng().toFixed(1)+' m</span>';
+    }
+    function loop(tm){ if(st.running){ var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; st.t+=dt; if(st.t>=Tflight()){ st.t=Tflight(); st.running=false; st.done=true; goB.classList.add('play'); goB.textContent='다시 ⟳'; } } lastT=tm; draw(); requestAnimationFrame(loop); }
+    goB.addEventListener('click',function(){ if(st.running){st.running=false;goB.classList.add('play');goB.textContent='이어서 ▶';return;} if(st.done)reset(); st.running=true; goB.classList.remove('play'); goB.textContent='날아가는 중…'; });
+    resetB.addEventListener('click',reset);
+    v0S.addEventListener('input',function(){ st.v0=+v0S.value; reset(); });
+    thS.addEventListener('input',function(){ st.th=+thS.value; document.querySelectorAll('.pbtn[data-th]').forEach(function(o){o.classList.remove('on');}); reset(); });
+    document.querySelectorAll('.pbtn[data-th]').forEach(function(b){ b.addEventListener('click',function(){ document.querySelectorAll('.pbtn[data-th]').forEach(function(o){o.classList.remove('on');}); b.classList.add('on'); st.th=+b.getAttribute('data-th'); thS.value=st.th; reset(); }); });
+    window.addEventListener('resize',draw); reset(); setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>

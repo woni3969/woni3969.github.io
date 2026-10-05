@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>방향이 변하는 운동 · 6차시 — 등속 원운동과 구심력</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#f2fbfd; --grid:#dcf0f4; --ink:#0e2429; --ink-soft:#456068;
+    --line:#cbe8ee; --card:#ffffff;
+    --panel:#08171b; --panel-grid:#152e35; --panel-ink:#dff4f8;
+    --accent:#0891b2; --accent-soft:#cbf1f8; --vector:#e11d48; --good:#18b463;
+    --shadow:0 1px 2px rgba(14,36,41,.06), 0 8px 24px rgba(14,36,41,.08);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 96px;}
+
+  header.top{position:relative;margin:0 -20px 40px;padding:34px 20px 30px;background:linear-gradient(180deg,#0a1d22 0%,#123037 100%);color:#e7f7fa;overflow:hidden;}
+  header.top::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:27px 27px;}
+  .top-inner{max-width:920px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#5fd6ec;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:#5fd6ec;display:inline-block;}
+  h1.title{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(27px,5.4vw,42px);line-height:1.15;margin:0 0 6px;letter-spacing:-.01em;}
+  h1.title .accent{color:#38c6e0;}
+  .subtitle{color:#bcdfe6;font-size:17px;margin:0;}
+  .standard{margin-top:22px;padding:15px 18px;border-radius:12px;background:rgba(56,198,224,.12);border:1px solid rgba(56,198,224,.3);display:flex;gap:12px;align-items:flex-start;}
+  .standard .tag{flex:none;font-family:'Do Hyeon',sans-serif;font-size:13px;background:#38c6e0;color:#0a1d22;padding:3px 10px;border-radius:20px;margin-top:2px;}
+  .standard p{margin:0;font-size:15px;color:#d3edf2;}
+
+  .lesson-nav{display:flex;gap:7px;margin:-18px auto 34px;max-width:920px;flex-wrap:wrap;}
+  .lesson-nav a{flex:1 1 0;min-width:104px;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 11px;box-shadow:var(--shadow);transition:.15s;display:flex;align-items:center;gap:8px;}
+  .lesson-nav a:hover{transform:translateY(-2px);border-color:var(--accent);}
+  .lesson-nav .num{font-family:'Black Han Sans',sans-serif;font-size:16px;width:28px;height:28px;flex:none;border-radius:8px;display:grid;place-items:center;background:var(--paper);color:var(--ink-soft);}
+  .lesson-nav a.current .num{background:var(--accent);color:#fff;}
+  .lesson-nav .lbl{font-size:12.5px;line-height:1.25;color:var(--ink-soft);}
+  .lesson-nav a.current .lbl{color:var(--ink);font-weight:600;}
+
+  .goals{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:40px;}
+  .goals h2{margin:0 0 12px;font-size:16px;font-family:'Do Hyeon',sans-serif;color:var(--accent);}
+  .goals ul{margin:0;padding-left:0;list-style:none;}
+  .goals li{padding:5px 0 5px 30px;position:relative;font-size:16px;}
+  .goals li::before{content:"";position:absolute;left:4px;top:13px;width:9px;height:9px;border:2.5px solid var(--accent);border-radius:50%;}
+
+  section{margin-bottom:44px;scroll-margin-top:16px;}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .sec-num{font-family:'Black Han Sans',sans-serif;font-size:22px;color:#fff;background:var(--accent);width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;box-shadow:var(--shadow);}
+  .sec-head h2{margin:0;font-size:clamp(21px,3.6vw,27px);letter-spacing:-.01em;}
+  .sec-head .eng{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+
+  p.body{font-size:16.5px;margin:0 0 14px;}
+  .hl{background:linear-gradient(transparent 55%,var(--accent-soft) 55%);padding:0 2px;font-weight:600;}
+  b.key{color:var(--accent);}
+
+  .think{background:#fff7ed;border:1px solid #fcd9a8;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+  .think .badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#b45309;background:#fde6c4;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .think p{margin:0;font-size:17px;}
+  .think .q{font-weight:700;color:#9a3412;}
+
+  .define{display:flex;gap:14px;align-items:flex-start;background:#e6f7fb;border:1px solid #bfe9f2;border-left:5px solid var(--accent);border-radius:12px;padding:15px 18px;margin:14px 0;box-shadow:var(--shadow);}
+  .define .term{flex:none;font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:#fff;background:var(--accent);padding:5px 12px;border-radius:8px;white-space:nowrap;}
+  .define .ko{font-size:15.5px;margin:2px 0 0;}
+  .define .ko .en{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .define .ko b{color:var(--accent);}
+
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.08;margin:0 3px;}
+  .frac .num{border-bottom:1.6px solid currentColor;padding:0 5px 1px;}
+  .frac .den{padding:1px 5px 0;}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);}
+  .card h3{margin:0 0 6px;font-size:16px;}
+  .card p{margin:0;font-size:14px;color:var(--ink-soft);}
+  .card .ex{margin-top:10px;padding:8px 10px;background:var(--paper);border-radius:9px;font-size:13px;border:1px dashed var(--line);}
+  .card svg{width:100%;height:auto;display:block;margin:2px 0 8px;background:var(--paper);border:1px solid var(--line);border-radius:9px;}
+
+  .figure{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);margin:16px 0;text-align:center;}
+  .figure svg{max-width:100%;height:auto;}
+  .figure figcaption{font-size:14px;color:var(--ink-soft);margin-top:8px;}
+
+  .formula{background:var(--panel);color:var(--panel-ink);border-radius:12px;padding:16px 20px;font-family:'Space Mono',monospace;font-size:18px;text-align:center;margin:14px 0;letter-spacing:.02em;box-shadow:var(--shadow);}
+  .formula small{display:block;font-family:'Pretendard',sans-serif;color:#9dc7d0;font-size:13px;margin-top:6px;letter-spacing:0;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow);}
+  .step .tag{font-family:'Do Hyeon',sans-serif;font-size:13px;color:#fff;background:var(--accent);padding:3px 11px;border-radius:20px;margin-right:8px;}
+  .step .lead{font-size:15.5px;}
+  .step .math{font-family:'Space Mono',monospace;font-size:16px;background:var(--accent-soft);color:#0a6c86;border-radius:9px;padding:10px 14px;margin-top:10px;text-align:center;}
+  .step .math .res{color:var(--accent);font-weight:700;}
+
+  .sim-shell{background:var(--panel);border-radius:20px;padding:8px;box-shadow:0 20px 50px rgba(8,23,27,.4);position:relative;margin:20px 0 8px;}
+  .sim-body{background-color:#06141a;background-image:linear-gradient(#152e35 1px,transparent 1px),linear-gradient(90deg,#152e35 1px,transparent 1px);background-size:24px 24px;border-radius:14px;padding:14px;}
+  .sim-title{font-family:'Do Hyeon',sans-serif;color:#a7d3dc;font-size:15px;margin:2px 4px 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .sim-title .live{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#06141a;background:var(--accent);padding:2px 8px;border-radius:20px;}
+  canvas.stage{width:100%;height:auto;display:block;border-radius:10px;touch-action:none;}
+  .controls{margin-top:12px;display:grid;gap:11px;}
+  .ctrl{display:grid;grid-template-columns:104px 1fr 66px;align-items:center;gap:10px;}
+  .ctrl label{color:#a7d3dc;font-size:13px;}
+  .ctrl .val{font-family:'Space Mono',monospace;font-size:13px;color:#dff4f8;text-align:right;}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:#204a54;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #06141a;box-shadow:0 0 0 1px var(--accent);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #06141a;}
+  .readouts{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{font-family:'Space Mono',monospace;font-size:13px;background:#0f2229;border:1px solid #204a54;color:#a9cdd5;padding:7px 12px;border-radius:9px;}
+  .chip b{color:#fff;}
+  .chip.hot{border-color:#5a2740;}
+  .chip.hot b{color:#ff9db2;}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;}
+  .pbtn{font-family:'Pretendard',sans-serif;font-size:13px;color:#cfeaf0;background:#102830;border:1px solid #204a54;border-radius:20px;padding:7px 14px;cursor:pointer;transition:.15s;}
+  .pbtn:hover{background:#163841;border-color:var(--accent);}
+  .pbtn.play,.pbtn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .verdict{margin-top:8px;padding:11px 14px;border-radius:10px;background:rgba(56,198,224,.1);border:1px solid rgba(56,198,224,.25);color:#d3edf2;font-size:14px;}
+  .verdict b{color:#fff;}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:#a7d3dc;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  .calc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;margin:10px 0 0;box-shadow:var(--shadow);}
+  .calc .t{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--accent);margin-bottom:8px;}
+  .calc .eqn{font-family:'Space Mono',monospace;font-size:14.5px;color:var(--ink);margin:5px 0;line-height:1.5;}
+  .calc .eqn .lab{display:inline-block;min-width:92px;color:var(--ink-soft);}
+  .calc .eqn .r{color:var(--accent);font-weight:700;}
+
+  .btn{font-family:'Pretendard',sans-serif;font-weight:600;font-size:15px;cursor:pointer;border:none;border-radius:10px;padding:11px 20px;background:var(--accent);color:#fff;transition:.15s;}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+  .check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+  .check .lead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .check .lead .tag{font-family:'Do Hyeon',sans-serif;background:var(--good);color:#fff;font-size:14px;padding:4px 12px;border-radius:20px;}
+  .check .lead b{font-size:17px;}
+  .check .prob{font-size:16.5px;margin:0 0 16px;}
+  .answer{margin-top:16px;padding:16px 18px;border-radius:12px;background:var(--accent-soft);border:1px solid #a6e0ec;font-size:15.5px;display:none;}
+  .answer.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .answer .res{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:16px;}
+
+  .link-card{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#0a6c86,#0891b2);color:#fff;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);text-decoration:none;transition:.15s;}
+  .link-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(8,145,178,.35);}
+  .link-card .lc-ic{flex:none;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;}
+  .link-card .lc-body{flex:1;}
+  .link-card .lc-body h3{margin:0 0 3px;font-size:19px;}
+  .link-card .lc-body p{margin:0;font-size:14px;color:#d6f2f8;}
+  .link-card .lc-go{font-family:'Do Hyeon',sans-serif;font-size:15px;background:rgba(255,255,255,.2);padding:9px 16px;border-radius:22px;white-space:nowrap;}
+
+  .summary{background:linear-gradient(180deg,#0a1d22,#123037);color:#e7f7fa;border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);}
+  .summary h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:19px;margin:0 0 16px;color:#38c6e0;}
+  .summary ul{margin:0;padding-left:0;list-style:none;}
+  .summary li{padding:8px 0 8px 30px;position:relative;font-size:15.5px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .summary li:last-child{border-bottom:none;}
+  .summary li::before{content:"✓";position:absolute;left:2px;color:#38c6e0;font-weight:700;}
+  .summary b{color:#fff;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:40px;}
+
+  @media (max-width:640px){
+    .cards{grid-template-columns:1fr;}
+    .lesson-nav a{min-width:0;}
+  }
+
+  .eyebrow a.toc-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;}
+  .eyebrow a.toc-link:hover{border-color:currentColor;}
+  .foot-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:40px 0 0;padding-top:22px;border-top:1px solid var(--line);}
+  .foot-nav a{text-decoration:none;}
+  .fn-home{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#fff;background:var(--accent);padding:10px 18px;border-radius:22px;}
+  .fn-home:hover{filter:brightness(1.08);}
+  .fn-side{display:flex;gap:8px;}
+  .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
+  .fn-side span.disabled{opacity:.4;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="eyebrow"><a class="toc-link" href="index.html">← 역학과 에너지 목차</a></div>
+    <h1 class="title">방향을 바꾸는 힘 — <span class="accent">원운동</span></h1>
+    <p class="subtitle">6차시 — 등속 원운동과 구심력</p>
+    <div class="standard">
+      <span class="tag">성취기준</span>
+      <p>물체에 작용하는 힘의 방향에 따라 물체의 운동 방향이 변할 수 있음을 원운동 등 다양한 예를 들어 설명할 수 있다.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="lesson-nav">
+    <a href="lesson1-force-and-net-force.html"><span class="num">1</span><span class="lbl">힘·알짜힘</span></a>
+    <a href="lesson2-motion-and-energy.html"><span class="num">2</span><span class="lbl">운동·E</span></a>
+    <a href="lesson3-free-fall.html"><span class="num">3</span><span class="lbl">자유낙하</span></a>
+    <a href="lesson4-projectile-motion.html"><span class="num">4</span><span class="lbl">포물선</span></a>
+    <a href="lesson5-projectile-energy.html"><span class="num">5</span><span class="lbl">포물선E</span></a>
+    <a href="#" class="current"><span class="num">6</span><span class="lbl">원운동</span></a>
+    <a href="lesson7-kepler-and-gravity.html"><span class="num">7</span><span class="lbl">케플러</span></a>
+    <a href="lesson8-gravity-and-satellites.html"><span class="num">8</span><span class="lbl">인공위성</span></a>
+    <a href="lesson9-general-relativity.html"><span class="num">9</span><span class="lbl">상대성</span></a>
+  </nav>
+
+  <div class="goals">
+    <h2>오늘 이만큼 알게 됩니다</h2>
+    <ul>
+      <li>운동 방향과 <b>나란한 힘</b>은 속력을, <b>수직인 힘</b>은 방향을 바꾼다는 것을 설명할 수 있다.</li>
+      <li>등속 원운동을 각속도·주기로 나타내고, <b>v = rω</b> 관계를 설명할 수 있다.</li>
+      <li>구심 가속도와 구심력의 방향과 크기(<b>F = mv²/r</b>)를 구할 수 있다.</li>
+    </ul>
+  </div>
+
+  <!-- 생각 나누기 -->
+  <section id="think">
+    <div class="think">
+      <span class="badge">생각 나누기</span>
+      <p><span class="q">공에 줄을 매달아 빙글빙글 돌리다가 줄을 놓으면, 공은 어느 방향으로 날아갈까요?</span> 원 밖으로 곧장? 돌던 방향으로? 그리고 공을 계속 원으로 돌게 만드는 힘은 어느 쪽을 향할까요?</p>
+    </div>
+  </section>
+
+  <!-- 1. 방향을 바꾸는 힘 -->
+  <section id="force">
+    <div class="sec-head"><span class="sec-num">1</span><div><h2>속력을 바꾸는 힘, 방향을 바꾸는 힘</h2><span class="eng">force &amp; direction</span></div></div>
+    <p class="body">힘이 어느 쪽을 향하느냐에 따라 물체의 운동이 다르게 변합니다.</p>
+
+    <figure class="figure">
+      <svg viewBox="0 0 470 150" role="img" aria-label="나란한 힘과 수직인 힘">
+        <text x="118" y="22" text-anchor="middle" font-size="13" fill="#456068" font-family="'Do Hyeon',sans-serif">운동 방향과 나란한 힘</text>
+        <rect x="44" y="66" width="26" height="26" rx="6" fill="#e6f7fb" stroke="#7fcfe0" stroke-width="2"/>
+        <line x1="70" y1="62" x2="150" y2="62" stroke="#2563eb" stroke-width="3.5"/><polygon points="158,62 146,57 146,67" fill="#2563eb"/><text x="120" y="54" text-anchor="middle" font-size="12" fill="#2563eb" font-family="'Space Mono',monospace">v</text>
+        <line x1="70" y1="96" x2="140" y2="96" stroke="#e11d48" stroke-width="3.5"/><polygon points="148,96 136,91 136,101" fill="#e11d48"/><text x="112" y="112" text-anchor="middle" font-size="12" fill="#e11d48" font-family="'Space Mono',monospace">F</text>
+        <text x="118" y="138" text-anchor="middle" font-size="13" fill="#0891b2" font-weight="700">→ 속력이 변한다</text>
+        <line x1="235" y1="24" x2="235" y2="130" stroke="#cbe8ee" stroke-width="2" stroke-dasharray="4 5"/>
+        <text x="352" y="22" text-anchor="middle" font-size="13" fill="#456068" font-family="'Do Hyeon',sans-serif">운동 방향과 수직인 힘</text>
+        <rect x="300" y="70" width="26" height="26" rx="6" fill="#e6f7fb" stroke="#7fcfe0" stroke-width="2"/>
+        <line x1="326" y1="83" x2="410" y2="83" stroke="#2563eb" stroke-width="3.5"/><polygon points="418,83 406,78 406,88" fill="#2563eb"/><text x="372" y="75" text-anchor="middle" font-size="12" fill="#2563eb" font-family="'Space Mono',monospace">v</text>
+        <line x1="313" y1="70" x2="313" y2="30" stroke="#e11d48" stroke-width="3.5"/><polygon points="313,22 308,34 318,34" fill="#e11d48"/><text x="300" y="52" text-anchor="middle" font-size="12" fill="#e11d48" font-family="'Space Mono',monospace">F</text>
+        <text x="360" y="138" text-anchor="middle" font-size="13" fill="#0891b2" font-weight="700">→ 방향이 변한다</text>
+      </svg>
+      <figcaption>비스듬한 힘은 두 성분으로 나뉘어, <b>나란한 성분은 속력</b>을 · <b>수직인 성분은 방향</b>을 바꾼다</figcaption>
+    </figure>
+
+  </section>
+
+  <!-- 2. 방향이 변하는 운동의 예 -->
+  <section id="examples">
+    <div class="sec-head"><span class="sec-num">2</span><div><h2>방향이 변하는 운동의 예</h2><span class="eng">examples</span></div></div>
+    <p class="body">운동 방향과 나란하지 않은 힘이 작용하면 방향이 변합니다. 세 운동을 <b style="color:#2563eb">운동 방향(파랑)</b>과 <b style="color:#e11d48">힘(빨강)</b> 화살표로 살펴봅시다.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>포물선 운동</h3>
+        <svg viewBox="0 0 240 150" role="img" aria-label="포물선 운동의 힘과 운동 방향">
+          <path d="M20,132 Q120,-46 220,132" fill="none" stroke="#cbe8ee" stroke-width="2" stroke-dasharray="4 4"/>
+          <circle cx="80" cy="56" r="8" fill="#38c6e0" stroke="#0e2429" stroke-width="1.5"/>
+          <line x1="80" y1="56" x2="118" y2="31" stroke="#2563eb" stroke-width="3"/><polygon points="125,26 112,29 116,39" fill="#2563eb"/>
+          <text x="126" y="24" font-size="11" fill="#2563eb" font-family="'Do Hyeon',sans-serif">운동 방향</text>
+          <line x1="80" y1="56" x2="80" y2="102" stroke="#e11d48" stroke-width="3"/><polygon points="80,110 74,98 86,98" fill="#e11d48"/>
+          <text x="86" y="90" font-size="11" fill="#e11d48" font-family="'Do Hyeon',sans-serif">중력</text>
+        </svg>
+        <p>수평엔 힘이 없고 아래로 <b>중력</b>만 작용 → 속력·방향이 모두 변함.</p>
+      </div>
+      <div class="card">
+        <h3>원운동</h3>
+        <svg viewBox="0 0 240 150" role="img" aria-label="원운동의 힘과 운동 방향">
+          <circle cx="115" cy="84" r="52" fill="none" stroke="#cbe8ee" stroke-width="2" stroke-dasharray="4 4"/>
+          <circle cx="115" cy="84" r="3" fill="#6f93a0"/>
+          <circle cx="115" cy="32" r="8" fill="#38c6e0" stroke="#0e2429" stroke-width="1.5"/>
+          <line x1="115" y1="32" x2="163" y2="32" stroke="#2563eb" stroke-width="3"/><polygon points="171,32 159,27 159,37" fill="#2563eb"/>
+          <text x="150" y="22" font-size="11" fill="#2563eb" font-family="'Do Hyeon',sans-serif">운동 방향</text>
+          <line x1="115" y1="32" x2="115" y2="68" stroke="#e11d48" stroke-width="3"/><polygon points="115,75 109,63 121,63" fill="#e11d48"/>
+          <text x="121" y="58" font-size="11" fill="#e11d48" font-family="'Do Hyeon',sans-serif">구심력</text>
+        </svg>
+        <p>힘(구심력)이 운동 방향에 <b>수직</b> → 방향만 변함.</p>
+      </div>
+      <div class="card">
+        <h3>진자 운동</h3>
+        <svg viewBox="0 0 240 170" role="img" aria-label="진자 운동의 힘과 운동 방향">
+          <rect x="98" y="14" width="44" height="7" rx="2" fill="#9db8c0"/>
+          <line x1="120" y1="21" x2="84" y2="121" stroke="#7fcfe0" stroke-width="2"/>
+          <path d="M84,121 A105 105 0 0 1 156,121" fill="none" stroke="#cbe8ee" stroke-width="2" stroke-dasharray="4 4"/>
+          <line x1="84" y1="121" x2="98" y2="83" stroke="#e11d48" stroke-width="3"/><polygon points="101,74 92,84 101,86" fill="#e11d48"/>
+          <text x="104" y="74" font-size="11" fill="#e11d48" font-family="'Do Hyeon',sans-serif">장력</text>
+          <line x1="84" y1="121" x2="84" y2="153" stroke="#e11d48" stroke-width="3"/><polygon points="84,161 79,150 89,150" fill="#e11d48"/>
+          <text x="52" y="150" font-size="11" fill="#e11d48" font-family="'Do Hyeon',sans-serif">중력</text>
+          <line x1="84" y1="121" x2="119" y2="134" stroke="#2563eb" stroke-width="3"/><polygon points="128,137 116,132 118,143" fill="#2563eb"/>
+          <text x="104" y="155" font-size="11" fill="#2563eb" font-family="'Do Hyeon',sans-serif">운동 방향</text>
+          <circle cx="84" cy="121" r="9" fill="#38c6e0" stroke="#0e2429" stroke-width="1.5"/>
+        </svg>
+        <p><b>중력</b>과 <b>장력</b>이 함께 작용 → 속력·방향이 모두 변함.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 등속 원운동 -->
+  <section id="uniform">
+    <div class="sec-head"><span class="sec-num">3</span><div><h2>등속 원운동</h2><span class="eng">uniform circular motion</span></div></div>
+    <p class="body">일정한 속력으로 원 궤도를 도는 운동입니다. 속력은 일정하지만 <span class="hl">방향(속도)은 계속 변합니다</span>. 줄을 놓으면 공은 그 순간의 <b class="key">접선 방향</b>으로 곧게 날아가요.</p>
+
+    <div class="define"><span class="term">등속 원운동</span><p class="ko"><span class="en">uniform circular motion</span> · <b>일정한 속력으로 원 궤도를 도는 운동.</b> 속도의 방향은 항상 원의 접선 방향이다.</p></div>
+    <div class="define"><span class="term">라디안</span><p class="ko"><span class="en">radian</span> · <b>각도를 재는 단위.</b> 한 바퀴(360°) = 2π rad. (반지름 길이만큼의 호가 만드는 각이 1 rad ≈ 57°)</p></div>
+    <div class="define"><span class="term">각속도 ω</span><p class="ko"><span class="en">angular velocity</span> · <b>1초 동안 회전한 각(회전각).</b> ω = <span class="frac"><span class="num">회전각 Δθ</span><span class="den">시간 Δt</span></span> (단위 rad/s)</p></div>
+    <div class="define"><span class="term">주기 T</span><p class="ko"><span class="en">period</span> · <b>한 바퀴 도는 데 걸린 시간.</b> 한 바퀴는 2π(rad)이므로 T = <span class="frac"><span class="num">2π</span><span class="den">ω</span></span> = <span class="frac"><span class="num">2πr</span><span class="den">v</span></span></p></div>
+
+    <div class="step">
+      <p class="lead"><span class="tag">유도</span>호의 길이는 <b>Δs = r·Δθ</b>(반지름 × 회전각) 입니다. 속력은 단위 시간당 이동한 호의 길이이므로:</p>
+      <div class="math">v = <span class="frac"><span class="num">Δs</span><span class="den">Δt</span></span> = <span class="frac"><span class="num">r·Δθ</span><span class="den">Δt</span></span> = r·<span class="frac"><span class="num">Δθ</span><span class="den">Δt</span></span> &nbsp;→&nbsp; <span class="res">v = rω</span></div>
+    </div>
+    <p class="body">반지름이 크거나 각속도가 클수록 빠릅니다. 이제 직접 돌려 봅시다.</p>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 등속 원운동 실험실</div>
+        <canvas id="sim6a" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#38c6e0"></i>공</span>
+          <span><i style="background:#2563eb"></i>속도 v (접선 방향)</span>
+          <span><i style="background:#7fcfe0"></i>줄(반지름)</span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>반지름 r</label><input id="s6a_r" type="range" min="0.5" max="3" step="0.1" value="1.5"><span class="val" id="s6a_vr">1.5 m</span></div>
+          <div class="ctrl"><label>각속도 ω</label><input id="s6a_w" type="range" min="0.5" max="4" step="0.1" value="2"><span class="val" id="s6a_vw">2.0</span></div>
+          <div class="readouts">
+            <span class="chip hot">속력 v=rω <b id="s6a_v">3.0</b> m/s</span>
+            <span class="chip">주기 T <b id="s6a_T">3.14</b> s</span>
+            <span class="chip">회전각 θ <b id="s6a_th">0</b></span>
+          </div>
+          <div class="presets">
+            <button class="pbtn" id="s6a_release">✂ 줄 놓기</button>
+            <button class="pbtn" id="s6a_reset">다시 돌리기 ⟳</button>
+          </div>
+          <div class="verdict" id="s6a_verdict">파란 화살표(속도)는 항상 <b>원의 접선 방향</b>. 줄을 놓으면 그 방향 그대로 곧게 날아갑니다.</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc">
+      <div class="t">지금 값으로 계산</div>
+      <div class="eqn"><span class="lab">속력</span> v = r × ω = <span id="c6a_v">—</span></div>
+      <div class="eqn"><span class="lab">주기</span> T = 2π / ω = <span id="c6a_T">—</span></div>
+    </div>
+
+    <div class="check" style="margin-top:18px;">
+      <div class="lead"><span class="tag">확인</span><b>교과서 확인 문제 04</b></div>
+      <p class="prob">원운동을 하는 두 물체의 <b>각속도는 같고</b> 반지름의 비가 <b>1 : 2</b>이면, 두 물체의 <b>속력의 비</b>는?</p>
+      <button class="btn" onclick="toggleAnswer('ans04')">정답 확인</button>
+      <div class="answer" id="ans04">v = rω 에서 ω가 같으므로 속력은 반지름에 비례한다.<br><span class="res">v₁ : v₂ = r₁ : r₂ = 1 : 2</span></div>
+    </div>
+  </section>
+
+  <!-- 3. 구심 가속도와 구심력 -->
+  <section id="centripetal">
+    <div class="sec-head"><span class="sec-num">4</span><div><h2>구심 가속도와 구심력</h2><span class="eng">centripetal acceleration &amp; force</span></div></div>
+    <p class="body">등속 원운동은 속력이 일정해도 <span class="hl">방향이 계속 바뀌므로 속도(벡터)가 변합니다</span>. 즉 가속도가 있어요. 이 가속도는 항상 <b class="key">원의 중심</b>을 향하는데, 이를 <b class="key">구심 가속도</b>라고 합니다.</p>
+
+    <figure class="figure">
+      <svg viewBox="0 0 470 210" role="img" aria-label="구심 가속도의 벡터 유도">
+        <text x="115" y="20" text-anchor="middle" font-size="12" fill="#456068" font-family="'Do Hyeon',sans-serif">① 원 위 두 점의 속도</text>
+        <circle cx="115" cy="120" r="70" fill="none" stroke="#cbe8ee" stroke-width="2" stroke-dasharray="4 4"/>
+        <circle cx="115" cy="120" r="3.5" fill="#6f93a0"/><text x="103" y="124" font-size="11" fill="#6f93a0">O</text>
+        <!-- 반지름 -->
+        <line x1="115" y1="120" x2="185" y2="120" stroke="#7fcfe0" stroke-width="2"/>
+        <line x1="115" y1="120" x2="169" y2="75" stroke="#7fcfe0" stroke-width="2"/>
+        <path d="M141,120 A26 26 0 0 0 135,104" fill="none" stroke="#0891b2" stroke-width="1.6"/><text x="150" y="110" font-size="11" fill="#0891b2">Δθ</text>
+        <!-- P, Q -->
+        <circle cx="185" cy="120" r="4" fill="#38c6e0"/><text x="188" y="134" font-size="11" fill="#456068">P</text>
+        <circle cx="169" cy="75" r="4" fill="#38c6e0"/><text x="172" y="72" font-size="11" fill="#456068">Q</text>
+        <!-- v1 (P, 위로) -->
+        <line x1="185" y1="120" x2="185" y2="70" stroke="#2563eb" stroke-width="3"/><polygon points="185,62 180,74 190,74" fill="#2563eb"/><text x="190" y="70" font-size="12" fill="#2563eb" font-family="'Space Mono',monospace">v₁</text>
+        <!-- v2 (Q, 위-왼) -->
+        <line x1="169" y1="75" x2="136" y2="35" stroke="#2563eb" stroke-width="3"/><polygon points="130,29 142,33 135,42" fill="#2563eb"/><text x="118" y="32" font-size="12" fill="#2563eb" font-family="'Space Mono',monospace">v₂</text>
+        <!-- 구분선 -->
+        <line x1="248" y1="26" x2="248" y2="190" stroke="#cbe8ee" stroke-width="2" stroke-dasharray="4 5"/>
+        <text x="360" y="20" text-anchor="middle" font-size="12" fill="#456068" font-family="'Do Hyeon',sans-serif">② 속도 벡터 삼각형</text>
+        <!-- 삼각형: 공통 원점 C=(345,155) -->
+        <circle cx="345" cy="155" r="3" fill="#6f93a0"/>
+        <line x1="345" y1="155" x2="345" y2="77" stroke="#2563eb" stroke-width="3"/><polygon points="345,69 340,81 350,81" fill="#2563eb"/><text x="350" y="98" font-size="12" fill="#2563eb" font-family="'Space Mono',monospace">v₁</text>
+        <line x1="345" y1="155" x2="295" y2="95" stroke="#2563eb" stroke-width="3"/><polygon points="289,88 301,92 294,101" fill="#2563eb"/><text x="276" y="104" font-size="12" fill="#2563eb" font-family="'Space Mono',monospace">v₂</text>
+        <path d="M345,131 A24 24 0 0 0 327,124" fill="none" stroke="#0891b2" stroke-width="1.6"/><text x="330" y="146" font-size="11" fill="#0891b2">Δθ</text>
+        <!-- Δv: v1 끝 → v2 끝 -->
+        <line x1="345" y1="77" x2="295" y2="95" stroke="#e11d48" stroke-width="3"/><polygon points="288,98 300,98 296,88" fill="#e11d48"/><text x="300" y="74" font-size="12" fill="#e11d48" font-family="'Space Mono',monospace">Δv</text>
+        <text x="360" y="185" text-anchor="middle" font-size="11" fill="#e11d48">|Δv| ≈ v·Δθ (중심 방향)</text>
+      </svg>
+      <figcaption>속도의 크기는 같아도 방향이 달라 <b style="color:#e11d48">Δv = v₂ − v₁</b> 이 생기고, 그 방향은 <b>원의 중심</b>을 향한다</figcaption>
+    </figure>
+
+    <div class="step">
+      <p class="lead"><span class="tag">벡터 유도</span>짧은 시간 Δt 동안 속도 벡터가 이루는 삼각형은 위치의 부채꼴과 닮은꼴이라 <b>|Δv| ≈ v·Δθ</b> 입니다. 따라서:</p>
+      <div class="math">a = <span class="frac"><span class="num">|Δv|</span><span class="den">Δt</span></span> ≈ <span class="frac"><span class="num">v·Δθ</span><span class="den">Δt</span></span> = v·<span class="frac"><span class="num">Δθ</span><span class="den">Δt</span></span> = v·ω</div>
+      <div class="math">v = rω 대입 → &nbsp; a = v·ω = <span class="frac"><span class="num">v²</span><span class="den">r</span></span> = <span class="res">rω²</span> &nbsp;(방향: 원의 중심)</div>
+    </div>
+
+    <div class="define"><span class="term">구심 가속도</span><p class="ko"><span class="en">centripetal acceleration</span> · <b>원의 중심을 향하는 가속도.</b> 크기는 a = <span class="frac"><span class="num">v²</span><span class="den">r</span></span> = rω²</p></div>
+    <div class="define"><span class="term">구심력</span><p class="ko"><span class="en">centripetal force</span> · <b>원운동을 일으키는, 중심을 향하는 힘.</b> 크기는 F = ma = <span class="frac"><span class="num">mv²</span><span class="den">r</span></span> = mrω²</p></div>
+
+    <p class="body">구심력의 방향은 구심 가속도와 <b>같은 방향(중심)</b>이고, 속도(접선)와는 <b>서로 수직</b>입니다. 우리 주변의 여러 원운동은 저마다 다른 힘이 구심력 역할을 합니다.</p>
+    <div class="cards">
+      <div class="card"><h3>달의 공전</h3><p>지구가 당기는 <b>중력</b>이 구심력.</p><div class="ex">구심력 = 중력</div></div>
+      <div class="card"><h3>원자 속 전자</h3><p>원자핵이 당기는 <b>전기력</b>이 구심력.</p><div class="ex">구심력 = 전기력</div></div>
+      <div class="card"><h3>곡선 도로의 자동차</h3><p>바퀴와 바닥의 <b>마찰력</b>이 구심력.</p><div class="ex">구심력 = 마찰력</div></div>
+    </div>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 구심력 실험실</div>
+        <canvas id="sim6b" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#38c6e0"></i>공</span>
+          <span><i style="background:#2563eb"></i>속도 v (접선)</span>
+          <span><i style="background:#e11d48"></i>구심력 F (중심 방향)</span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>반지름 r</label><input id="s6b_r" type="range" min="0.5" max="3" step="0.1" value="1.5"><span class="val" id="s6b_vr">1.5 m</span></div>
+          <div class="ctrl"><label>속력 v</label><input id="s6b_v" type="range" min="1" max="12" step="0.5" value="6"><span class="val" id="s6b_vv">6.0 m/s</span></div>
+          <div class="ctrl"><label>질량 m</label><input id="s6b_m" type="range" min="0.5" max="3" step="0.1" value="1"><span class="val" id="s6b_vm">1.0 kg</span></div>
+          <div class="readouts">
+            <span class="chip">각속도 ω=v/r <b id="s6b_w">4.0</b></span>
+            <span class="chip">구심가속도 a=v²/r <b id="s6b_a">24.0</b></span>
+            <span class="chip hot">구심력 F=mv²/r <b id="s6b_F">24.0</b> N</span>
+          </div>
+          <div class="presets">
+            <button class="pbtn play" id="s6b_go">돌리기 ▶</button>
+            <button class="pbtn" id="s6b_reset">멈춤 ⏸</button>
+          </div>
+          <div class="verdict" id="s6b_verdict">빨간 화살표(구심력)는 항상 <b>중심</b>을 향하고, 파란 화살표(속도)와 <b>수직</b>입니다. 속력을 2배로 하면 구심력은 4배!</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc">
+      <div class="t">지금 값으로 계산</div>
+      <div class="eqn"><span class="lab">구심가속도</span> a = v² / r = <span id="c6b_a">—</span></div>
+      <div class="eqn"><span class="lab">구심력</span> F = m × v² / r = <span id="c6b_F">—</span></div>
+    </div>
+
+    <div class="check" style="margin-top:18px;">
+      <div class="lead"><span class="tag">확인</span><b>교과서 확인 문제 05</b></div>
+      <p class="prob">물체가 등속 원운동을 할 때, 구심력과 구심 가속도의 방향은 (같고 / 수직이고), 구심력과 속도의 방향은 (같다 / 수직이다).</p>
+      <button class="btn" onclick="toggleAnswer('ans05')">정답 확인</button>
+      <div class="answer" id="ans05">구심력과 구심 가속도는 <span class="res">같고</span>(둘 다 중심 방향), 구심력과 속도는 <span class="res">수직이다</span>(속도는 접선 방향).</div>
+    </div>
+  </section>
+
+  <!-- 형성평가 -->
+  <section id="quiz">
+    <div class="sec-head"><span class="sec-num" style="background:var(--good);">✎</span><div><h2>형성평가</h2><span class="eng">check your understanding</span></div></div>
+    <p class="body">개념 정리용 <b>OX 퀴즈 10문항</b>과 <b>모의고사 2문항</b>으로 스스로 확인해 보세요.</p>
+    <a class="link-card" href="lesson6-quiz.html">
+      <span class="lc-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <div class="lc-body"><h3>형성평가 풀러 가기</h3><p>OX 10문항 · 모의고사 2문항 · 바로 풀기</p></div>
+      <span class="lc-go">열기 →</span>
+    </a>
+  </section>
+
+  <!-- 핵심 정리 -->
+  <section id="summary">
+    <div class="summary">
+      <h2>이것만은 꼭!</h2>
+      <ul>
+        <li>운동 방향과 <b>나란한 힘</b>은 속력을, <b>수직인 힘</b>은 방향을 바꾼다.</li>
+        <li>등속 원운동: 속도는 <b>접선 방향</b>, 각속도 ω = Δθ/Δt, <b>v = rω</b>, 주기 T = 2π/ω.</li>
+        <li>구심 가속도 <b>a = v²/r = rω²</b> (방향: 원의 중심).</li>
+        <li>구심력 <b>F = mv²/r = mrω²</b> (중심 방향, 속도와 수직). 속력 2배 → 구심력 4배.</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="foot-nav">
+    <a class="fn-home" href="index.html">☰ 역학과 에너지 목차</a>
+    <div class="fn-side"><a href="lesson5-projectile-energy.html">← 5차시</a><a href="lesson7-kepler-and-gravity.html">7차시 →</a></div>
+  </nav>
+
+  <footer>역학과 에너지 · 방향이 변하는 운동 · 6차시 &nbsp;|&nbsp; 수업용 학습자료</footer>
+
+</div>
+
+<script>
+  function toggleAnswer(id){ document.getElementById(id).classList.toggle('show'); }
+  function arrow(ctx,x0,y0,x1,y1,color,w,label){
+    var ang=Math.atan2(y1-y0,x1-x0), len=Math.hypot(x1-x0,y1-y0);
+    ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=w; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    if(len>4){ var hl=8+w; ctx.beginPath(); ctx.moveTo(x1,y1);
+      ctx.lineTo(x1-hl*Math.cos(ang-0.42), y1-hl*Math.sin(ang-0.42));
+      ctx.lineTo(x1-hl*Math.cos(ang+0.42), y1-hl*Math.sin(ang+0.42)); ctx.closePath(); ctx.fill(); }
+    if(label){ ctx.font="700 12px 'Space Mono',monospace"; var lx=x1+11*Math.cos(ang), ly=y1+11*Math.sin(ang);
+      ctx.textAlign=Math.cos(ang)>=-0.1?'left':'right'; ctx.textBaseline='middle';
+      ctx.lineWidth=3.5; ctx.strokeStyle='rgba(4,12,14,.9)'; ctx.lineJoin='round'; ctx.strokeText(label,lx,ly-3);
+      ctx.fillStyle=color; ctx.fillText(label,lx,ly-3); ctx.textAlign='left'; ctx.textBaseline='alphabetic'; }
+  }
+
+  /* ===== 등속 원운동 실험실 ===== */
+  (function(){
+    var cv=document.getElementById('sim6a'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var rS=document.getElementById('s6a_r'), wS=document.getElementById('s6a_w'),
+        vr=document.getElementById('s6a_vr'), vw=document.getElementById('s6a_vw');
+    var vEl=document.getElementById('s6a_v'), TEl=document.getElementById('s6a_T'), thEl=document.getElementById('s6a_th'),
+        verdict=document.getElementById('s6a_verdict'), cv_v=document.getElementById('c6a_v'), cv_T=document.getElementById('c6a_T');
+    var relB=document.getElementById('s6a_release'), resetB=document.getElementById('s6a_reset');
+    var st={r:1.5, w:2.0, theta:0, released:false, rel:null}, lastT=0;
+    function v(){ return st.r*st.w; }
+    function T(){ return 2*Math.PI/st.w; }
+    function targets(){ vr.textContent=st.r.toFixed(1)+' m'; vw.textContent=st.w.toFixed(1); vEl.textContent=v().toFixed(1); TEl.textContent=T().toFixed(2); }
+    function reset(){ st.theta=0; st.released=false; st.rel=null; targets(); relB.classList.remove('on'); }
+    function draw2(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.56);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var cx=W*0.40, cy=H*0.52, k=(Math.min(W,H)*0.34)/3, rpx=st.r*k;
+      ctx.strokeStyle='rgba(127,207,224,.35)'; ctx.setLineDash([5,5]); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(cx,cy,rpx,0,2*Math.PI); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#6f93a0'; ctx.beginPath(); ctx.arc(cx,cy,3,0,2*Math.PI); ctx.fill();
+      var vlen=Math.min(Math.max(v()*6,20),74), bx, by, dx, dy;
+      if(!st.released){
+        var th=st.theta; bx=cx+rpx*Math.cos(th); by=cy-rpx*Math.sin(th);
+        dx=-Math.sin(th); dy=-Math.cos(th);
+        ctx.strokeStyle='#7fcfe0'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(bx,by); ctx.stroke();
+      } else {
+        bx=st.rel.px; by=st.rel.py; dx=st.rel.dx; dy=st.rel.dy;
+        ctx.strokeStyle='rgba(56,198,224,.45)'; ctx.setLineDash([4,4]); ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(st.rel.ox,st.rel.oy); ctx.lineTo(bx,by); ctx.stroke(); ctx.setLineDash([]);
+      }
+      arrow(ctx,bx,by,bx+dx*vlen,by+dy*vlen,'#2563eb',3,'v');
+      ctx.fillStyle='#38c6e0'; ctx.strokeStyle='#06141a'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(bx,by,10,0,2*Math.PI); ctx.fill(); ctx.stroke();
+      var thm=((st.theta%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+      thEl.textContent=thm.toFixed(1)+' rad ('+Math.round(thm*180/Math.PI)+'°)';
+      cv_v.innerHTML=st.r.toFixed(1)+' × '+st.w.toFixed(1)+' = <span class="r">'+v().toFixed(1)+' m/s</span>';
+      cv_T.innerHTML='2π / '+st.w.toFixed(1)+' = <span class="r">'+T().toFixed(2)+' s</span>';
+    }
+    function loop2(tm){
+      var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; lastT=tm;
+      if(!st.released){ st.theta+=st.w*dt; }
+      else if(st.rel){ var sp=st.w*st.rel.rpx; st.rel.px+=st.rel.dx*sp*dt; st.rel.py+=st.rel.dy*sp*dt; }
+      draw2(); requestAnimationFrame(loop2);
+    }
+    relB.addEventListener('click',function(){
+      if(st.released) return;
+      var W=cv.clientWidth||600, H=Math.round(W*0.56), cx=W*0.40, cy=H*0.52, k=(Math.min(W,H)*0.34)/3, rpx=st.r*k;
+      var th=st.theta, bx=cx+rpx*Math.cos(th), by=cy-rpx*Math.sin(th);
+      st.rel={ ox:bx, oy:by, px:bx, py:by, dx:-Math.sin(th), dy:-Math.cos(th), rpx:rpx };
+      st.released=true; relB.classList.add('on');
+      verdict.innerHTML='줄을 놓자 공은 그 순간의 <b>접선 방향</b>으로 곧게(등속 직선) 날아갑니다.';
+    });
+    resetB.addEventListener('click',function(){ reset(); verdict.innerHTML='파란 화살표(속도)는 항상 <b>원의 접선 방향</b>. 줄을 놓으면 그 방향 그대로 곧게 날아갑니다.'; });
+    rS.addEventListener('input',function(){ st.r=+rS.value; targets(); });
+    wS.addEventListener('input',function(){ st.w=+wS.value; targets(); });
+    window.addEventListener('resize',draw2); targets(); setTimeout(draw2,50); requestAnimationFrame(loop2);
+  })();
+
+  /* ===== 구심력 실험실 ===== */
+  (function(){
+    var cv=document.getElementById('sim6b'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var rS=document.getElementById('s6b_r'), vS=document.getElementById('s6b_v'), mS=document.getElementById('s6b_m'),
+        vr=document.getElementById('s6b_vr'), vv=document.getElementById('s6b_vv'), vm=document.getElementById('s6b_vm');
+    var wEl=document.getElementById('s6b_w'), aEl=document.getElementById('s6b_a'), FEl=document.getElementById('s6b_F'),
+        verdict=document.getElementById('s6b_verdict'), ca=document.getElementById('c6b_a'), cF=document.getElementById('c6b_F');
+    var goB=document.getElementById('s6b_go'), stopB=document.getElementById('s6b_reset');
+    var st={r:1.5, v:6, m:1, theta:0, running:true}, lastT=0;
+    function w(){ return st.v/st.r; }
+    function a(){ return st.v*st.v/st.r; }
+    function F(){ return st.m*a(); }
+    function targets(){ vr.textContent=st.r.toFixed(1)+' m'; vv.textContent=st.v.toFixed(1)+' m/s'; vm.textContent=st.m.toFixed(1)+' kg';
+      wEl.textContent=w().toFixed(1); aEl.textContent=a().toFixed(1); FEl.textContent=F().toFixed(1); }
+    function draw(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.56);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var cx=W*0.42, cy=H*0.52, k=(Math.min(W,H)*0.34)/3, rpx=st.r*k;
+      ctx.strokeStyle='rgba(127,207,224,.35)'; ctx.setLineDash([5,5]); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(cx,cy,rpx,0,2*Math.PI); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#6f93a0'; ctx.beginPath(); ctx.arc(cx,cy,3,0,2*Math.PI); ctx.fill();
+      var th=st.theta, bx=cx+rpx*Math.cos(th), by=cy-rpx*Math.sin(th);
+      var tang={x:-Math.sin(th), y:-Math.cos(th)};
+      var toC={x:(cx-bx), y:(cy-by)}; var dlen=Math.hypot(toC.x,toC.y)||1; toC.x/=dlen; toC.y/=dlen;
+      // 속도(접선)
+      var vlen=Math.min(Math.max(st.v*5,18),70);
+      arrow(ctx,bx,by,bx+tang.x*vlen,by+tang.y*vlen,'#2563eb',3,'v');
+      // 구심력(중심 방향) — 크기 sqrt 스케일로 표시
+      var Flen=Math.min(Math.max(Math.sqrt(F())*9,18),Math.max(rpx-14,20));
+      arrow(ctx,bx,by,bx+toC.x*Flen,by+toC.y*Flen,'#e11d48',4,'F');
+      // 공
+      ctx.fillStyle='#38c6e0'; ctx.strokeStyle='#06141a'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(bx,by,10,0,2*Math.PI); ctx.fill(); ctx.stroke();
+      targets();
+      ca.innerHTML=st.v.toFixed(1)+'² / '+st.r.toFixed(1)+' = <span class="r">'+a().toFixed(1)+' m/s²</span>';
+      cF.innerHTML=st.m.toFixed(1)+' × '+st.v.toFixed(1)+'² / '+st.r.toFixed(1)+' = <span class="r">'+F().toFixed(1)+' N</span>';
+    }
+    function loop(tm){ var dt=Math.min(0.03,(tm-lastT)/1000)||0.016; lastT=tm; if(st.running){ st.theta+=w()*dt; } draw(); requestAnimationFrame(loop); }
+    rS.addEventListener('input',function(){ st.r=+rS.value; targets(); });
+    vS.addEventListener('input',function(){ st.v=+vS.value; targets(); });
+    mS.addEventListener('input',function(){ st.m=+mS.value; targets(); });
+    goB.addEventListener('click',function(){ st.running=true; goB.classList.add('play'); stopB.classList.remove('play'); });
+    stopB.addEventListener('click',function(){ st.running=false; goB.classList.remove('play'); });
+    goB.classList.add('play');
+    window.addEventListener('resize',draw); targets(); setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>

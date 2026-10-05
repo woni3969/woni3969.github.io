@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>케플러 법칙과 중력 · 8차시 — 중력과 인공위성의 운동</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#f0fbfa; --grid:#dcf1ee; --ink:#0d2622; --ink-soft:#3e6660;
+    --line:#c9ece7; --card:#ffffff;
+    --panel:#07181a; --panel-grid:#123234; --panel-ink:#defaf6;
+    --accent:#0d9488; --accent-soft:#ccf3ee; --vector:#f43f5e; --good:#18b463;
+    --shadow:0 1px 2px rgba(13,38,34,.06), 0 8px 24px rgba(13,38,34,.08);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 96px;}
+
+  header.top{position:relative;margin:0 -20px 40px;padding:34px 20px 30px;background:linear-gradient(180deg,#08211e 0%,#0f3833 100%);color:#e6f9f6;overflow:hidden;}
+  header.top::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:27px 27px;}
+  .top-inner{max-width:920px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#5ad6c6;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:#5ad6c6;display:inline-block;}
+  h1.title{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(27px,5.4vw,42px);line-height:1.15;margin:0 0 6px;letter-spacing:-.01em;}
+  h1.title .accent{color:#2dd4bf;}
+  .subtitle{color:#bfe4de;font-size:17px;margin:0;}
+  .standard{margin-top:22px;padding:15px 18px;border-radius:12px;background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.3);display:flex;gap:12px;align-items:flex-start;}
+  .standard .tag{flex:none;font-family:'Do Hyeon',sans-serif;font-size:13px;background:#2dd4bf;color:#08211e;padding:3px 10px;border-radius:20px;margin-top:2px;}
+  .standard p{margin:0;font-size:15px;color:#d5f0eb;}
+
+  .lesson-nav{display:flex;gap:7px;margin:-18px auto 34px;max-width:920px;flex-wrap:wrap;}
+  .lesson-nav a{flex:1 1 0;min-width:96px;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 10px;box-shadow:var(--shadow);transition:.15s;display:flex;align-items:center;gap:7px;}
+  .lesson-nav a:hover{transform:translateY(-2px);border-color:var(--accent);}
+  .lesson-nav .num{font-family:'Black Han Sans',sans-serif;font-size:15px;width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;background:var(--paper);color:var(--ink-soft);}
+  .lesson-nav a.current .num{background:var(--accent);color:#fff;}
+  .lesson-nav .lbl{font-size:12px;line-height:1.2;color:var(--ink-soft);}
+  .lesson-nav a.current .lbl{color:var(--ink);font-weight:600;}
+
+  .goals{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:40px;}
+  .goals h2{margin:0 0 12px;font-size:16px;font-family:'Do Hyeon',sans-serif;color:var(--accent);}
+  .goals ul{margin:0;padding-left:0;list-style:none;}
+  .goals li{padding:5px 0 5px 30px;position:relative;font-size:16px;}
+  .goals li::before{content:"";position:absolute;left:4px;top:13px;width:9px;height:9px;border:2.5px solid var(--accent);border-radius:50%;}
+
+  section{margin-bottom:44px;scroll-margin-top:16px;}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .sec-num{font-family:'Black Han Sans',sans-serif;font-size:22px;color:#fff;background:var(--accent);width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;box-shadow:var(--shadow);}
+  .sec-head h2{margin:0;font-size:clamp(21px,3.6vw,27px);letter-spacing:-.01em;}
+  .sec-head .eng{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+
+  p.body{font-size:16.5px;margin:0 0 14px;}
+  .hl{background:linear-gradient(transparent 55%,var(--accent-soft) 55%);padding:0 2px;font-weight:600;}
+  b.key{color:var(--accent);}
+
+  .think{background:#fff7ed;border:1px solid #fcd9a8;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+  .think .badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#b45309;background:#fde6c4;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .think p{margin:0;font-size:17px;}
+  .think .q{font-weight:700;color:#9a3412;}
+
+  .define{display:flex;gap:14px;align-items:flex-start;background:#e4f7f4;border:1px solid #bfeae4;border-left:5px solid var(--accent);border-radius:12px;padding:15px 18px;margin:14px 0;box-shadow:var(--shadow);}
+  .define .term{flex:none;font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:#fff;background:var(--accent);padding:5px 12px;border-radius:8px;white-space:nowrap;}
+  .define .ko{font-size:15.5px;margin:2px 0 0;}
+  .define .ko .en{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .define .ko b{color:var(--accent);}
+
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.08;margin:0 3px;}
+  .frac .num{border-bottom:1.6px solid currentColor;padding:0 5px 1px;}
+  .frac .den{padding:1px 5px 0;}
+  .sqrt{border-top:1.6px solid currentColor;padding:0 3px;}
+
+  .formula{background:var(--panel);color:var(--panel-ink);border-radius:12px;padding:16px 20px;font-family:'Space Mono',monospace;font-size:18px;text-align:center;margin:14px 0;letter-spacing:.02em;box-shadow:var(--shadow);}
+  .formula small{display:block;font-family:'Pretendard',sans-serif;color:#8fcabf;font-size:13px;margin-top:6px;letter-spacing:0;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow);}
+  .step .tag{font-family:'Do Hyeon',sans-serif;font-size:13px;color:#fff;background:var(--accent);padding:3px 11px;border-radius:20px;margin-right:8px;}
+  .step .lead{font-size:15.5px;}
+  .step .math{font-family:'Space Mono',monospace;font-size:16px;background:var(--accent-soft);color:#0f766e;border-radius:9px;padding:10px 14px;margin-top:10px;text-align:center;}
+  .step .math .res{color:var(--accent);font-weight:700;}
+
+  .sim-shell{background:var(--panel);border-radius:20px;padding:8px;box-shadow:0 20px 50px rgba(7,24,26,.45);position:relative;margin:20px 0 8px;}
+  .sim-body{background-color:#051215;background-image:linear-gradient(#123234 1px,transparent 1px),linear-gradient(90deg,#123234 1px,transparent 1px);background-size:24px 24px;border-radius:14px;padding:14px;}
+  .sim-title{font-family:'Do Hyeon',sans-serif;color:#a3d6ce;font-size:15px;margin:2px 4px 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .sim-title .live{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#051215;background:var(--accent);padding:2px 8px;border-radius:20px;}
+  canvas.stage{width:100%;height:auto;display:block;border-radius:10px;touch-action:none;}
+  .controls{margin-top:12px;display:grid;gap:11px;}
+  .ctrl{display:grid;grid-template-columns:120px 1fr 78px;align-items:center;gap:10px;}
+  .ctrl label{color:#a3d6ce;font-size:13px;}
+  .ctrl .val{font-family:'Space Mono',monospace;font-size:13px;color:#defaf6;text-align:right;}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:#1f4a49;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #051215;box-shadow:0 0 0 1px var(--accent);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #051215;}
+  .readouts{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{font-family:'Space Mono',monospace;font-size:13px;background:#0d201f;border:1px solid #1f4a49;color:#a9d3cc;padding:7px 12px;border-radius:9px;}
+  .chip b{color:#fff;}
+  .chip.hot{border-color:#3a5a4a;}
+  .chip.hot b{color:#7ee0b0;}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;}
+  .pbtn{font-family:'Pretendard',sans-serif;font-size:13px;color:#cdeae4;background:#0f2422;border:1px solid #1f4a49;border-radius:20px;padding:7px 14px;cursor:pointer;transition:.15s;}
+  .pbtn:hover{background:#153230;border-color:var(--accent);}
+  .pbtn.play,.pbtn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .verdict{margin-top:8px;padding:11px 14px;border-radius:10px;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.25);color:#d5f0eb;font-size:14px;}
+  .verdict b{color:#fff;}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:#a3d6ce;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  .calc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;margin:10px 0 0;box-shadow:var(--shadow);}
+  .calc .t{font-family:'Do Hyeon',sans-serif;font-size:13px;color:var(--accent);margin-bottom:8px;}
+  .calc .eqn{font-family:'Space Mono',monospace;font-size:14.5px;color:var(--ink);margin:5px 0;line-height:1.5;}
+  .calc .eqn .lab{display:inline-block;min-width:96px;color:var(--ink-soft);}
+  .calc .eqn .r{color:var(--accent);font-weight:700;}
+
+  .btn{font-family:'Pretendard',sans-serif;font-weight:600;font-size:15px;cursor:pointer;border:none;border-radius:10px;padding:11px 20px;background:var(--accent);color:#fff;transition:.15s;}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+  .check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+  .check .lead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .check .lead .tag{font-family:'Do Hyeon',sans-serif;background:var(--good);color:#fff;font-size:14px;padding:4px 12px;border-radius:20px;}
+  .check .lead b{font-size:17px;}
+  .check .prob{font-size:16.5px;margin:0 0 16px;}
+  .answer{margin-top:16px;padding:16px 18px;border-radius:12px;background:var(--accent-soft);border:1px solid #a6e4dc;font-size:15.5px;display:none;}
+  .answer.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .answer .res{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:16px;}
+
+  .link-card{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#0b5f57,#0d9488);color:#fff;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);text-decoration:none;transition:.15s;}
+  .link-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(13,148,136,.35);}
+  .link-card .lc-ic{flex:none;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;}
+  .link-card .lc-body{flex:1;}
+  .link-card .lc-body h3{margin:0 0 3px;font-size:19px;}
+  .link-card .lc-body p{margin:0;font-size:14px;color:#d5f2ee;}
+  .link-card .lc-go{font-family:'Do Hyeon',sans-serif;font-size:15px;background:rgba(255,255,255,.2);padding:9px 16px;border-radius:22px;white-space:nowrap;}
+
+  .summary{background:linear-gradient(180deg,#08211e,#0f3833);color:#e6f9f6;border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);}
+  .summary h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:19px;margin:0 0 16px;color:#2dd4bf;}
+  .summary ul{margin:0;padding-left:0;list-style:none;}
+  .summary li{padding:8px 0 8px 30px;position:relative;font-size:15.5px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .summary li:last-child{border-bottom:none;}
+  .summary li::before{content:"✓";position:absolute;left:2px;color:#2dd4bf;font-weight:700;}
+  .summary b{color:#fff;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:40px;}
+
+  @media (max-width:640px){ .lesson-nav a{min-width:0;} }
+
+  .eyebrow a.toc-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;}
+  .eyebrow a.toc-link:hover{border-color:currentColor;}
+  .foot-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:40px 0 0;padding-top:22px;border-top:1px solid var(--line);}
+  .foot-nav a{text-decoration:none;}
+  .fn-home{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#fff;background:var(--accent);padding:10px 18px;border-radius:22px;}
+  .fn-home:hover{filter:brightness(1.08);}
+  .fn-side{display:flex;gap:8px;}
+  .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
+  .fn-side span.disabled{opacity:.4;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="eyebrow"><a class="toc-link" href="index.html">← 역학과 에너지 목차</a></div>
+    <h1 class="title">떨어지지 않고 <span class="accent">도는</span> 위성</h1>
+    <p class="subtitle">8차시 — 중력과 인공위성의 운동</p>
+    <div class="standard">
+      <span class="tag">성취기준</span>
+      <p>케플러 법칙으로부터 중력의 존재가 밝혀지는 과학사적 배경을 이해하고, 중력을 이용하여 인공위성과 행성의 운동을 분석하고 설명할 수 있다.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="lesson-nav">
+    <a href="lesson1-force-and-net-force.html"><span class="num">1</span><span class="lbl">힘·알짜힘</span></a>
+    <a href="lesson2-motion-and-energy.html"><span class="num">2</span><span class="lbl">운동·E</span></a>
+    <a href="lesson3-free-fall.html"><span class="num">3</span><span class="lbl">자유낙하</span></a>
+    <a href="lesson4-projectile-motion.html"><span class="num">4</span><span class="lbl">포물선</span></a>
+    <a href="lesson5-projectile-energy.html"><span class="num">5</span><span class="lbl">포물선E</span></a>
+    <a href="lesson6-circular-motion.html"><span class="num">6</span><span class="lbl">원운동</span></a>
+    <a href="lesson7-kepler-and-gravity.html"><span class="num">7</span><span class="lbl">케플러</span></a>
+    <a href="#" class="current"><span class="num">8</span><span class="lbl">인공위성</span></a>
+    <a href="lesson9-general-relativity.html"><span class="num">9</span><span class="lbl">상대성</span></a>
+  </nav>
+
+  <div class="goals">
+    <h2>오늘 이만큼 알게 됩니다</h2>
+    <ul>
+      <li>지표면 중력에서 <b>중력 가속도 g = GM/R²</b>를 유도할 수 있다.</li>
+      <li>중력이 구심력 역할을 함을 이용해 인공위성의 속력 <b>v = √(GM/r)</b>를 구할 수 있다.</li>
+      <li>궤도 반지름이 클수록 속력이 느리고 주기가 김을 설명하고, 정지 위성을 이해할 수 있다.</li>
+    </ul>
+  </div>
+
+  <!-- 생각 나누기 -->
+  <section id="think">
+    <div class="think">
+      <span class="badge">생각 나누기</span>
+      <p><span class="q">달과 인공위성에도 중력이 작용하는데, 왜 지표면으로 떨어지지 않을까요?</span> 사과는 떨어지는데 달은 왜 떨어지지 않고 계속 지구를 도는 걸까요?</p>
+    </div>
+  </section>
+
+  <!-- 1. 중력 가속도 -->
+  <section id="g">
+    <div class="sec-head"><span class="sec-num">1</span><div><h2>지표면의 중력과 중력 가속도</h2><span class="eng">g = GM/R²</span></div></div>
+    <p class="body">지표면 근처 물체에는 지구 중심을 향하는 중력이 작용합니다. 이 중력이 물체를 <b class="key">중력 가속도 g</b>로 떨어지게 하죠. 뉴턴 중력 법칙과 제2법칙(F = mg)을 같다고 놓으면 g의 정체가 드러납니다.</p>
+
+    <div class="step">
+      <p class="lead"><span class="tag">유도</span>지구 질량 M, 반지름 R일 때 지표면 물체(질량 m)에 작용하는 중력 = mg :</p>
+      <div class="math">G·<span class="frac"><span class="num">Mm</span><span class="den">R²</span></span> = mg &nbsp;→&nbsp; 양변에서 m을 소거 &nbsp;→&nbsp; g = <span class="frac"><span class="num">GM</span><span class="den">R²</span></span></div>
+    </div>
+    <p class="body">즉 <span class="hl">중력 가속도는 그 천체의 질량 M과 반지름 R로 정해집니다</span>(질량 m과 무관). 지구에서는 약 <b>9.8 m/s²</b>(계산에서는 약 10 m/s²)예요.</p>
+  </section>
+
+  <!-- 2. 인공위성의 속력 -->
+  <section id="satellite">
+    <div class="sec-head"><span class="sec-num">2</span><div><h2>떨어지지 않고 도는 까닭 — 인공위성의 속력</h2><span class="eng">v = √(GM/r)</span></div></div>
+    <p class="body">공을 아주 빠르게 수평으로 던지면, <span class="hl">떨어지는 만큼 지구도 둥글게 휘어져</span> 결국 땅에 닿지 않고 계속 돕니다. 이때 <b class="key">지구 중력이 구심력 역할</b>을 해요. 중력 = 구심력으로 놓으면 필요한 속력이 나옵니다.</p>
+
+    <div class="step">
+      <p class="lead"><span class="tag">유도</span>중력 = 구심력 :</p>
+      <div class="math">G·<span class="frac"><span class="num">Mm</span><span class="den">r²</span></span> = <span class="frac"><span class="num">mv²</span><span class="den">r</span></span> &nbsp;→&nbsp; 정리하면 &nbsp; <span class="res">v = √<span class="sqrt">GM/r</span></span></div>
+    </div>
+    <p class="body">궤도 반지름 r이 <b>클수록 속력은 느리고 주기는 깁니다</b>(v ∝ 1/√r). 아래에서 궤도 높이를 바꾸며 실제 인공위성의 속력을 확인해 보세요.</p>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 인공위성 궤도 실험실 <span style="font-size:12px;color:#6f9a92;">· 지구 자전과 함께 · v = √(GM/r)</span></div>
+        <canvas id="sim8" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#38bdf8"></i>지구(자전)</span>
+          <span><i style="background:#f59e0b"></i>관측자</span>
+          <span><i style="background:#e2e8f0"></i>인공위성</span>
+          <span><i style="background:#2dd4bf"></i>궤도</span>
+        </div>
+        <div class="controls">
+          <div class="presets">
+            <button class="pbtn" data-orb="leo">저궤도(400 km)</button>
+            <button class="pbtn" data-orb="meo">중궤도(GPS)</button>
+            <button class="pbtn on" data-orb="geo">정지궤도(36000 km)</button>
+          </div>
+          <div class="readouts">
+            <span class="chip">궤도 반지름 r <b id="s8_r">—</b> km</span>
+            <span class="chip hot">속력 v <b id="s8_v">—</b> km/s</span>
+            <span class="chip">주기 T <b id="s8_T">—</b> h</span>
+            <span class="chip hot">지상에서 본 위성 <b id="s8_view">—</b></span>
+          </div>
+          <div class="presets">
+            <span style="color:#6f9a92;font-size:12.5px;align-self:center;">재생 속도 :</span>
+            <button class="pbtn" data-spd="0.45">느리게</button>
+            <button class="pbtn on" data-spd="1">보통</button>
+            <button class="pbtn" data-spd="2">빠르게</button>
+          </div>
+          <div class="verdict" id="s8_verdict">궤도를 바꿔 보세요. 화면 속 도는 빠르기는 <b>실제 각속도 비율</b>을 그대로 반영합니다(정지궤도=지구 자전과 같은 빠르기).</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc">
+      <div class="t">지금 값으로 계산 (지구 M = 5.97×10²⁴ kg, R = 6371 km, 자전 주기 24 h)</div>
+      <div class="eqn"><span class="lab">궤도 반지름</span> r = R + 고도 = <span id="c8_r">—</span></div>
+      <div class="eqn"><span class="lab">속력</span> v = √(GM/r) = <span id="c8_v">—</span></div>
+      <div class="eqn"><span class="lab">주기</span> T = 2πr / v = <span id="c8_T">—</span></div>
+    </div>
+
+    <div class="check" style="margin-top:18px;">
+      <div class="lead"><span class="tag">확인</span><b>교과서 확인 문제 07</b></div>
+      <p class="prob">인공위성 A, B가 지구 중심으로부터 거리가 각각 <b>r, 2r</b>만큼 떨어진 곳에서 등속 원운동을 할 때, A의 속력은 B의 속력의 몇 배인가?</p>
+      <button class="btn" onclick="toggleAnswer('ans07')">정답 확인</button>
+      <div class="answer" id="ans07">v = √(GM/r) 이므로 속력은 √r에 반비례. <span class="res">v_A / v_B = √(2r/r) = √2 ≈ 1.41 배</span></div>
+    </div>
+  </section>
+
+  <!-- 3. 정지 위성 -->
+  <section id="geo">
+    <div class="sec-head"><span class="sec-num">3</span><div><h2>정지 위성</h2><span class="eng">geostationary satellite</span></div></div>
+    <p class="body">궤도가 높아질수록 주기가 길어지는데, 그 주기를 <span class="hl">지구의 자전 주기(약 24시간)와 맞추면</span> 지상에서 볼 때 늘 하늘의 같은 자리에 있는 <b class="key">정지 위성</b>이 됩니다.</p>
+    <div class="define"><span class="term">정지 위성</span><p class="ko"><span class="en">geostationary satellite</span> · <b>공전 주기가 지구 자전 주기와 같아, 지상에서 항상 같은 위치에 보이는 위성.</b> 지표면에서 약 36000 km 높이, 약 3 km/s로 돈다. (통신·기상 위성)</p></div>
+  </section>
+
+  <!-- 형성평가 -->
+  <section id="quiz">
+    <div class="sec-head"><span class="sec-num" style="background:var(--good);">✎</span><div><h2>형성평가</h2><span class="eng">check your understanding</span></div></div>
+    <p class="body">개념 정리용 <b>OX 퀴즈 10문항</b>과 <b>모의고사 2문항</b>으로 스스로 확인해 보세요.</p>
+    <a class="link-card" href="lesson8-quiz.html">
+      <span class="lc-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <div class="lc-body"><h3>형성평가 풀러 가기</h3><p>OX 10문항 · 모의고사 2문항 · 바로 풀기</p></div>
+      <span class="lc-go">열기 →</span>
+    </a>
+  </section>
+
+  <!-- 핵심 정리 -->
+  <section id="summary">
+    <div class="summary">
+      <h2>이것만은 꼭!</h2>
+      <ul>
+        <li>지표면 중력 = mg → <b>g = GM/R²</b> (천체의 질량·반지름으로 결정).</li>
+        <li>인공위성은 <b>중력이 구심력 역할</b>을 하여 떨어지지 않고 돈다.</li>
+        <li>궤도 속력 <b>v = √(GM/r)</b> — 궤도가 높을수록 <b>느리고</b> 주기가 길다.</li>
+        <li>주기를 지구 자전 주기와 맞춘 것이 <b>정지 위성</b>(약 36000 km, 약 3 km/s).</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="foot-nav">
+    <a class="fn-home" href="index.html">☰ 역학과 에너지 목차</a>
+    <div class="fn-side"><a href="lesson7-kepler-and-gravity.html">← 7차시</a><a href="lesson9-general-relativity.html">9차시 →</a></div>
+  </nav>
+
+  <footer>역학과 에너지 · 케플러 법칙과 중력 · 8차시 &nbsp;|&nbsp; 수업용 학습자료</footer>
+
+</div>
+
+<script>
+  function toggleAnswer(id){ document.getElementById(id).classList.toggle('show'); }
+
+  /* ===== 인공위성 궤도 실험실 (지구 자전 + 지상 관측자) ===== */
+  (function(){
+    var cv=document.getElementById('sim8'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var rEl=document.getElementById('s8_r'), vEl=document.getElementById('s8_v'), TEl=document.getElementById('s8_T'),
+        viewEl=document.getElementById('s8_view'), verdict=document.getElementById('s8_verdict');
+    var c8r=document.getElementById('c8_r'), c8v=document.getElementById('c8_v'), c8T=document.getElementById('c8_T');
+    var G=6.674e-11, M=5.972e24, Re=6371;                       // km
+    var PRE={ leo:{name:'저궤도',alt:400,os:1.35}, meo:{name:'중궤도',alt:20200,os:2.35}, geo:{name:'정지궤도',alt:35786,os:3.2} };
+    var EARTH_PERIOD=16;                                        // 보통 재생에서 지구 1자전 = 16초
+    var st={orb:'geo', earthA:-Math.PI/2, satA:-Math.PI/2, spd:1}, lastT=0;
+    function cur(){ return PRE[st.orb]; }
+    function rkm(){ return Re+cur().alt; }
+    function vkms(){ return Math.sqrt(G*M/(rkm()*1000))/1000; }
+    function Th(){ return 2*Math.PI*(rkm()*1000)/(vkms()*1000)/3600; }   // hours
+    function ratio(){ return 24/Th(); }                        // ω_sat / ω_earth
+    function isGeo(){ return Math.abs(ratio()-1)<0.04; }
+    function targets(){
+      rEl.textContent=Math.round(rkm()); vEl.textContent=vkms().toFixed(2); TEl.textContent=Th().toFixed(1);
+      viewEl.textContent = isGeo() ? '고정 (한 자리)' : '이동 중';
+      c8r.innerHTML='6371 + '+cur().alt+' = <span class="r">'+Math.round(rkm())+' km</span>';
+      c8v.innerHTML='√(GM/r) = <span class="r">'+vkms().toFixed(2)+' km/s</span>';
+      c8T.innerHTML='2πr/v = <span class="r">'+Th().toFixed(1)+' h</span> &nbsp;(지구 자전 24h '+(isGeo()?'와 같음 → 정지 위성)':'보다 '+ratio().toFixed(1)+'배 빠름)');
+      verdict.innerHTML = isGeo()
+        ? '정지궤도: 위성 주기 ≈ 지구 자전 주기(24h) → 위성이 <b>관측자와 나란히</b> 돌아, 지상에서 늘 <b>같은 자리(머리 위)</b>에 보입니다.'
+        : '위성이 지구 자전보다 <b>약 '+ratio().toFixed(1)+'배 빠르게</b> 돕니다 → 지상 관측자 기준으로 위성이 <b>하늘을 가로질러 이동</b>합니다.';
+    }
+    function reset(){ st.earthA=-Math.PI/2; st.satA=-Math.PI/2; targets(); }
+    function draw(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.66);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var cx=W*0.5, cy=H*0.5, minD=Math.min(W,H);
+      var earthPix=minD*0.12, orbitPix=earthPix*cur().os;
+      var ea=st.earthA, sa=st.satA;
+      // 궤도
+      ctx.strokeStyle='rgba(45,212,191,.55)'; ctx.setLineDash([5,5]); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(cx,cy,orbitPix,0,2*Math.PI); ctx.stroke(); ctx.setLineDash([]);
+      // 지구
+      var grd=ctx.createRadialGradient(cx-earthPix*0.3,cy-earthPix*0.3,earthPix*0.2,cx,cy,earthPix);
+      grd.addColorStop(0,'#7dd3fc'); grd.addColorStop(1,'#2563eb');
+      ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,earthPix,0,2*Math.PI); ctx.clip();
+      ctx.fillStyle=grd; ctx.fillRect(cx-earthPix,cy-earthPix,earthPix*2,earthPix*2);
+      // 자전 경도선(회전하는 지름선)
+      ctx.strokeStyle='rgba(255,255,255,.22)'; ctx.lineWidth=1.5;
+      for(var k=0;k<3;k++){ var a=ea+k*Math.PI/3;
+        ctx.beginPath(); ctx.moveTo(cx-earthPix*Math.cos(a),cy-earthPix*Math.sin(a)); ctx.lineTo(cx+earthPix*Math.cos(a),cy+earthPix*Math.sin(a)); ctx.stroke(); }
+      ctx.restore();
+      // 관측자 위치(지표면) + 머리 위(천정) 점선
+      var obs={x:cx+earthPix*Math.cos(ea), y:cy+earthPix*Math.sin(ea)};
+      var zx=Math.cos(ea), zy=Math.sin(ea);
+      ctx.strokeStyle='rgba(245,158,11,.4)'; ctx.setLineDash([3,4]); ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(obs.x,obs.y); ctx.lineTo(cx+zx*(orbitPix+16), cy+zy*(orbitPix+16)); ctx.stroke(); ctx.setLineDash([]);
+      // 위성 위치
+      var sat={x:cx+orbitPix*Math.cos(sa), y:cy+orbitPix*Math.sin(sa)};
+      // 시선(관측자 → 위성)
+      ctx.strokeStyle='rgba(226,232,240,.5)'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(obs.x,obs.y); ctx.lineTo(sat.x,sat.y); ctx.stroke();
+      // 관측자 점
+      ctx.fillStyle='#f59e0b'; ctx.strokeStyle='#051215'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(obs.x,obs.y,5,0,2*Math.PI); ctx.fill(); ctx.stroke();
+      // 위성 속도(접선) + 점
+      var tx=-Math.sin(sa), ty=Math.cos(sa);
+      ctx.strokeStyle='#7ee0b0'; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(sat.x,sat.y); ctx.lineTo(sat.x+tx*18,sat.y+ty*18); ctx.stroke();
+      ctx.fillStyle='#e2e8f0'; ctx.strokeStyle='#051215'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(sat.x,sat.y,7,0,2*Math.PI); ctx.fill(); ctx.stroke();
+      // 라벨
+      ctx.font="11px Pretendard, sans-serif"; ctx.textAlign='center';
+      ctx.fillStyle='#bfe4de'; ctx.fillText('지구', cx, cy+earthPix+14);
+      ctx.fillStyle='#f7c86b'; ctx.fillText('관측자', obs.x+zx*13, obs.y+zy*13+3);
+      ctx.fillStyle='#a3d6ce'; ctx.font="11px 'Space Mono',monospace"; ctx.fillText(cur().name+' ('+(cur().alt>=1000?(cur().alt/1000).toFixed(0)+'천':cur().alt)+'km)', cx, 16);
+      ctx.textAlign='left';
+      targets();
+    }
+    function loop(tm){
+      var dt=Math.min(0.05,(tm-lastT)/1000)||0.016; lastT=tm;
+      var we=(2*Math.PI/EARTH_PERIOD)*st.spd;                  // 지구 각속도(화면)
+      var ws=we*ratio();                                       // 위성 각속도 = 실제 비율
+      st.earthA+=we*dt; st.satA+=ws*dt;
+      draw(); requestAnimationFrame(loop);
+    }
+    document.querySelectorAll('.pbtn[data-orb]').forEach(function(b){ b.addEventListener('click',function(){
+      document.querySelectorAll('.pbtn[data-orb]').forEach(function(o){o.classList.remove('on');}); b.classList.add('on');
+      st.orb=b.getAttribute('data-orb'); reset(); }); });
+    document.querySelectorAll('.pbtn[data-spd]').forEach(function(b){ b.addEventListener('click',function(){
+      document.querySelectorAll('.pbtn[data-spd]').forEach(function(o){o.classList.remove('on');}); b.classList.add('on');
+      st.spd=+b.getAttribute('data-spd'); }); });
+    window.addEventListener('resize',draw); reset(); setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>

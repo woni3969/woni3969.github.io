@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9차시 형성평가 — 일반 상대성 이론</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#f6f4fc; --grid:#e8e3f4; --ink:#1c1730; --ink-soft:#5a5178; --line:#dcd5ee; --card:#fff;
+    --accent:#7c3aed; --accent-soft:#ece3fd; --good:#0e9f6e; --bad:#e11d48;
+    --shadow:0 1px 2px rgba(28,23,48,.06),0 8px 24px rgba(28,23,48,.09); --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:var(--ink);
+    background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+  header.top{margin:0 -18px 26px;padding:30px 18px 26px;background:linear-gradient(180deg,#140d28,#241542);color:#efe9fd;}
+  .top-in{max-width:760px;margin:0 auto;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#b79bf5;font-size:14px;margin-bottom:8px;}
+  h1{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(24px,5vw,34px);margin:0 0 6px;letter-spacing:-.01em;}
+  .sub{color:#cabce8;font-size:15px;margin:0;}
+  .back{display:inline-block;margin-top:14px;font-size:13px;color:#140d28;background:#b79bf5;padding:6px 13px;border-radius:20px;text-decoration:none;font-family:'Do Hyeon',sans-serif;}
+  .scorebar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+    padding:12px 16px;margin:0 0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .scorebar .lab{font-family:'Do Hyeon',sans-serif;color:var(--accent);font-size:15px;}
+  .scorebar .val{font-family:'Space Mono',monospace;font-weight:700;font-size:18px;}
+  .scorebar .rst{font-size:13px;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:20px;padding:6px 13px;cursor:pointer;font-family:'Pretendard',sans-serif;}
+  .sectitle{display:flex;align-items:center;gap:10px;margin:26px 0 14px;}
+  .sectitle .n{font-family:'Black Han Sans',sans-serif;color:#fff;background:var(--accent);width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;}
+  .sectitle h2{margin:0;font-size:19px;}
+  .sectitle .eng{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-soft);}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:13px;}
+  .qtop{display:flex;gap:11px;align-items:flex-start;}
+  .qnum{flex:none;font-family:'Space Mono',monospace;font-weight:700;color:#fff;background:var(--accent);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;margin-top:1px;}
+  .stmt{font-size:15.5px;}
+  .oxbtns{display:flex;gap:10px;margin:12px 0 0 37px;}
+  .oxb{width:46px;height:46px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-family:'Black Han Sans',sans-serif;font-size:20px;color:var(--ink-soft);cursor:pointer;transition:.12s;}
+  .oxb:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+  .oxb.ok{background:var(--good);border-color:var(--good);color:#fff;}
+  .oxb.no{background:var(--bad);border-color:var(--bad);color:#fff;}
+  .oxb:disabled{cursor:default;}
+  .mcq{font-size:15.5px;margin-bottom:4px;}
+  .opts{display:grid;gap:8px;margin:12px 0 0 37px;}
+  .opt{text-align:left;font-size:15px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer;transition:.12s;font-family:'Pretendard',sans-serif;color:var(--ink);}
+  .opt:hover:not(:disabled){border-color:var(--accent);}
+  .opt.ok{background:#f0eafd;border-color:var(--good);color:#0a6b4a;font-weight:600;}
+  .opt.no{background:#fdeaee;border-color:var(--bad);color:#a01030;}
+  .opt:disabled{cursor:default;}
+  .fb{display:none;margin:12px 0 0 37px;padding:11px 14px;border-radius:10px;font-size:14.5px;}
+  .fb.show{display:block;animation:f .25s ease;}
+  .fb.good{background:#f0eafd;border:1px solid #d7c9f6;}
+  .fb.bad{background:#fdeaee;border:1px solid #f6c9d3;}
+  .fb b{color:var(--ink);}
+  @keyframes f{from{opacity:0;transform:translateY(-3px);}to{opacity:1;transform:none;}}
+  .done-banner{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;border-radius:var(--radius);padding:18px 20px;margin-top:20px;box-shadow:var(--shadow);font-size:16px;display:none;}
+  .done-banner.show{display:block;}
+  .done-banner b{font-family:'Space Mono',monospace;font-size:20px;}
+  footer{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:34px;}
+.backbar{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}.backbar a{font-family:'Do Hyeon',sans-serif;font-size:13px;text-decoration:none;padding:7px 14px;border-radius:20px;}.backbar a.toc{background:#fff;color:var(--ink);}.backbar a.lesson{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);}</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="eyebrow">역학과 에너지 · 06 일반 상대성 이론</div>
+    <h1>9차시 형성평가</h1>
+    <p class="sub">등가 원리와 시공간의 휘어짐</p>
+    <div class="backbar"><a class="toc" href="index.html">☰ 역학과 에너지 목차</a><a class="lesson" href="lesson9-general-relativity.html">← 수업 자료로</a></div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="scorebar">
+    <span class="lab">OX 퀴즈 점수</span>
+    <span class="val" id="score">0 / 10</span>
+    <button class="rst" onclick="location.reload()">다시 풀기 ⟳</button>
+  </div>
+
+  <div class="sectitle"><span class="n">1</span><div><h2>OX 퀴즈</h2><span class="eng">10문항 · 맞으면 O, 틀리면 X</span></div></div>
+  <div id="ox"></div>
+
+  <div class="sectitle"><span class="n">2</span><div><h2>모의고사</h2><span class="eng">2문항 · 알맞은 것을 고르세요</span></div></div>
+  <div id="mc"></div>
+
+  <div class="done-banner" id="done"></div>
+  <footer>역학과 에너지 · 일반 상대성 이론 · 9차시 형성평가</footer>
+</div>
+
+<script>
+  var OX=[
+    {s:"관성력은 가속하는 좌표계에서 나타나는 가상의 힘이다.", a:"O", e:"가속 좌표계에서 나타나며, 크기는 ma, 방향은 가속도의 반대이다."},
+    {s:"관성력의 방향은 가속도의 방향과 같다.", a:"X", e:"관성력의 방향은 가속도의 <b>반대</b> 방향이다."},
+    {s:"위로 올라가기 시작하는(가속하는) 승강기 안에서는 몸무게가 더 크게 측정된다.", a:"O", e:"관성력이 아래로 더해져 겉보기 몸무게가 커진다."},
+    {s:"자유 낙하 하는 승강기 안에서는 중력과 관성력이 상쇄되어 무중력이 된다.", a:"O", e:"a = −g 이므로 겉보기 무게가 0. 급강하 비행기 무중력이 이것이다."},
+    {s:"등가 원리에 따르면 관성력과 중력은 근본적으로 구별할 수 있다.", a:"X", e:"등가 원리는 관성력과 중력을 <b>구별할 수 없다</b>는 원리이다."},
+    {s:"등가 원리에 따르면 중력 질량과 관성 질량은 서로 다르다.", a:"X", e:"등가 원리는 중력 질량과 관성 질량이 <b>같음</b>을 뜻한다(측정에서도 차이 없음)."},
+    {s:"일반 상대성 이론에서 중력은 질량이 시공간을 휘게 한 결과이다.", a:"O", e:"질량이 시공간을 휘게 하고, 그 휘어짐이 곧 중력이다."},
+    {s:"질량이 클수록 시공간을 휘게 하는 정도는 작아진다.", a:"X", e:"질량이 <b>클수록</b> 시공간을 더 많이 휘게 한다."},
+    {s:"블랙홀에서는 빛조차 빠져나올 수 없다.", a:"O", e:"시공간이 극단적으로 휘어 탈출 속도가 빛의 속도를 넘는다."},
+    {s:"일반 상대성 이론에 따르면 중력이 큰 곳에서는 시간이 더 빠르게 흐른다.", a:"X", e:"중력이 큰 곳에서는 시간이 더 <b>느리게</b> 흐른다(중력 시간 지연)."}
+  ];
+  var MC=[
+    {q:"승강기 안에서 겉보기 몸무게가 <b>0(무중력)</b>이 되는 경우로 옳은 것은?",
+     opts:["정지해 있을 때","위로 일정한 속력으로 올라갈 때","위로 출발하며 가속할 때","아래로 자유 낙하 할 때","멈추기 직전 감속할 때"], c:3, e:"자유 낙하(a = −g)에서 중력과 관성력이 상쇄되어 겉보기 무게가 0이 된다."},
+    {q:"일반 상대성 이론에 대한 설명으로 옳은 것만을 있는 대로 고른 것은?<br><span style='font-size:13.5px;color:#5a5178'>ㄱ. 질량이 시공간을 휘게 한다. &nbsp; ㄴ. 중력이 작용하면 빛도 휘어진다. &nbsp; ㄷ. 중력이 큰 곳에서 시간이 느리게 흐른다. &nbsp; ㄹ. GPS는 상대성 이론의 시간 지연을 보정해야 한다.</span>",
+     opts:["ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄹ","ㄱ, ㄴ, ㄷ","ㄱ, ㄴ, ㄷ, ㄹ"], c:4, e:"ㄱ·ㄴ·ㄷ·ㄹ 모두 옳다. 질량→시공간 휘어짐→빛 휘어짐·시간 지연, 그리고 GPS는 특수·일반 상대성 효과를 모두 보정한다."}
+  ];
+
+  var scoreOX=0, answeredOX=0, answeredMC=0;
+  function circled(i){ return ['①','②','③','④','⑤'][i]; }
+  function updateDone(){
+    if(answeredOX===OX.length && answeredMC===MC.length){
+      var d=document.getElementById('done');
+      d.innerHTML='수고했어요! OX 점수는 <b>'+scoreOX+' / '+OX.length+'</b> 입니다. 틀린 문제의 해설을 다시 읽어 보세요.';
+      d.classList.add('show');
+    }
+  }
+  function answerOX(item,chosen,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredOX++;
+    var correct=(chosen===item.a); if(correct) scoreOX++;
+    card.querySelectorAll('.oxb').forEach(function(b){
+      if(b.dataset.v===item.a) b.classList.add('ok');
+      if(b.dataset.v===chosen && !correct) b.classList.add('no');
+      b.disabled=true;
+    });
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+item.a+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad');
+    document.getElementById('score').textContent=scoreOX+' / '+OX.length;
+    updateDone();
+  }
+  function answerMC(item,idx,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredMC++;
+    var correct=(idx===item.c);
+    card.querySelectorAll('.opt').forEach(function(b,i){
+      if(i===item.c) b.classList.add('ok');
+      if(i===idx && !correct) b.classList.add('no');
+      b.disabled=true;
+    });
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+circled(item.c)+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad');
+    updateDone();
+  }
+  var oxWrap=document.getElementById('ox');
+  OX.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="stmt">'+item.s+'</span></div>'+
+      '<div class="oxbtns"><button class="oxb" data-v="O">O</button><button class="oxb" data-v="X">X</button></div>'+
+      '<div class="fb"></div>';
+    card.querySelectorAll('.oxb').forEach(function(b){ b.addEventListener('click',function(){ answerOX(item,b.dataset.v,card); }); });
+    oxWrap.appendChild(card);
+  });
+  var mcWrap=document.getElementById('mc');
+  MC.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    var opts='<div class="opts">'; item.opts.forEach(function(o,idx){ opts+='<button class="opt" data-i="'+idx+'">'+circled(idx)+' '+o+'</button>'; }); opts+='</div>';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="mcq">'+item.q+'</span></div>'+opts+'<div class="fb"></div>';
+    card.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ answerMC(item,+b.dataset.i,card); }); });
+    mcWrap.appendChild(card);
+  });
+</script>
+</body>
+</html>

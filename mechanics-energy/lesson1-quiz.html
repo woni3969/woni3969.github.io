@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>1차시 형성평가 — 알짜힘(합력)과 뉴턴 운동 법칙</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>:root{--paper:#f5f6fb;--grid:#e6e9f3;--ink:#1a1d2b;--ink-soft:#565d78;--line:#dadeec;--card:#fff;--accent:#2f6bff;--accent-soft:#e7efff;--dark:#141f3a;--good:#0e9f6e;--bad:#e11d48;--shadow:0 1px 2px rgba(20,24,40,.06),0 8px 24px rgba(20,24,40,.09);--radius:14px;}*{box-sizing:border-box;}body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:var(--ink);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.65;-webkit-font-smoothing:antialiased;}.wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}header.top{margin:0 -18px 26px;padding:28px 18px 24px;background:radial-gradient(900px 300px at 75% -20%, rgba(255,255,255,.08), transparent 60%),var(--dark);color:#fff;}.top-in{max-width:760px;margin:0 auto;}.eyebrow{font-family:'Do Hyeon',sans-serif;font-size:13.5px;margin-bottom:10px;opacity:.9;}.eyebrow a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:1px;}h1{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(23px,5vw,32px);margin:0 0 6px;letter-spacing:-.01em;}.sub{opacity:.85;font-size:14.5px;margin:0;}.backbar{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}.backbar a{font-family:'Do Hyeon',sans-serif;font-size:13px;text-decoration:none;padding:7px 14px;border-radius:20px;}.backbar a.toc{background:#fff;color:var(--dark);}.backbar a.lesson{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);}.scorebar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;margin:0 0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.scorebar .lab{font-family:'Do Hyeon',sans-serif;color:var(--accent);font-size:15px;}.scorebar .val{font-family:'Space Mono',monospace;font-weight:700;font-size:18px;}.scorebar .rst{font-size:13px;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:20px;padding:6px 13px;cursor:pointer;font-family:'Pretendard',sans-serif;}.sectitle{display:flex;align-items:center;gap:10px;margin:26px 0 14px;}.sectitle .n{font-family:'Black Han Sans',sans-serif;color:#fff;background:var(--accent);width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;}.sectitle h2{margin:0;font-size:19px;}.qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:13px;}.qtop{display:flex;gap:11px;align-items:flex-start;}.qnum{flex:none;font-family:'Space Mono',monospace;font-weight:700;color:#fff;background:var(--accent);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;margin-top:1px;}.stmt,.mcq{font-size:15.5px;}.mcq .given{font-family:"Space Mono",monospace;color:var(--accent);font-weight:700;}.oxbtns{display:flex;gap:10px;margin:12px 0 0 37px;}.oxb{width:46px;height:46px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-family:'Black Han Sans',sans-serif;font-size:20px;color:var(--ink-soft);cursor:pointer;transition:.12s;}.oxb:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}.oxb.ok{background:var(--good);border-color:var(--good);color:#fff;}.oxb.no{background:var(--bad);border-color:var(--bad);color:#fff;}.oxb:disabled{cursor:default;}.opts{display:grid;gap:8px;margin:12px 0 0 37px;}.opt{text-align:left;font-size:15px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer;transition:.12s;font-family:'Pretendard',sans-serif;color:var(--ink);}.opt:hover:not(:disabled){border-color:var(--accent);}.opt.ok{background:var(--accent-soft);border-color:var(--good);color:#0a6b4a;font-weight:600;}.opt.no{background:#fdeaee;border-color:var(--bad);color:#a01030;}.opt:disabled{cursor:default;}.fb{display:none;margin:12px 0 0 37px;padding:11px 14px;border-radius:10px;font-size:14.5px;}.fb.show{display:block;}.fb.good{background:var(--accent-soft);border:1px solid var(--accent);}.fb.bad{background:#fdeaee;border:1px solid #f6c9d3;}.fb b{color:var(--ink);}.done-banner{background:var(--dark);color:#fff;border-radius:var(--radius);padding:18px 20px;margin-top:20px;box-shadow:var(--shadow);font-size:16px;display:none;}.done-banner.show{display:block;}.done-banner b{font-family:'Space Mono',monospace;font-size:20px;}footer{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:34px;}</style></head><body><header class="top"><div class="top-in"><div class="eyebrow">역학과 에너지 · 01 물체의 운동</div><h1>1차시 형성평가</h1><p class="sub">알짜힘(합력)과 뉴턴 운동 법칙</p><div class="backbar"><a class="toc" href="index.html">☰ 역학과 에너지 목차</a><a class="lesson" href="lesson1-force-and-net-force.html">← 수업 자료로</a></div></div></header><div class="wrap"><div class="scorebar"><span class="lab">OX 퀴즈 점수</span><span class="val" id="score">0 / 10</span><button class="rst" onclick="location.reload()">다시 풀기 ⟳</button></div><div class="sectitle"><span class="n">1</span><div><h2>OX 퀴즈</h2></div></div><div id="ox"></div><div class="sectitle"><span class="n">2</span><div><h2>모의고사</h2></div></div><div id="mc"></div><div class="done-banner" id="done"></div><footer>&copy; 2026 광동고등학교 교사 Woni · 1차시 형성평가</footer></div><script>
+  var OX=[{"s": "힘, 속도, 가속도는 모두 크기와 방향을 함께 갖는 벡터량이다.", "a": "O", "e": "힘·속도·가속도는 크기와 방향이 함께 있는 벡터량이다."}, {"s": "방향 없이 크기만 있는 양을 벡터량이라고 한다.", "a": "X", "e": "방향 없이 크기만 있는 양은 <b>스칼라량</b>이다. (예: 질량, 시간, 온도)"}, {"s": "한 물체에 같은 방향으로 4 N, 3 N의 힘이 작용하면 알짜힘의 크기는 7 N이다.", "a": "O", "e": "같은 방향이면 <b>더한다</b>. 4 N + 3 N = 7 N."}, {"s": "한 물체에 반대 방향으로 6 N, 4 N의 힘이 작용하면 알짜힘의 크기는 10 N이다.", "a": "X", "e": "반대 방향이면 <b>뺀다</b>. 6 N − 4 N = <b>2 N</b>."}, {"s": "알짜힘(합력)의 방향은 물체가 점점 빨라지는(가속되는) 방향과 같다.", "a": "O", "e": "알짜힘의 방향 = 가속도(빨라지는) 방향."}, {"s": "알짜힘이 0이면 움직이던 물체는 곧바로 멈춘다.", "a": "X", "e": "알짜힘이 0이면 멈추지 않고 <b>등속도 운동</b>을 계속한다(관성)."}, {"s": "정지한 버스가 갑자기 출발할 때 승객의 몸이 뒤로 쏠리는 것은 관성 때문이다.", "a": "O", "e": "원래 정지 상태를 유지하려는 <b>관성</b> 때문이다."}, {"s": "뉴턴 운동 제2법칙(a = F / m)에 따르면 가속도는 알짜힘에 비례하고 질량에 반비례한다.", "a": "O", "e": "a = F / m → 힘에 비례, 질량에 반비례."}, {"s": "같은 크기의 힘을 줄 때, 질량이 큰 물체일수록 가속도가 크다.", "a": "X", "e": "같은 힘이면 질량이 클수록 가속도는 <b>작다</b>."}, {"s": "마찰이 없는 빗면에서는 경사각이 달라져도 물체에 작용하는 알짜힘의 크기는 항상 같다.", "a": "X", "e": "알짜힘 = mg·sin θ. 경사각이 커지면 알짜힘도 <b>커진다</b>."}];
+  var MC=[{"q": "질량이 <b>2 kg</b>인 물체에 오른쪽으로 <b>8 N</b>, 왼쪽으로 <b>2 N</b>의 힘이 동시에 작용하고 있다. 이 물체의 <b>가속도의 크기와 방향</b>으로 옳은 것은?", "opts": ["2 m/s², 왼쪽", "2 m/s², 오른쪽", "3 m/s², 오른쪽", "5 m/s², 오른쪽", "6 m/s², 오른쪽"], "c": 2, "e": "알짜힘 = 8 N − 2 N = <b>6 N</b> (오른쪽) a = F / m = 6 N ÷ 2 kg = <b>3 m/s²</b> 힘의 방향 = 가속도 방향이므로 <b>오른쪽</b>으로 가속된다."}, {"q": "다음 중 물체에 작용하는 <b>알짜힘이 0인 경우</b>만을 〈보기〉에서 있는 대로 고른 것은? <b>〈보기〉</b> ㄱ. 책상 위에 가만히 놓여 있는 책 ㄴ. 곧은 도로를 일정한 속력으로 달리는 자동차 ㄷ. 나무에서 떨어지고 있는(자유 낙하) 사과 ㄹ. 레일을 따라 점점 빨라지는 롤러코스터", "opts": ["ㄱ", "ㄱ, ㄴ", "ㄱ, ㄷ", "ㄴ, ㄹ", "ㄱ, ㄴ, ㄷ"], "c": 1, "e": "ㄱ. 정지 → 알짜힘 0 (관성) ㄴ. 등속도 운동 → 알짜힘 0 (관성) ㄷ. 자유 낙하 → 점점 빨라지는 가속 운동 → 알짜힘 ≠ 0 ㄹ. 점점 빨라짐 → 가속 운동 → 알짜힘 ≠ 0"}];
+
+  var scoreOX=0, answeredOX=0, answeredMC=0;
+  function circled(i){ return ['①','②','③','④','⑤'][i]; }
+  function updateDone(){
+    if(answeredOX===OX.length && answeredMC===MC.length){
+      var d=document.getElementById('done');
+      d.innerHTML='수고했어요! OX 점수는 <b>'+scoreOX+' / '+OX.length+'</b> 입니다. 틀린 문제의 해설을 다시 읽어 보세요.';
+      d.classList.add('show');
+    }
+  }
+  function answerOX(item,chosen,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredOX++;
+    var correct=(chosen===item.a); if(correct) scoreOX++;
+    card.querySelectorAll('.oxb').forEach(function(b){
+      if(b.dataset.v===item.a) b.classList.add('ok');
+      if(b.dataset.v===chosen && !correct) b.classList.add('no');
+      b.disabled=true;});
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+item.a+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad');
+    document.getElementById('score').textContent=scoreOX+' / '+OX.length; updateDone();
+  }
+  function answerMC(item,idx,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredMC++;
+    var correct=(idx===item.c);
+    card.querySelectorAll('.opt').forEach(function(b,i){
+      if(i===item.c) b.classList.add('ok');
+      if(i===idx && !correct) b.classList.add('no'); b.disabled=true;});
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+circled(item.c)+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad'); updateDone();
+  }
+  var oxWrap=document.getElementById('ox');
+  OX.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="stmt">'+item.s+'</span></div>'+
+      '<div class="oxbtns"><button class="oxb" data-v="O">O</button><button class="oxb" data-v="X">X</button></div><div class="fb"></div>';
+    card.querySelectorAll('.oxb').forEach(function(b){ b.addEventListener('click',function(){ answerOX(item,b.dataset.v,card); }); });
+    oxWrap.appendChild(card);
+  });
+  var mcWrap=document.getElementById('mc');
+  MC.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    var opts='<div class="opts">'; item.opts.forEach(function(o,idx){ opts+='<button class="opt" data-i="'+idx+'">'+circled(idx)+' '+o+'</button>'; }); opts+='</div>';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="mcq">'+item.q+'</span></div>'+opts+'<div class="fb"></div>';
+    card.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ answerMC(item,+b.dataset.i,card); }); });
+    mcWrap.appendChild(card);
+  });
+</script></body></html>

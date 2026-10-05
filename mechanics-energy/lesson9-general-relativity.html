@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일반 상대성 이론 · 9차시 — 등가 원리와 시공간의 휘어짐</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#f6f4fc; --grid:#e8e3f4; --ink:#1c1730; --ink-soft:#5a5178; --line:#dcd5ee; --card:#fff;
+    --panel:#0f0a1e; --panel-grid:#241a3c; --panel-ink:#ece6fb;
+    --accent:#7c3aed; --accent-soft:#ece3fd; --vector:#f43f5e; --good:#18b463;
+    --shadow:0 1px 2px rgba(28,23,48,.06),0 8px 24px rgba(28,23,48,.09); --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 96px;}
+
+  header.top{position:relative;margin:0 -20px 40px;padding:34px 20px 30px;background:linear-gradient(180deg,#140d28,#241542);color:#efe9fd;overflow:hidden;}
+  header.top::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:27px 27px;}
+  .top-inner{max-width:920px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#b79bf5;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:#b79bf5;display:inline-block;}
+  h1.title{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(26px,5.2vw,40px);line-height:1.15;margin:0 0 6px;letter-spacing:-.01em;}
+  h1.title .accent{color:#a780fa;}
+  .subtitle{color:#cabce8;font-size:17px;margin:0;}
+  .standard{margin-top:22px;padding:15px 18px;border-radius:12px;background:rgba(167,128,250,.13);border:1px solid rgba(167,128,250,.3);display:flex;gap:12px;align-items:flex-start;}
+  .standard .tag{flex:none;font-family:'Do Hyeon',sans-serif;font-size:13px;background:#a780fa;color:#140d28;padding:3px 10px;border-radius:20px;margin-top:2px;}
+  .standard p{margin:0;font-size:15px;color:#e0d6f7;}
+
+  .lesson-nav{display:flex;gap:6px;margin:-18px auto 34px;max-width:920px;flex-wrap:wrap;}
+  .lesson-nav a{flex:1 1 0;min-width:86px;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 8px;box-shadow:var(--shadow);transition:.15s;display:flex;align-items:center;gap:6px;}
+  .lesson-nav a:hover{transform:translateY(-2px);border-color:var(--accent);}
+  .lesson-nav .num{font-family:'Black Han Sans',sans-serif;font-size:14px;width:24px;height:24px;flex:none;border-radius:7px;display:grid;place-items:center;background:var(--paper);color:var(--ink-soft);}
+  .lesson-nav a.current .num{background:var(--accent);color:#fff;}
+  .lesson-nav .lbl{font-size:11.5px;line-height:1.2;color:var(--ink-soft);}
+  .lesson-nav a.current .lbl{color:var(--ink);font-weight:600;}
+
+  .goals{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:40px;}
+  .goals h2{margin:0 0 12px;font-size:16px;font-family:'Do Hyeon',sans-serif;color:var(--accent);}
+  .goals ul{margin:0;padding-left:0;list-style:none;}
+  .goals li{padding:5px 0 5px 30px;position:relative;font-size:16px;}
+  .goals li::before{content:"";position:absolute;left:4px;top:13px;width:9px;height:9px;border:2.5px solid var(--accent);border-radius:50%;}
+
+  section{margin-bottom:44px;scroll-margin-top:16px;}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .sec-num{font-family:'Black Han Sans',sans-serif;font-size:22px;color:#fff;background:var(--accent);width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;box-shadow:var(--shadow);}
+  .sec-head h2{margin:0;font-size:clamp(21px,3.6vw,27px);letter-spacing:-.01em;}
+  .sec-head .eng{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+
+  p.body{font-size:16.5px;margin:0 0 14px;}
+  .hl{background:linear-gradient(transparent 55%,var(--accent-soft) 55%);padding:0 2px;font-weight:600;}
+  b.key{color:var(--accent);}
+
+  .think{background:#fff7ed;border:1px solid #fcd9a8;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+  .think .badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#b45309;background:#fde6c4;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .think p{margin:0;font-size:17px;}
+  .think .q{font-weight:700;color:#9a3412;}
+
+  .define{display:flex;gap:14px;align-items:flex-start;background:#f0eafd;border:1px solid #ddd0f8;border-left:5px solid var(--accent);border-radius:12px;padding:15px 18px;margin:14px 0;box-shadow:var(--shadow);}
+  .define .term{flex:none;font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:#fff;background:var(--accent);padding:5px 12px;border-radius:8px;white-space:nowrap;}
+  .define .ko{font-size:15.5px;margin:2px 0 0;}
+  .define .ko .en{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .define .ko b{color:var(--accent);}
+
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.08;margin:0 3px;}
+  .frac .num{border-bottom:1.6px solid currentColor;padding:0 5px 1px;}
+  .frac .den{padding:1px 5px 0;}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);}
+  .card h3{margin:0 0 6px;font-size:16px;}
+  .card p{margin:0;font-size:14.5px;color:var(--ink-soft);}
+
+  .formula{background:var(--panel);color:var(--panel-ink);border-radius:12px;padding:16px 20px;font-family:'Space Mono',monospace;font-size:18px;text-align:center;margin:14px 0;letter-spacing:.02em;box-shadow:var(--shadow);}
+  .formula small{display:block;font-family:'Pretendard',sans-serif;color:#b3a4d6;font-size:13px;margin-top:6px;letter-spacing:0;}
+
+  .sim-shell{background:var(--panel);border-radius:20px;padding:8px;box-shadow:0 20px 50px rgba(15,10,30,.5);position:relative;margin:20px 0 8px;}
+  .sim-body{background-color:#0b0718;background-image:linear-gradient(#241a3c 1px,transparent 1px),linear-gradient(90deg,#241a3c 1px,transparent 1px);background-size:24px 24px;border-radius:14px;padding:14px;}
+  .sim-title{font-family:'Do Hyeon',sans-serif;color:#bda9e8;font-size:15px;margin:2px 4px 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .sim-title .live{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#0b0718;background:var(--accent);padding:2px 8px;border-radius:20px;}
+  canvas.stage{width:100%;height:auto;display:block;border-radius:10px;touch-action:none;}
+  .controls{margin-top:12px;display:grid;gap:11px;}
+  .ctrl{display:grid;grid-template-columns:110px 1fr 66px;align-items:center;gap:10px;}
+  .ctrl label{color:#bda9e8;font-size:13px;}
+  .ctrl .val{font-family:'Space Mono',monospace;font-size:13px;color:#ece6fb;text-align:right;}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:#39294f;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #0b0718;box-shadow:0 0 0 1px var(--accent);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #0b0718;}
+  .readouts{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{font-family:'Space Mono',monospace;font-size:13px;background:#170f28;border:1px solid #39294f;color:#bfb0dd;padding:7px 12px;border-radius:9px;}
+  .chip b{color:#fff;}
+  .chip.hot{border-color:#5a3a66;}
+  .chip.hot b{color:#d3b3ff;}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;}
+  .pbtn{font-family:'Pretendard',sans-serif;font-size:13px;color:#dcd0f2;background:#1a1030;border:1px solid #39294f;border-radius:20px;padding:7px 14px;cursor:pointer;transition:.15s;}
+  .pbtn:hover{background:#241640;border-color:var(--accent);}
+  .pbtn.play,.pbtn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .verdict{margin-top:8px;padding:11px 14px;border-radius:10px;background:rgba(167,128,250,.1);border:1px solid rgba(167,128,250,.25);color:#e0d6f7;font-size:14px;}
+  .verdict b{color:#fff;}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:#bda9e8;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  .check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+  .check .lead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .check .lead .tag{font-family:'Do Hyeon',sans-serif;background:var(--good);color:#fff;font-size:14px;padding:4px 12px;border-radius:20px;}
+  .check .lead b{font-size:17px;}
+  .check .prob{font-size:16.5px;margin:0 0 16px;}
+  .btn{font-family:'Pretendard',sans-serif;font-weight:600;font-size:15px;cursor:pointer;border:none;border-radius:10px;padding:11px 20px;background:var(--accent);color:#fff;transition:.15s;}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+  .answer{margin-top:16px;padding:16px 18px;border-radius:12px;background:var(--accent-soft);border:1px solid #cdb9f7;font-size:15.5px;display:none;}
+  .answer.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .answer .res{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:16px;}
+
+  .link-card{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);text-decoration:none;transition:.15s;}
+  .link-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(124,58,237,.35);}
+  .link-card .lc-ic{flex:none;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;}
+  .link-card .lc-body{flex:1;}
+  .link-card .lc-body h3{margin:0 0 3px;font-size:19px;}
+  .link-card .lc-body p{margin:0;font-size:14px;color:#e4dafb;}
+  .link-card .lc-go{font-family:'Do Hyeon',sans-serif;font-size:15px;background:rgba(255,255,255,.2);padding:9px 16px;border-radius:22px;white-space:nowrap;}
+
+  .summary{background:linear-gradient(180deg,#140d28,#241542);color:#efe9fd;border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);}
+  .summary h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:19px;margin:0 0 16px;color:#a780fa;}
+  .summary ul{margin:0;padding-left:0;list-style:none;}
+  .summary li{padding:8px 0 8px 30px;position:relative;font-size:15.5px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .summary li:last-child{border-bottom:none;}
+  .summary li::before{content:"✓";position:absolute;left:2px;color:#a780fa;font-weight:700;}
+  .summary b{color:#fff;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:40px;}
+  @media (max-width:640px){ .cards{grid-template-columns:1fr;} .lesson-nav a{min-width:0;} }
+
+  .eyebrow a.toc-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;}
+  .eyebrow a.toc-link:hover{border-color:currentColor;}
+  .foot-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:40px 0 0;padding-top:22px;border-top:1px solid var(--line);}
+  .foot-nav a{text-decoration:none;}
+  .fn-home{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#fff;background:var(--accent);padding:10px 18px;border-radius:22px;}
+  .fn-home:hover{filter:brightness(1.08);}
+  .fn-side{display:flex;gap:8px;}
+  .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
+  .fn-side span.disabled{opacity:.4;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="eyebrow"><a class="toc-link" href="index.html">← 역학과 에너지 목차</a></div>
+    <h1 class="title">중력은 <span class="accent">휘어진 시공간</span></h1>
+    <p class="subtitle">9차시 — 등가 원리와 시공간의 휘어짐</p>
+    <div class="standard">
+      <span class="tag">성취기준</span>
+      <p>등가 원리와 시공간의 휘어짐으로 인해 블랙홀과 중력 시간 지연이 나타남을 이해하고, 일반 상대론에 흥미를 느낄 수 있다.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="lesson-nav">
+    <a href="lesson1-force-and-net-force.html"><span class="num">1</span><span class="lbl">힘·알짜힘</span></a>
+    <a href="lesson2-motion-and-energy.html"><span class="num">2</span><span class="lbl">운동·E</span></a>
+    <a href="lesson3-free-fall.html"><span class="num">3</span><span class="lbl">자유낙하</span></a>
+    <a href="lesson4-projectile-motion.html"><span class="num">4</span><span class="lbl">포물선</span></a>
+    <a href="lesson5-projectile-energy.html"><span class="num">5</span><span class="lbl">포물선E</span></a>
+    <a href="lesson6-circular-motion.html"><span class="num">6</span><span class="lbl">원운동</span></a>
+    <a href="lesson7-kepler-and-gravity.html"><span class="num">7</span><span class="lbl">케플러</span></a>
+    <a href="lesson8-gravity-and-satellites.html"><span class="num">8</span><span class="lbl">인공위성</span></a>
+    <a href="#" class="current"><span class="num">9</span><span class="lbl">상대성</span></a>
+  </nav>
+
+  <div class="goals">
+    <h2>오늘 이만큼 알게 됩니다</h2>
+    <ul>
+      <li>가속 좌표계에서 나타나는 <b>관성력</b>을 설명하고, <b>등가 원리</b>(관성력 = 중력)를 이해할 수 있다.</li>
+      <li>등가 원리로부터 <b>빛이 휘어지고 시공간이 휘어짐</b>을 설명할 수 있다.</li>
+      <li>질량이 시공간을 휘게 하며, 극단적으로 휘면 <b>블랙홀</b>이 됨을 설명할 수 있다.</li>
+      <li>중력이 큰 곳에서 시간이 느리게 가는 <b>중력 시간 지연</b>을 이해할 수 있다.</li>
+    </ul>
+  </div>
+
+  <!-- 생각 나누기 -->
+  <section id="think">
+    <div class="think">
+      <span class="badge">생각 나누기</span>
+      <p><span class="q">급강하하는 비행기 안에서는 잠깐 무중력 상태를 체험할 수 있습니다.</span> 비행기가 아래로 뚝 떨어질 때 몸이 붕 뜨는 이 무중력은, 왜 생기는 걸까요?</p>
+    </div>
+  </section>
+
+  <!-- 1. 관성력과 등가 원리 -->
+  <section id="equiv">
+    <div class="sec-head"><span class="sec-num">1</span><div><h2>관성력과 등가 원리</h2><span class="eng">inertial force &amp; equivalence principle</span></div></div>
+    <p class="body">정지해 있던 승강기가 <span class="hl">움직이기 시작하거나 멈추는 순간</span> 몸무게가 무거워지거나 가벼워지는 느낌이 듭니다. 이 느낌은 가속하는 좌표계에서 나타나는 <b class="key">관성력</b> 때문이에요.</p>
+
+    <div class="define"><span class="term">관성력</span><p class="ko"><span class="en">inertial force</span> · <b>가속하는 좌표계에서 나타나는 가상의 힘.</b> 크기는 <b>ma</b>, 방향은 가속도의 <b>반대</b> 방향이다.</p></div>
+    <div class="define"><span class="term">등가 원리</span><p class="ko"><span class="en">equivalence principle</span> · <b>가속 좌표계의 관성력과 중력은 근본적으로 구별할 수 없다.</b> (그래서 중력 질량 = 관성 질량)</p></div>
+
+    <p class="body">중력이 없는 공간에서 g로 가속하는 승강기 안의 사람은, 지표면에 서 있는 사람과 <span class="hl">똑같은 힘</span>을 느낍니다. 반대로 <b class="key">자유 낙하</b>하는 승강기 안에서는 중력과 관성력이 상쇄되어 <b>무중력</b>이 되죠 — 급강하 비행기 속 무중력이 바로 이것입니다. 아래에서 승강기를 움직여 보세요.</p>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 등가 원리 승강기 실험실 <span style="font-size:12px;color:#8a7ba8;">· 겉보기 몸무게 = m(g + a)</span></div>
+        <canvas id="sim9a" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#f43f5e"></i>중력(mg)</span>
+          <span><i style="background:#38bdf8"></i>관성력(ma)</span>
+          <span><i style="background:#fbbf24"></i>체중계 눈금</span>
+        </div>
+        <div class="controls">
+          <div class="readouts">
+            <span class="chip">승강기 가속도 a <b id="s9a_a">0</b> m/s²</span>
+            <span class="chip hot">겉보기 몸무게 <b id="s9a_w">60</b> kg중</span>
+            <span class="chip">상태 <b id="s9a_state">정지 / 등속</b></span>
+          </div>
+          <div class="presets">
+            <button class="pbtn on" data-a="0">정지·등속</button>
+            <button class="pbtn" data-a="4">위로 출발(가속)</button>
+            <button class="pbtn" data-a="-4">멈추기 직전(감속)</button>
+            <button class="pbtn" data-a="-10">자유 낙하(무중력)</button>
+          </div>
+          <div class="verdict" id="s9a_verdict">위로 가속하면 관성력이 아래로 더해져 <b>무거워지고</b>, 자유 낙하하면 중력과 관성력이 상쇄되어 <b>무중력(0)</b>이 됩니다.</div>
+        </div>
+      </div>
+    </div>
+    <p class="body" style="font-size:14.5px;color:var(--ink-soft);margin-top:10px;">겉보기 몸무게 = 실제 질량 60 kg × (g + a) ÷ g. a = −g(자유 낙하)이면 0이 되어 무중력.</p>
+  </section>
+
+  <!-- 2. 시공간의 휘어짐 -->
+  <section id="spacetime">
+    <div class="sec-head"><span class="sec-num">2</span><div><h2>시공간의 휘어짐과 블랙홀</h2><span class="eng">curved spacetime &amp; black hole</span></div></div>
+    <p class="body">등가 원리에 따르면, 가속하는 우주선 안에서는 빛도 휘어져 보입니다. 그렇다면 <span class="hl">중력이 작용할 때도 빛이 휘어져야</span> 해요. 뉴턴 중력으로는 설명할 수 없던 이 현상을, 아인슈타인은 <b class="key">일반 상대성 이론</b>으로 설명했습니다.</p>
+
+    <div class="define"><span class="term">시공간</span><p class="ko"><span class="en">spacetime</span> · <b>시간과 공간을 하나로 합쳐 부르는 개념.</b> 질량이 시공간을 휘게 하고, 그 <b>휘어짐이 곧 중력</b>이다.</p></div>
+    <p class="body">질량이 클수록 시공간을 더 많이 휘게 합니다. <span class="hl">무거운 공을 고무판(트램펄린) 위에 올리면 팬 자국이 생기고, 그 옆을 지나는 구슬이 휘어지는 것</span>과 비슷해요. 질량이 극도로 크고 작게 뭉쳐 시공간이 극단적으로 휘면, 빛조차 빠져나올 수 없는 <b class="key">블랙홀</b>이 됩니다.</p>
+    <p class="body" style="font-size:15px;color:var(--ink-soft);">아래에서 질량을 <b>가벼운 별 → 무거운 별 → 블랙홀</b>로 바꿔 보세요. 일반 별은 빛이 <b>휘어져 통과</b>하고(중력 렌즈), 블랙홀은 빛이 <b>빨려 들어갑니다</b>.</p>
+
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 시공간 휘어짐 실험실 <span style="font-size:12px;color:#8a7ba8;">· 질량이 시공간을 휘게 한다</span></div>
+        <canvas id="sim9b" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#7c3aed"></i>시공간(격자)</span>
+          <span><i style="background:#fbbf24"></i>천체(질량)</span>
+          <span><i style="background:#38f5c8"></i>빛</span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>천체의 질량</label><input id="s9b_m" type="range" min="0" max="100" step="1" value="35"><span class="val" id="s9b_vm">보통</span></div>
+          <div class="readouts">
+            <span class="chip">시공간 휘어짐 <b id="s9b_curv">큼</b></span>
+            <span class="chip hot">빛의 경로 <b id="s9b_light">휘어짐(중력 렌즈)</b></span>
+          </div>
+          <div class="presets">
+            <button class="pbtn" data-m="8">가벼운 별</button>
+            <button class="pbtn on" data-m="35">무거운 별</button>
+            <button class="pbtn" data-m="100">블랙홀</button>
+          </div>
+          <div class="verdict" id="s9b_verdict">질량이 클수록 격자가 깊이 파이고, 옆을 지나는 빛이 더 크게 휩니다. 블랙홀이면 빛조차 빨려 들어갑니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 중력 시간 지연 -->
+  <section id="timedil">
+    <div class="sec-head"><span class="sec-num">3</span><div><h2>중력 시간 지연과 GPS</h2><span class="eng">gravitational time dilation</span></div></div>
+    <p class="body">시공간의 휘어짐은 <span class="hl">시간의 흐름</span>에도 영향을 줍니다. 일반 상대성 이론에 따르면 <b class="key">중력이 큰 곳에서는 시간이 더 느리게</b> 흐릅니다.</p>
+    <div class="cards">
+      <div class="card"><h3>특수 상대성 효과</h3><p>인공위성은 지표면 기준으로 <b>빠르게 운동</b> → 위성의 시간이 더 <b>느리게</b> 흐른다.</p></div>
+      <div class="card"><h3>일반 상대성 효과</h3><p>인공위성은 지표면보다 <b>중력이 약함</b> → 위성의 시간이 더 <b>빠르게</b> 흐른다.</p></div>
+    </div>
+    <p class="body">그래서 <b class="key">GPS 위성</b>은 지상과 정보를 주고받을 때 이 <b>두 가지 시간 지연 효과를 모두 보정</b>해야 정확한 위치를 알려줄 수 있습니다. 상대성 이론이 우리 일상(내비게이션)에 쓰이는 대표적인 예예요.</p>
+
+    <div class="check" style="margin-top:18px;">
+      <div class="lead"><span class="tag">확인</span><b>교과서 확인 문제 09</b></div>
+      <p class="prob">일반 상대성 이론에 따르면 (&nbsp;&nbsp;&nbsp;&nbsp;)에 의해 시공간이 휘어진다.</p>
+      <button class="btn" onclick="toggleAnswer('ans09')">정답 확인</button>
+      <div class="answer" id="ans09">정답: <span class="res">질량</span><br>질량이 클수록 시공간을 더 많이 휘게 하며, 이 휘어짐이 곧 중력이다.</div>
+    </div>
+  </section>
+
+  <!-- 형성평가 -->
+  <section id="quiz">
+    <div class="sec-head"><span class="sec-num" style="background:var(--good);">✎</span><div><h2>형성평가</h2><span class="eng">check your understanding</span></div></div>
+    <p class="body">개념 정리용 <b>OX 퀴즈 10문항</b>과 <b>모의고사 2문항</b>으로 스스로 확인해 보세요.</p>
+    <a class="link-card" href="lesson9-quiz.html">
+      <span class="lc-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <div class="lc-body"><h3>형성평가 풀러 가기</h3><p>OX 10문항 · 모의고사 2문항 · 바로 풀기</p></div>
+      <span class="lc-go">열기 →</span>
+    </a>
+  </section>
+
+  <!-- 핵심 정리 -->
+  <section id="summary">
+    <div class="summary">
+      <h2>이것만은 꼭!</h2>
+      <ul>
+        <li><b>관성력</b>: 가속 좌표계에서 나타나는 가상의 힘(크기 ma, 가속도와 반대 방향).</li>
+        <li><b>등가 원리</b>: 관성력과 중력은 구별할 수 없다(중력 질량 = 관성 질량). 자유 낙하 = 무중력.</li>
+        <li><b>일반 상대성 이론</b>: 질량이 시공간을 휘게 하고, 그 휘어짐이 곧 중력. 빛도 휘어진다.</li>
+        <li>극단적으로 휘면 <b>블랙홀</b>. 중력이 큰 곳은 시간이 느리게 감(<b>중력 시간 지연</b>, GPS 보정).</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="foot-nav">
+    <a class="fn-home" href="index.html">☰ 역학과 에너지 목차</a>
+    <div class="fn-side"><a href="lesson8-gravity-and-satellites.html">← 8차시</a><span class="disabled">다음 →</span></div>
+  </nav>
+
+  <footer>역학과 에너지 · 일반 상대성 이론 · 9차시 &nbsp;|&nbsp; 수업용 학습자료</footer>
+
+</div>
+
+<script>
+  function toggleAnswer(id){ document.getElementById(id).classList.toggle('show'); }
+  function arrow(ctx,x0,y0,x1,y1,color,w,label){
+    var ang=Math.atan2(y1-y0,x1-x0), len=Math.hypot(x1-x0,y1-y0);
+    ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=w; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    if(len>4){ var hl=8+w; ctx.beginPath(); ctx.moveTo(x1,y1);
+      ctx.lineTo(x1-hl*Math.cos(ang-0.42), y1-hl*Math.sin(ang-0.42));
+      ctx.lineTo(x1-hl*Math.cos(ang+0.42), y1-hl*Math.sin(ang+0.42)); ctx.closePath(); ctx.fill(); }
+    if(label){ ctx.font="700 12px 'Space Mono',monospace"; var lx=x1+11*Math.cos(ang), ly=y1+11*Math.sin(ang);
+      ctx.textAlign=Math.cos(ang)>=-0.1?'left':'right'; ctx.textBaseline='middle';
+      ctx.lineWidth=3.5; ctx.strokeStyle='rgba(6,4,12,.9)'; ctx.lineJoin='round'; ctx.strokeText(label,lx,ly-3);
+      ctx.fillStyle=color; ctx.fillText(label,lx,ly-3); ctx.textAlign='left'; ctx.textBaseline='alphabetic'; }
+  }
+
+  /* ===== 등가 원리 승강기 실험실 ===== */
+  (function(){
+    var cv=document.getElementById('sim9a'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var aEl=document.getElementById('s9a_a'), wEl=document.getElementById('s9a_w'), stEl=document.getElementById('s9a_state'), verdict=document.getElementById('s9a_verdict');
+    var g=10, m=60;
+    var st={a:0}, cur={a:0}, lastT=0;   // cur.a 는 부드럽게 따라감
+    function apparent(a){ return m*(g+a)/g; }
+    function stateName(a){ return a>0.5?'위로 가속':(a<-9?'자유 낙하(무중력)':(a<-0.5?'감속(가벼움)':'정지 / 등속')); }
+    function targets(){
+      aEl.textContent=st.a.toFixed(0); wEl.textContent=apparent(st.a).toFixed(0); stEl.textContent=stateName(st.a);
+      verdict.innerHTML = st.a>0.5 ? '위로 가속 중 → 관성력이 아래로 더해져 <b>무거워집니다</b>(겉보기 '+apparent(st.a).toFixed(0)+' kg중).'
+        : (st.a<-9 ? '자유 낙하 → 중력과 관성력이 상쇄되어 <b>무중력(0 kg중)</b>! 급강하 비행기 속 무중력이 이것입니다.'
+        : (st.a<-0.5 ? '감속(위로 가다 멈추기 직전) → 관성력이 위로 작용해 <b>가벼워집니다</b>(겉보기 '+apparent(st.a).toFixed(0)+' kg중).'
+        : '정지 또는 등속 → 관성력이 없어 <b>실제 몸무게 그대로</b>(60 kg중).'));
+    }
+    function draw(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.56);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      cur.a += (st.a-cur.a)*0.15;
+      var cx=W*0.32, top=H*0.12, bot=H*0.9, cabW=W*0.34, cabX=cx-cabW/2;
+      // 승강기 케이블
+      ctx.strokeStyle='#4a3a66'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,top); ctx.stroke();
+      // 승강기 칸
+      ctx.strokeStyle='#6b5a8f'; ctx.lineWidth=2.5; ctx.strokeRect(cabX,top,cabW,bot-top);
+      ctx.fillStyle='rgba(124,58,237,.06)'; ctx.fillRect(cabX,top,cabW,bot-top);
+      // 사람(간단) + 발밑 체중계
+      var px=cx, feet=bot-18;
+      ctx.fillStyle='#dcd0f2';
+      ctx.beginPath(); ctx.arc(px,feet-72,12,0,2*Math.PI); ctx.fill();          // 머리
+      ctx.lineWidth=9; ctx.strokeStyle='#dcd0f2'; ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(px,feet-58); ctx.lineTo(px,feet-22); ctx.stroke(); // 몸통
+      // 체중계
+      ctx.fillStyle='#2a1f40'; ctx.fillRect(cabX+cabW*0.24, feet, cabW*0.52, 14);
+      // 눈금 바(겉보기 무게 비례)
+      var w=apparent(cur.a), frac=Math.max(0,Math.min(1.4,w/60))/1.4;
+      ctx.fillStyle='#fbbf24'; ctx.fillRect(cabX+cabW*0.26, feet+4, (cabW*0.48)*frac, 6);
+      // 힘 화살표: 중력(항상 아래), 관성력(가속도 반대)
+      var ax=cx+cabW*0.02;
+      arrow(ctx, ax, feet-40, ax, feet-40+40, '#f43f5e', 4, 'mg');               // 중력 아래
+      if(Math.abs(cur.a)>0.3){
+        var dir = cur.a>0 ? 1 : -1;   // 관성력 방향은 가속도 반대: 위로 가속(a>0)→관성력 아래(dir +)
+        var ln = Math.min(Math.abs(cur.a)*4.2, 46);
+        arrow(ctx, ax-30, feet-40, ax-30, feet-40+dir*ln, '#38bdf8', 4, 'ma');    // 관성력
+      }
+      // 승강기 가속 방향 표시(옆)
+      ctx.fillStyle='#bda9e8'; ctx.font="12px 'Space Mono',monospace"; ctx.textAlign='center';
+      var lab = st.a>0.5?'↑ 가속':(st.a<-9?'↓↓ 자유낙하':(st.a<-0.5?'↓ 감속':'—'));
+      ctx.fillText(lab, cx, top-6);
+      // 오른쪽 몸무게 막대 그래프
+      var gx=W*0.66, gTop=H*0.16, gBot=H*0.86, gh=gBot-gTop, gw=W*0.16;
+      ctx.strokeStyle='#39294f'; ctx.lineWidth=1; ctx.strokeRect(gx,gTop,gw,gh);
+      // 기준선(실제 60kg중)
+      var baseY=gBot-(60/84)*gh;
+      ctx.strokeStyle='rgba(226,232,240,.4)'; ctx.setLineDash([4,4]); ctx.beginPath(); ctx.moveTo(gx-4,baseY); ctx.lineTo(gx+gw+4,baseY); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#9a8dbf'; ctx.font="10px 'Space Mono',monospace"; ctx.textAlign='right'; ctx.fillText('60', gx-6, baseY+3);
+      var barH=Math.max(0,Math.min(1,(w/84)))*gh;
+      ctx.fillStyle= w<1?'#8a7ba8':(w>60?'#f97362':(w<59?'#38bdf8':'#a780fa'));
+      ctx.fillRect(gx+gw*0.2, gBot-barH, gw*0.6, barH);
+      ctx.fillStyle='#efe9fd'; ctx.font="700 13px 'Space Mono',monospace"; ctx.textAlign='center';
+      ctx.fillText(w.toFixed(0)+' kg중', gx+gw/2, gTop-6);
+      ctx.textAlign='left';
+      targets();
+    }
+    function loop(tm){ lastT=tm; draw(); requestAnimationFrame(loop); }
+    document.querySelectorAll('.pbtn[data-a]').forEach(function(b){ b.addEventListener('click',function(){
+      document.querySelectorAll('.pbtn[data-a]').forEach(function(o){o.classList.remove('on');}); b.classList.add('on');
+      st.a=+b.getAttribute('data-a'); }); });
+    window.addEventListener('resize',draw); targets(); setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+
+  /* ===== 시공간 휘어짐 실험실 (빛의 휘어짐) ===== */
+  (function(){
+    var cv=document.getElementById('sim9b'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var mS=document.getElementById('s9b_m'), vm=document.getElementById('s9b_vm');
+    var curvEl=document.getElementById('s9b_curv'), lightEl=document.getElementById('s9b_light'), verdict=document.getElementById('s9b_verdict');
+    var st={m:35}, lastT=0, absorbedNow=false;
+    function isBH(){ return st.m>85; }
+    function names(){
+      var m=st.m;
+      vm.textContent = m>85?'블랙홀급':(m>50?'매우 무거움':(m>20?'무거움':(m>3?'보통':'가벼움')));
+      curvEl.textContent = m>85?'극단적':(m>50?'매우 큼':(m>20?'큼':'작음'));
+      lightEl.textContent = absorbedNow?'빨려 들어감':(m>50?'크게 휘어짐':(m>10?'휘어짐(중력 렌즈)':'약간 휘어짐'));
+      verdict.innerHTML = absorbedNow
+        ? '<b>블랙홀</b> — 시공간이 극단적으로 휘어 빛조차 빠져나오지 못하고 <b>빨려 들어갑니다</b>.'
+        : (m>50 ? '무거운 별 옆을 지나는 빛이 <b>크게 휘어져</b> 반대편으로 통과합니다.'
+                : (m>3 ? '별 옆을 지나는 빛이 <b>살짝 휘어져</b> 통과합니다(중력 렌즈 효과).'
+                       : '질량이 거의 없어 빛이 <b>거의 직진</b>합니다.'));
+    }
+    function well(dx,dy,depthPx,corePx){ var d=Math.sqrt(dx*dx+dy*dy); return depthPx/(1+d*d/(corePx*corePx)); }
+    function warp(gx,gy,cx,cy,depth,corePx){ var dx=gx-cx, dy=gy-cy, w=well(dx,dy,depth,corePx), pull=w/(depth+1)*0.5; return {x:gx-dx*pull, y:gy+w}; }
+    function drawGrid(W,H,cx,cy,depth,corePx){
+      var N=13, span=W*0.9, x0=cx-span/2, gap=span/(N-1), top=cy-H*0.30, hgt=H*0.62;
+      ctx.lineWidth=1.2;
+      for(var r=0;r<N;r++){ var gyB=top+r*(hgt/(N-1));
+        ctx.strokeStyle='rgba(124,58,237,'+(0.30+0.03*Math.sin(r))+')'; ctx.beginPath(); var s0=false;
+        for(var c=0;c<=(N-1)*4;c++){ var gx=x0+(c/4)*gap; var p=warp(gx,gyB,cx,cy,depth,corePx); if(!s0){ctx.moveTo(p.x,p.y);s0=true;} else ctx.lineTo(p.x,p.y);} ctx.stroke(); }
+      for(var cc=0;cc<N;cc++){ var gxB=x0+cc*gap;
+        ctx.strokeStyle='rgba(124,58,237,.22)'; ctx.beginPath(); var s1=false;
+        for(var rr=0;rr<=(N-1)*4;rr++){ var gy=top+(rr/4)*(hgt/(N-1)); var p2=warp(gxB,gy,cx,cy,depth,corePx); if(!s1){ctx.moveTo(p2.x,p2.y);s1=true;} else ctx.lineTo(p2.x,p2.y);} ctx.stroke(); }
+    }
+    function drawBody(cx,cy){
+      var bodyR=8+st.m*0.13;
+      if(isBH()){
+        ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(cx,cy,bodyR,0,2*Math.PI); ctx.fill();
+        ctx.strokeStyle='rgba(251,191,36,.85)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,bodyR+3,0,2*Math.PI); ctx.stroke();
+        ctx.fillStyle='#fbbf24'; ctx.font="11px Pretendard, sans-serif"; ctx.textAlign='center'; ctx.fillText('블랙홀', cx, cy+bodyR+18); ctx.textAlign='left';
+      } else {
+        var grd=ctx.createRadialGradient(cx-bodyR*0.3,cy-bodyR*0.3,bodyR*0.2,cx,cy,bodyR);
+        grd.addColorStop(0,'#fff3c2'); grd.addColorStop(1,'#f59e0b');
+        ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(cx,cy,bodyR,0,2*Math.PI); ctx.fill();
+      }
+    }
+    function draw(){
+      var dpr=window.devicePixelRatio||1, W=cv.clientWidth||600, H=Math.round(W*0.62);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var cx=W*0.5, cy=H*0.48, depth=(st.m/100)*H*0.60, corePx=W*0.13;
+      drawGrid(W,H,cx,cy,depth,corePx);
+      var bodyR=8+st.m*0.13;
+      var x0=cx-W*0.45, xEnd=cx+W*0.45;
+      absorbedNow=false;
+      if(!isBH()){
+        // 일반 별: 고정된 통과 높이에서, 질량이 클수록 크게 휘어져 통과(중력 렌즈)
+        var b=corePx*0.95, by=cy-b, alpha=Math.min(st.m*0.017,0.95), scale=corePx*0.9;
+        // 원래 직선(휘지 않았다면)
+        ctx.strokeStyle='rgba(226,232,240,.26)'; ctx.setLineDash([4,5]); ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(x0,by); ctx.lineTo(xEnd,by); ctx.stroke(); ctx.setLineDash([]);
+        // 실제 빛(해석적으로 휨)
+        drawBody(cx,cy);
+        ctx.strokeStyle='#38f5c8'; ctx.lineWidth=2.5; ctx.beginPath();
+        var y=by, lastx=x0, lasty=by;
+        for(var x=x0;x<=xEnd;x+=4){ var S=0.5*(1+Math.tanh((x-cx)/scale)); var slope=Math.tan(alpha)*S; y+=slope*4;
+          if(x===x0)ctx.moveTo(x,y); else ctx.lineTo(x,y); lastx=x; lasty=y; }
+        ctx.stroke();
+        ctx.fillStyle='#38f5c8'; ctx.beginPath(); ctx.arc(lastx,lasty,4,0,2*Math.PI); ctx.fill();
+        ctx.fillStyle='#7ee0d0'; ctx.font="11px Pretendard,sans-serif"; ctx.textAlign='left'; ctx.fillText('빛 →', x0-2, by-9);
+      } else {
+        // 블랙홀: 빛이 사건의 지평선 안으로 빨려 들어감(흡수)
+        var by2=cy-corePx*0.55, hitR=corePx*0.62;
+        ctx.strokeStyle='rgba(226,232,240,.26)'; ctx.setLineDash([4,5]); ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(x0,by2); ctx.lineTo(xEnd,by2); ctx.stroke(); ctx.setLineDash([]);
+        drawBody(cx,cy);
+        var lx=x0, ly=by2, vx=3.0, vy=0, pts=[];
+        for(var i=0;i<700 && lx<xEnd; i++){ var dxl=lx-cx, dyl=ly-cy, dist=Math.hypot(dxl,dyl)+1;
+          var acc=(st.m*1.0)/(dist*dist)*corePx; vx+=-dxl/dist*acc; vy+=-dyl/dist*acc;
+          var sp=Math.hypot(vx,vy); vx=vx/sp*3.0; vy=vy/sp*3.0; lx+=vx; ly+=vy; pts.push({x:lx,y:ly});
+          if(dist<hitR){ absorbedNow=true; break; } }
+        ctx.strokeStyle='#38f5c8'; ctx.lineWidth=2.5; ctx.beginPath();
+        for(var p=0;p<pts.length;p++){ if(p===0)ctx.moveTo(pts[p].x,pts[p].y); else ctx.lineTo(pts[p].x,pts[p].y);} ctx.stroke();
+        var last=pts[pts.length-1];
+        if(last){ ctx.fillStyle='#f43f5e'; ctx.font="700 12px Pretendard,sans-serif"; ctx.textAlign='center'; ctx.fillText('✕ 흡수', last.x, last.y-9); ctx.textAlign='left'; }
+        ctx.fillStyle='#7ee0d0'; ctx.font="11px Pretendard,sans-serif"; ctx.textAlign='left'; ctx.fillText('빛 →', x0-2, by2-9);
+      }
+      names();
+    }
+    function loop(tm){ lastT=tm; draw(); requestAnimationFrame(loop); }
+    mS.addEventListener('input',function(){ st.m=+mS.value; document.querySelectorAll('.pbtn[data-m]').forEach(function(o){o.classList.remove('on');}); });
+    document.querySelectorAll('.pbtn[data-m]').forEach(function(b){ b.addEventListener('click',function(){
+      document.querySelectorAll('.pbtn[data-m]').forEach(function(o){o.classList.remove('on');}); b.classList.add('on');
+      st.m=+b.getAttribute('data-m'); mS.value=st.m; }); });
+    window.addEventListener('resize',draw); names(); setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>

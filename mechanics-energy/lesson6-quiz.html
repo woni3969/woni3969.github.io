@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6차시 형성평가 — 방향이 변하는 운동(원운동·구심력)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#f2fbfd; --grid:#dcf0f4; --ink:#0e2429; --ink-soft:#456068; --line:#cbe8ee; --card:#fff;
+    --accent:#0891b2; --accent-soft:#cbf1f8; --good:#0e9f6e; --bad:#e11d48;
+    --shadow:0 1px 2px rgba(14,36,41,.06),0 8px 24px rgba(14,36,41,.08); --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:var(--ink);
+    background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}
+  header.top{margin:0 -18px 26px;padding:30px 18px 26px;background:linear-gradient(180deg,#0a1d22,#123037);color:#e7f7fa;}
+  .top-in{max-width:760px;margin:0 auto;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#5fd6ec;font-size:14px;margin-bottom:8px;}
+  h1{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(24px,5vw,34px);margin:0 0 6px;letter-spacing:-.01em;}
+  .sub{color:#bcdfe6;font-size:15px;margin:0;}
+  .back{display:inline-block;margin-top:14px;font-size:13px;color:#0a1d22;background:#5fd6ec;padding:6px 13px;border-radius:20px;text-decoration:none;font-family:'Do Hyeon',sans-serif;}
+  .scorebar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+    padding:12px 16px;margin:0 0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .scorebar .lab{font-family:'Do Hyeon',sans-serif;color:var(--accent);font-size:15px;}
+  .scorebar .val{font-family:'Space Mono',monospace;font-weight:700;font-size:18px;}
+  .scorebar .rst{font-size:13px;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:20px;padding:6px 13px;cursor:pointer;font-family:'Pretendard',sans-serif;}
+  .sectitle{display:flex;align-items:center;gap:10px;margin:26px 0 14px;}
+  .sectitle .n{font-family:'Black Han Sans',sans-serif;color:#fff;background:var(--accent);width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;}
+  .sectitle h2{margin:0;font-size:19px;}
+  .sectitle .eng{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-soft);}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:13px;}
+  .qtop{display:flex;gap:11px;align-items:flex-start;}
+  .qnum{flex:none;font-family:'Space Mono',monospace;font-weight:700;color:#fff;background:var(--accent);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;margin-top:1px;}
+  .stmt{font-size:15.5px;}
+  .oxbtns{display:flex;gap:10px;margin:12px 0 0 37px;}
+  .oxb{width:46px;height:46px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-family:'Black Han Sans',sans-serif;font-size:20px;color:var(--ink-soft);cursor:pointer;transition:.12s;}
+  .oxb:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+  .oxb.ok{background:var(--good);border-color:var(--good);color:#fff;}
+  .oxb.no{background:var(--bad);border-color:var(--bad);color:#fff;}
+  .oxb:disabled{cursor:default;}
+  .mcq{font-size:15.5px;margin-bottom:4px;}
+  .mcq .given{font-family:'Space Mono',monospace;color:var(--accent);font-weight:700;}
+  .opts{display:grid;gap:8px;margin:12px 0 0 37px;}
+  .opt{text-align:left;font-size:15px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer;transition:.12s;font-family:'Pretendard',sans-serif;color:var(--ink);}
+  .opt:hover:not(:disabled){border-color:var(--accent);}
+  .opt.ok{background:#e7f7f0;border-color:var(--good);color:#0a6b4a;font-weight:600;}
+  .opt.no{background:#fdeaee;border-color:var(--bad);color:#a01030;}
+  .opt:disabled{cursor:default;}
+  .fb{display:none;margin:12px 0 0 37px;padding:11px 14px;border-radius:10px;font-size:14.5px;}
+  .fb.show{display:block;animation:f .25s ease;}
+  .fb.good{background:#e7f7f0;border:1px solid #b7e6cf;}
+  .fb.bad{background:#fdeaee;border:1px solid #f6c9d3;}
+  .fb b{color:var(--ink);}
+  @keyframes f{from{opacity:0;transform:translateY(-3px);}to{opacity:1;transform:none;}}
+  .done-banner{background:linear-gradient(135deg,#0a6c86,#0891b2);color:#fff;border-radius:var(--radius);padding:18px 20px;margin-top:20px;box-shadow:var(--shadow);font-size:16px;display:none;}
+  .done-banner.show{display:block;}
+  .done-banner b{font-family:'Space Mono',monospace;font-size:20px;}
+  footer{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:34px;}
+.backbar{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}.backbar a{font-family:'Do Hyeon',sans-serif;font-size:13px;text-decoration:none;padding:7px 14px;border-radius:20px;}.backbar a.toc{background:#fff;color:var(--ink);}.backbar a.lesson{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);}</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="eyebrow">역학과 에너지 · 03 방향이 변하는 운동</div>
+    <h1>6차시 형성평가</h1>
+    <p class="sub">등속 원운동과 구심력</p>
+    <div class="backbar"><a class="toc" href="index.html">☰ 역학과 에너지 목차</a><a class="lesson" href="lesson6-circular-motion.html">← 수업 자료로</a></div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="scorebar">
+    <span class="lab">OX 퀴즈 점수</span>
+    <span class="val" id="score">0 / 10</span>
+    <button class="rst" onclick="location.reload()">다시 풀기 ⟳</button>
+  </div>
+
+  <div class="sectitle"><span class="n">1</span><div><h2>OX 퀴즈</h2><span class="eng">10문항 · 맞으면 O, 틀리면 X</span></div></div>
+  <div id="ox"></div>
+
+  <div class="sectitle"><span class="n">2</span><div><h2>모의고사</h2><span class="eng">2문항 · 알맞은 것을 고르세요</span></div></div>
+  <div id="mc"></div>
+
+  <div class="done-banner" id="done"></div>
+  <footer>역학과 에너지 · 방향이 변하는 운동 · 6차시 형성평가</footer>
+</div>
+
+<script>
+  var OX=[
+    {s:"운동 방향과 수직인 힘은 속력을 바꾸지 않고 방향만 바꾼다.", a:"O", e:"수직 성분은 방향만, 나란한 성분은 속력을 바꾼다."},
+    {s:"등속 원운동에서 속도의 방향은 원의 중심을 향한다.", a:"X", e:"속도의 방향은 원의 <b>접선 방향</b>이다. 중심을 향하는 것은 구심력·구심가속도."},
+    {s:"각속도의 단위는 m/s이다.", a:"X", e:"각속도 ω의 단위는 <b>rad/s</b>이다. (단위 시간당 회전각)"},
+    {s:"반지름 r, 각속도 ω인 등속 원운동의 속력은 v = rω 이다.", a:"O", e:"Δs = rΔθ 에서 v = Δs/Δt = rω."},
+    {s:"등속 원운동은 속력이 일정하므로 가속도가 0이다.", a:"X", e:"방향(속도 벡터)이 계속 변하므로 <b>가속도가 있다</b>(구심 가속도)."},
+    {s:"구심 가속도의 크기는 a = v²/r 이다.", a:"O", e:"a = v²/r = rω² (방향은 원의 중심)."},
+    {s:"구심력의 방향은 원의 접선 방향이다.", a:"X", e:"구심력은 항상 <b>원의 중심</b>을 향한다. 접선 방향은 속도."},
+    {s:"구심력과 속도의 방향은 서로 수직이다.", a:"O", e:"구심력(중심)과 속도(접선)는 항상 수직이다."},
+    {s:"속력이 2배가 되면 구심력은 2배가 된다.", a:"X", e:"F = mv²/r 이므로 속력 2배 → 힘은 <b>4배</b>."},
+    {s:"달이 지구 주위를 도는 원운동에서 구심력 역할을 하는 것은 중력이다.", a:"O", e:"지구가 달을 당기는 중력이 구심력 역할을 한다."}
+  ];
+  var MC=[
+    {q:"질량 <span class='given'>2 kg</span>인 물체가 반지름 <span class='given'>2 m</span>인 원을 <span class='given'>4 m/s</span>의 속력으로 등속 원운동한다. 물체에 작용하는 <b>구심력</b>의 크기는?",
+     opts:["4 N","8 N","16 N","32 N","64 N"], c:2, e:"F = mv²/r = 2 × 4² / 2 = 2 × 16 / 2 = 16 N."},
+    {q:"등속 원운동에 대한 설명으로 옳은 것만을 있는 대로 고른 것은?<br><span style='font-size:13.5px;color:#456068'>ㄱ. 속력은 일정하다. &nbsp; ㄴ. 속도는 일정하다. &nbsp; ㄷ. 구심력은 항상 원의 중심을 향한다. &nbsp; ㄹ. 구심 가속도는 0이다.</span>",
+     opts:["ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄹ","ㄱ, ㄷ, ㄹ","ㄱ, ㄴ, ㄷ"], c:1, e:"ㄱ(속력 일정)·ㄷ(구심력은 중심 방향)만 옳다. ㄴ은 방향이 변하므로 속도는 일정하지 않고, ㄹ은 구심 가속도가 0이 아니다."}
+  ];
+
+  var scoreOX=0, answeredOX=0, answeredMC=0;
+  function circled(i){ return ['①','②','③','④','⑤'][i]; }
+  function updateDone(){
+    if(answeredOX===OX.length && answeredMC===MC.length){
+      var d=document.getElementById('done');
+      d.innerHTML='수고했어요! OX 점수는 <b>'+scoreOX+' / '+OX.length+'</b> 입니다. 틀린 문제의 해설을 다시 읽어 보세요.';
+      d.classList.add('show');
+    }
+  }
+  function answerOX(item,chosen,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredOX++;
+    var correct=(chosen===item.a); if(correct) scoreOX++;
+    card.querySelectorAll('.oxb').forEach(function(b){
+      if(b.dataset.v===item.a) b.classList.add('ok');
+      if(b.dataset.v===chosen && !correct) b.classList.add('no');
+      b.disabled=true;
+    });
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+item.a+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad');
+    document.getElementById('score').textContent=scoreOX+' / '+OX.length;
+    updateDone();
+  }
+  function answerMC(item,idx,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredMC++;
+    var correct=(idx===item.c);
+    card.querySelectorAll('.opt').forEach(function(b,i){
+      if(i===item.c) b.classList.add('ok');
+      if(i===idx && !correct) b.classList.add('no');
+      b.disabled=true;
+    });
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+circled(item.c)+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad');
+    updateDone();
+  }
+  var oxWrap=document.getElementById('ox');
+  OX.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="stmt">'+item.s+'</span></div>'+
+      '<div class="oxbtns"><button class="oxb" data-v="O">O</button><button class="oxb" data-v="X">X</button></div>'+
+      '<div class="fb"></div>';
+    card.querySelectorAll('.oxb').forEach(function(b){ b.addEventListener('click',function(){ answerOX(item,b.dataset.v,card); }); });
+    oxWrap.appendChild(card);
+  });
+  var mcWrap=document.getElementById('mc');
+  MC.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    var opts='<div class="opts">'; item.opts.forEach(function(o,idx){ opts+='<button class="opt" data-i="'+idx+'">'+circled(idx)+' '+o+'</button>'; }); opts+='</div>';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="mcq">'+item.q+'</span></div>'+opts+'<div class="fb"></div>';
+    card.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ answerMC(item,+b.dataset.i,card); }); });
+    mcWrap.appendChild(card);
+  });
+</script>
+</body>
+</html>

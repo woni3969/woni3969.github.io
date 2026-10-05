@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>5차시 형성평가 — 포물선 운동의 에너지 보존</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>:root{--paper:#f5f6fb;--grid:#e6e9f3;--ink:#1a1d2b;--ink-soft:#565d78;--line:#dadeec;--card:#fff;--accent:#db2777;--accent-soft:#fce1ee;--dark:#20121a;--good:#0e9f6e;--bad:#e11d48;--shadow:0 1px 2px rgba(20,24,40,.06),0 8px 24px rgba(20,24,40,.09);--radius:14px;}*{box-sizing:border-box;}body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;color:var(--ink);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:27px 27px;line-height:1.65;-webkit-font-smoothing:antialiased;}.wrap{max-width:760px;margin:0 auto;padding:0 18px 90px;}header.top{margin:0 -18px 26px;padding:28px 18px 24px;background:radial-gradient(900px 300px at 75% -20%, rgba(255,255,255,.08), transparent 60%),var(--dark);color:#fff;}.top-in{max-width:760px;margin:0 auto;}.eyebrow{font-family:'Do Hyeon',sans-serif;font-size:13.5px;margin-bottom:10px;opacity:.9;}.eyebrow a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:1px;}h1{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(23px,5vw,32px);margin:0 0 6px;letter-spacing:-.01em;}.sub{opacity:.85;font-size:14.5px;margin:0;}.backbar{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}.backbar a{font-family:'Do Hyeon',sans-serif;font-size:13px;text-decoration:none;padding:7px 14px;border-radius:20px;}.backbar a.toc{background:#fff;color:var(--dark);}.backbar a.lesson{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);}.scorebar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;margin:0 0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.scorebar .lab{font-family:'Do Hyeon',sans-serif;color:var(--accent);font-size:15px;}.scorebar .val{font-family:'Space Mono',monospace;font-weight:700;font-size:18px;}.scorebar .rst{font-size:13px;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:20px;padding:6px 13px;cursor:pointer;font-family:'Pretendard',sans-serif;}.sectitle{display:flex;align-items:center;gap:10px;margin:26px 0 14px;}.sectitle .n{font-family:'Black Han Sans',sans-serif;color:#fff;background:var(--accent);width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;}.sectitle h2{margin:0;font-size:19px;}.qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:13px;}.qtop{display:flex;gap:11px;align-items:flex-start;}.qnum{flex:none;font-family:'Space Mono',monospace;font-weight:700;color:#fff;background:var(--accent);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;margin-top:1px;}.stmt,.mcq{font-size:15.5px;}.mcq .given{font-family:"Space Mono",monospace;color:var(--accent);font-weight:700;}.oxbtns{display:flex;gap:10px;margin:12px 0 0 37px;}.oxb{width:46px;height:46px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-family:'Black Han Sans',sans-serif;font-size:20px;color:var(--ink-soft);cursor:pointer;transition:.12s;}.oxb:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}.oxb.ok{background:var(--good);border-color:var(--good);color:#fff;}.oxb.no{background:var(--bad);border-color:var(--bad);color:#fff;}.oxb:disabled{cursor:default;}.opts{display:grid;gap:8px;margin:12px 0 0 37px;}.opt{text-align:left;font-size:15px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer;transition:.12s;font-family:'Pretendard',sans-serif;color:var(--ink);}.opt:hover:not(:disabled){border-color:var(--accent);}.opt.ok{background:var(--accent-soft);border-color:var(--good);color:#0a6b4a;font-weight:600;}.opt.no{background:#fdeaee;border-color:var(--bad);color:#a01030;}.opt:disabled{cursor:default;}.fb{display:none;margin:12px 0 0 37px;padding:11px 14px;border-radius:10px;font-size:14.5px;}.fb.show{display:block;}.fb.good{background:var(--accent-soft);border:1px solid var(--accent);}.fb.bad{background:#fdeaee;border:1px solid #f6c9d3;}.fb b{color:var(--ink);}.done-banner{background:var(--dark);color:#fff;border-radius:var(--radius);padding:18px 20px;margin-top:20px;box-shadow:var(--shadow);font-size:16px;display:none;}.done-banner.show{display:block;}.done-banner b{font-family:'Space Mono',monospace;font-size:20px;}footer{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:34px;}</style></head><body><header class="top"><div class="top-in"><div class="eyebrow">역학과 에너지 · 02 포물선 운동</div><h1>5차시 형성평가</h1><p class="sub">포물선 운동의 에너지 보존</p><div class="backbar"><a class="toc" href="index.html">☰ 역학과 에너지 목차</a><a class="lesson" href="lesson5-projectile-energy.html">← 수업 자료로</a></div></div></header><div class="wrap"><div class="scorebar"><span class="lab">OX 퀴즈 점수</span><span class="val" id="score">0 / 10</span><button class="rst" onclick="location.reload()">다시 풀기 ⟳</button></div><div class="sectitle"><span class="n">1</span><div><h2>OX 퀴즈</h2></div></div><div id="ox"></div><div class="sectitle"><span class="n">2</span><div><h2>모의고사</h2></div></div><div id="mc"></div><div class="done-banner" id="done"></div><footer>&copy; 2026 광동고등학교 교사 Woni · 5차시 형성평가</footer></div><script>
+  var OX=[{"s": "운동에너지는 물체가 빠를수록 크며, E_k = ½mv² 로 나타낸다.", "a": "O", "e": "E_k = ½mv², 빠를수록 크다."}, {"s": "위치에너지는 물체가 높을수록 크며, E_p = mgh 로 나타낸다.", "a": "O", "e": "E_p = mgh, 높을수록 크다."}, {"s": "역학적 에너지는 운동에너지와 위치에너지의 합이다.", "a": "O", "e": "역학적 에너지 = 운동에너지 + 위치에너지."}, {"s": "포물선 운동에서 속력 v는 v² = v_x² + v_y² 로 구한다.", "a": "O", "e": "속력은 수평·수직 성분을 합친 것 → v² = v_x² + v_y²."}, {"s": "공기 저항을 무시하면 포물선 운동을 하는 물체의 역학적 에너지는 항상 일정하다.", "a": "O", "e": "중력만 작용하므로 역학적 에너지는 보존된다."}, {"s": "올라가는 동안에는 운동에너지가 줄어든 만큼 위치에너지가 늘어난다.", "a": "O", "e": "올라갈 때 운동E → 위치E로 전환된다."}, {"s": "최고점에서는 운동에너지가 0이 된다.", "a": "X", "e": "최고점에도 <b>수평 속도</b>가 남아 있어 운동에너지는 0이 아니다."}, {"s": "최고점에서는 위치에너지가 가장 크다.", "a": "O", "e": "가장 높은 곳이므로 위치에너지가 최대이다."}, {"s": "지면 근처(가장 낮은 곳)에서 물체의 속력이 가장 빠르다.", "a": "O", "e": "위치에너지가 가장 작은 곳에서 운동에너지가 최대 → 가장 빠르다."}, {"s": "던진 직후의 역학적 에너지는 ½mv₀² 이다.", "a": "O", "e": "던진 순간 높이가 0이면 E = E_k = ½mv₀² 이다."}];
+  var MC=[{"q": "질량 <b>1 kg</b>인 공을 <b>20 m/s</b>의 속력으로 비스듬히 던졌다. 공기 저항을 무시할 때, 이 공의 <b>역학적 에너지</b>는 날아가는 내내 얼마로 일정한가?", "opts": ["100 J", "200 J", "300 J", "400 J", "던지는 각도에 따라 달라진다"], "c": 1, "e": "역학적 에너지는 던진 직후의 값으로 일정 → E = ½mv₀² = ½ × 1 × 20² = <b>200 J</b> 각도가 달라져도 처음 속력이 같으면 역학적 에너지는 같다(⑤ 아님)."}, {"q": "비스듬히 던져 포물선 운동을 하는 공에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (공기 저항 무시) <b>〈보기〉</b> ㄱ. 최고점에서 운동에너지는 0이다. ㄴ. 최고점에서 위치에너지가 가장 크다. ㄷ. 올라갈 때 줄어든 운동에너지는 위치에너지로 바뀐다. ㄹ. 운동에너지와 위치에너지의 합은 시간에 따라 변한다.", "opts": ["ㄱ, ㄴ", "ㄴ, ㄷ", "ㄱ, ㄹ", "ㄴ, ㄷ, ㄹ", "ㄱ, ㄴ, ㄷ"], "c": 1, "e": "ㄱ. 최고점에도 수평 속도가 남아 운동에너지는 0이 아니다. (X) ㄴ. 최고점이 가장 높으므로 위치에너지 최대. (O) ㄷ. 올라갈 때 운동에너지가 위치에너지로 전환된다. (O) ㄹ. 공기 저항이 없으면 둘의 합(역학적 에너지)은 <b>일정</b>하다. (X)"}];
+
+  var scoreOX=0, answeredOX=0, answeredMC=0;
+  function circled(i){ return ['①','②','③','④','⑤'][i]; }
+  function updateDone(){
+    if(answeredOX===OX.length && answeredMC===MC.length){
+      var d=document.getElementById('done');
+      d.innerHTML='수고했어요! OX 점수는 <b>'+scoreOX+' / '+OX.length+'</b> 입니다. 틀린 문제의 해설을 다시 읽어 보세요.';
+      d.classList.add('show');
+    }
+  }
+  function answerOX(item,chosen,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredOX++;
+    var correct=(chosen===item.a); if(correct) scoreOX++;
+    card.querySelectorAll('.oxb').forEach(function(b){
+      if(b.dataset.v===item.a) b.classList.add('ok');
+      if(b.dataset.v===chosen && !correct) b.classList.add('no');
+      b.disabled=true;});
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+item.a+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad');
+    document.getElementById('score').textContent=scoreOX+' / '+OX.length; updateDone();
+  }
+  function answerMC(item,idx,card){
+    if(card.dataset.done) return; card.dataset.done="1"; answeredMC++;
+    var correct=(idx===item.c);
+    card.querySelectorAll('.opt').forEach(function(b,i){
+      if(i===item.c) b.classList.add('ok');
+      if(i===idx && !correct) b.classList.add('no'); b.disabled=true;});
+    var fb=card.querySelector('.fb');
+    fb.innerHTML='<b>'+(correct?'정답이에요 ✓':'오답이에요 ✗')+'</b> — 정답은 <b>'+circled(item.c)+'</b>. '+item.e;
+    fb.classList.add('show', correct?'good':'bad'); updateDone();
+  }
+  var oxWrap=document.getElementById('ox');
+  OX.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="stmt">'+item.s+'</span></div>'+
+      '<div class="oxbtns"><button class="oxb" data-v="O">O</button><button class="oxb" data-v="X">X</button></div><div class="fb"></div>';
+    card.querySelectorAll('.oxb').forEach(function(b){ b.addEventListener('click',function(){ answerOX(item,b.dataset.v,card); }); });
+    oxWrap.appendChild(card);
+  });
+  var mcWrap=document.getElementById('mc');
+  MC.forEach(function(item,i){
+    var card=document.createElement('div'); card.className='qcard';
+    var opts='<div class="opts">'; item.opts.forEach(function(o,idx){ opts+='<button class="opt" data-i="'+idx+'">'+circled(idx)+' '+o+'</button>'; }); opts+='</div>';
+    card.innerHTML='<div class="qtop"><span class="qnum">'+(i+1)+'</span><span class="mcq">'+item.q+'</span></div>'+opts+'<div class="fb"></div>';
+    card.querySelectorAll('.opt').forEach(function(b){ b.addEventListener('click',function(){ answerMC(item,+b.dataset.i,card); }); });
+    mcWrap.appendChild(card);
+  });
+</script></body></html>

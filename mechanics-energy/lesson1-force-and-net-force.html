@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>물체의 운동 · 1차시 — 알짜힘(합력)과 뉴턴 운동 법칙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#f4f7fc; --grid:#e2e9f4; --ink:#16223a; --ink-soft:#4a5977;
+    --line:#d5deec; --card:#ffffff;
+    --panel:#0e1526; --panel-grid:#1b2941; --panel-ink:#dfe8fb;
+    --accent:#2f6bff; --accent-soft:#e7efff; --vector:#f43f5e; --good:#18b463;
+    --shadow:0 1px 2px rgba(22,34,58,.06), 0 8px 24px rgba(22,34,58,.07);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:27px 27px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 96px;}
+
+  /* 헤더 */
+  header.top{position:relative;margin:0 -20px 40px;padding:34px 20px 30px;background:linear-gradient(180deg,#101a30 0%,#16233f 100%);color:#eaf1ff;overflow:hidden;}
+  header.top::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:27px 27px;}
+  .top-inner{max-width:920px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{font-family:'Do Hyeon',sans-serif;color:#8fb3ff;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:#8fb3ff;display:inline-block;}
+  h1.title{font-family:'Black Han Sans',sans-serif;font-weight:400;font-size:clamp(30px,6vw,46px);line-height:1.15;margin:0 0 6px;letter-spacing:-.01em;}
+  h1.title .accent{color:#7aa6ff;}
+  .subtitle{color:#b9c8e6;font-size:17px;margin:0;}
+  .standard{margin-top:22px;padding:15px 18px;border-radius:12px;background:rgba(122,166,255,.12);border:1px solid rgba(122,166,255,.28);display:flex;gap:12px;align-items:flex-start;}
+  .standard .tag{flex:none;font-family:'Do Hyeon',sans-serif;font-size:13px;background:#7aa6ff;color:#0e1526;padding:3px 10px;border-radius:20px;margin-top:2px;}
+  .standard p{margin:0;font-size:15px;color:#dbe6ff;}
+
+  /* 차시 내비 */
+  .lesson-nav{display:flex;gap:8px;margin:-18px auto 34px;max-width:920px;flex-wrap:wrap;}
+  .lesson-nav a{flex:1 1 0;min-width:150px;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);transition:.15s;display:flex;align-items:center;gap:11px;}
+  .lesson-nav a:hover{transform:translateY(-2px);border-color:var(--accent);}
+  .lesson-nav .num{font-family:'Black Han Sans',sans-serif;font-size:19px;width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;background:var(--paper);color:var(--ink-soft);}
+  .lesson-nav a.current .num{background:var(--accent);color:#fff;}
+  .lesson-nav .lbl{font-size:14px;line-height:1.35;color:var(--ink-soft);}
+  .lesson-nav a.current .lbl{color:var(--ink);font-weight:600;}
+
+  /* 학습목표 */
+  .goals{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:40px;}
+  .goals h2{margin:0 0 12px;font-size:16px;font-family:'Do Hyeon',sans-serif;color:var(--accent);}
+  .goals ul{margin:0;padding-left:0;list-style:none;}
+  .goals li{padding:5px 0 5px 30px;position:relative;font-size:16px;}
+  .goals li::before{content:"";position:absolute;left:4px;top:13px;width:9px;height:9px;border:2.5px solid var(--accent);border-radius:50%;}
+
+  /* 섹션 */
+  section{margin-bottom:44px;scroll-margin-top:16px;}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .sec-num{font-family:'Black Han Sans',sans-serif;font-size:22px;color:#fff;background:var(--accent);width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;box-shadow:var(--shadow);}
+  .sec-head h2{margin:0;font-size:clamp(21px,3.6vw,27px);letter-spacing:-.01em;}
+  .sec-head .eng{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+
+  p.body{font-size:16.5px;margin:0 0 14px;}
+  .hl{background:linear-gradient(transparent 55%,var(--accent-soft) 55%);padding:0 2px;font-weight:600;}
+  b.key{color:var(--accent);}
+
+  /* 생각 나누기 */
+  .think{background:#fff7ed;border:1px solid #fcd9a8;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+  .think .badge{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#b45309;background:#fde6c4;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .think p{margin:0;font-size:17px;}
+  .think .q{font-weight:700;color:#9a3412;}
+
+  /* 개념 카드 */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);}
+  .card h3{margin:0 0 8px;font-size:18px;display:flex;align-items:center;gap:9px;}
+  .card h3 .ic{width:30px;height:30px;flex:none;border-radius:8px;display:grid;place-items:center;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;}
+  .card p{margin:0;font-size:15px;color:var(--ink-soft);}
+  .card .ex{margin-top:12px;padding:10px 12px;background:var(--paper);border-radius:9px;font-size:14px;color:var(--ink);border:1px dashed var(--line);}
+  .card .ex b{color:var(--ink);}
+
+  /* 공식 */
+  .formula{background:var(--panel);color:var(--panel-ink);border-radius:12px;padding:16px 20px;font-family:'Space Mono',monospace;font-size:18px;text-align:center;margin:16px 0;letter-spacing:.03em;box-shadow:var(--shadow);}
+  .formula small{display:block;font-family:'Pretendard',sans-serif;color:#8ea6d6;font-size:13px;margin-top:6px;letter-spacing:0;}
+
+  /* 알짜힘 3종 */
+  .netforce{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0;}
+  .nf{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow);}
+  .nf .cap{font-size:14px;color:var(--ink-soft);margin-top:8px;}
+  .nf .big{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--accent);}
+
+  /* 다이어그램(그림) */
+  .figure{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);margin:16px 0;text-align:center;}
+  .figure svg{max-width:100%;height:auto;}
+  .figure figcaption{font-size:14px;color:var(--ink-soft);margin-top:8px;}
+  .figure figcaption b{color:var(--vector);}
+
+  /* 시뮬레이션 */
+  .sim-shell{background:var(--panel);border-radius:20px;padding:8px;box-shadow:0 20px 50px rgba(14,21,38,.35);position:relative;margin:20px 0 8px;}
+  .sim-body{background-color:#0b1120;background-image:linear-gradient(#1b2941 1px,transparent 1px),linear-gradient(90deg,#1b2941 1px,transparent 1px);background-size:24px 24px;border-radius:14px;padding:14px;}
+  .sim-title{font-family:'Do Hyeon',sans-serif;color:#9fb2d8;font-size:15px;margin:2px 4px 10px;display:flex;align-items:center;gap:8px;}
+  .sim-title .live{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:#0b1120;background:var(--accent);padding:2px 8px;border-radius:20px;}
+  canvas.stage{width:100%;height:auto;display:block;border-radius:10px;touch-action:none;}
+  .controls{margin-top:12px;display:grid;gap:11px;}
+  .ctrl{display:grid;grid-template-columns:84px 1fr 56px;align-items:center;gap:10px;}
+  .ctrl label{color:#9fb2d8;font-size:13px;}
+  .ctrl .val{font-family:'Space Mono',monospace;font-size:13px;color:#dfe8fb;text-align:right;}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:#26375a;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #0b1120;box-shadow:0 0 0 1px var(--accent);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #0b1120;}
+  .readouts{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+  .chip{font-family:'Space Mono',monospace;font-size:13px;background:#141d31;border:1px solid #26375a;color:#aebbd8;padding:7px 12px;border-radius:9px;}
+  .chip b{color:#fff;}
+  .chip.hot{border-color:#5a2740;}
+  .chip.hot b{color:#ff8ba0;}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+  .pbtn{font-family:'Pretendard',sans-serif;font-size:13px;color:#cdd9f2;background:#18233c;border:1px solid #2c3e63;border-radius:20px;padding:7px 14px;cursor:pointer;transition:.15s;}
+  .pbtn:hover{background:#22314f;border-color:var(--accent);}
+  .pbtn.play{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .verdict{margin-top:8px;padding:11px 14px;border-radius:10px;background:rgba(122,166,255,.1);border:1px solid rgba(122,166,255,.25);color:#cfe0ff;font-size:14px;}
+  .verdict b{color:#fff;}
+
+  /* 힘 그림/형성평가 */
+  .fdiag{margin:16px 0;text-align:center;}
+  .fdiag svg{max-width:100%;height:auto;}
+  .fdiag .cap{font-size:14px;color:var(--ink-soft);margin-top:2px;}
+  .quiz{display:grid;gap:14px;}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);}
+  .qcard .qhead{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .qcard .qnum{font-family:'Black Han Sans',sans-serif;font-size:16px;background:var(--accent);color:#fff;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none;}
+  .qcard .qtxt{font-size:16px;margin:0 0 14px;}
+  .qcard .qtxt .given{font-family:'Space Mono',monospace;color:var(--accent);font-weight:700;}
+
+  /* 버튼/정답 */
+  .btn{font-family:'Pretendard',sans-serif;font-weight:600;font-size:15px;cursor:pointer;border:none;border-radius:10px;padding:11px 20px;background:var(--accent);color:#fff;transition:.15s;}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+  .btn.ghost{background:var(--paper);color:var(--accent);border:1.5px solid var(--accent);}
+  .check{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+  .check .lead{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .check .lead .tag{font-family:'Do Hyeon',sans-serif;background:var(--good);color:#fff;font-size:14px;padding:4px 12px;border-radius:20px;}
+  .check .lead b{font-size:17px;}
+  .check .prob{font-size:16.5px;margin:0 0 16px;}
+  .answer{margin-top:16px;padding:16px 18px;border-radius:12px;background:var(--accent-soft);border:1px solid #bcd3ff;font-size:15.5px;display:none;}
+  .answer.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .answer .res{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:17px;}
+
+  /* 용어 정의 */
+  .define{display:flex;gap:14px;align-items:flex-start;background:#eef4ff;border:1px solid #cfe0ff;border-left:5px solid var(--accent);border-radius:12px;padding:15px 18px;margin:14px 0;box-shadow:var(--shadow);}
+  .define .term{flex:none;font-family:'Do Hyeon',sans-serif;font-size:14.5px;color:#fff;background:var(--accent);padding:5px 12px;border-radius:8px;white-space:nowrap;}
+  .define .ko{font-size:15.5px;margin:2px 0 0;}
+  .define .ko .en{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .define .ko b{color:var(--accent);}
+
+  /* 노션 링크 카드 */
+  .link-card{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#1e356b,#2f6bff);color:#fff;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);text-decoration:none;transition:.15s;}
+  .link-card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(47,107,255,.35);}
+  .link-card .lc-ic{flex:none;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;}
+  .link-card .lc-body{flex:1;}
+  .link-card .lc-body h3{margin:0 0 3px;font-size:19px;}
+  .link-card .lc-body p{margin:0;font-size:14px;color:#dbe6ff;}
+  .link-card .lc-go{font-family:'Do Hyeon',sans-serif;font-size:15px;background:rgba(255,255,255,.2);padding:9px 16px;border-radius:22px;white-space:nowrap;}
+
+  /* 시뮬 합력 대형표시 / 범례 */
+  .bigread{display:flex;gap:10px;margin-top:2px;}
+  .bigread .bi{flex:1;background:#141d31;border:1px solid #2c3e63;border-radius:10px;padding:9px 12px;text-align:center;}
+  .bigread .bi .bl{display:block;font-size:12px;color:#9fb2d8;margin-bottom:2px;}
+  .bigread .bi .bv{font-family:'Space Mono',monospace;font-size:22px;font-weight:700;color:#ff8ba0;}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12.5px;color:#9fb2d8;}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+
+  /* 핵심 정리 */
+  .summary{background:linear-gradient(180deg,#101a30,#16233f);color:#eaf1ff;border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);}
+  .summary h2{font-family:'Do Hyeon',sans-serif;font-weight:400;font-size:19px;margin:0 0 16px;color:#7aa6ff;}
+  .summary ul{margin:0;padding-left:0;list-style:none;}
+  .summary li{padding:8px 0 8px 30px;position:relative;font-size:15.5px;border-bottom:1px solid rgba(255,255,255,.08);}
+  .summary li:last-child{border-bottom:none;}
+  .summary li::before{content:"✓";position:absolute;left:2px;color:#7aa6ff;font-weight:700;}
+  .summary b{color:#fff;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:40px;}
+
+  @media (max-width:640px){
+    .cards{grid-template-columns:1fr;}
+    .netforce{grid-template-columns:1fr;}
+    .lesson-nav a{min-width:0;}
+    .ctrl{grid-template-columns:74px 1fr 50px;}
+  }
+
+  .eyebrow a.toc-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;}
+  .eyebrow a.toc-link:hover{border-color:currentColor;}
+  .foot-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:40px 0 0;padding-top:22px;border-top:1px solid var(--line);}
+  .foot-nav a{text-decoration:none;}
+  .fn-home{font-family:'Do Hyeon',sans-serif;font-size:14px;color:#fff;background:var(--accent);padding:10px 18px;border-radius:22px;}
+  .fn-home:hover{filter:brightness(1.08);}
+  .fn-side{display:flex;gap:8px;}
+  .fn-side a,.fn-side span{font-size:13.5px;padding:10px 15px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);}
+  .fn-side a:hover{border-color:var(--accent);color:var(--accent);}
+  .fn-side span.disabled{opacity:.4;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="eyebrow"><a class="toc-link" href="index.html">← 역학과 에너지 목차</a></div>
+    <h1 class="title">힘을 합치면 <span class="accent">알짜힘</span>이 보인다</h1>
+    <p class="subtitle">1차시 — 알짜힘(합력)과 뉴턴 운동 법칙</p>
+    <div class="standard">
+      <span class="tag">성취기준</span>
+      <p>물체에 작용하는 여러 가지 힘의 합력을 구하여 물체의 운동을 정량적으로 예측할 수 있다.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="lesson-nav">
+    <a href="#" class="current"><span class="num">1</span><span class="lbl">힘·알짜힘</span></a>
+    <a href="lesson2-motion-and-energy.html"><span class="num">2</span><span class="lbl">운동·E</span></a>
+    <a href="lesson3-free-fall.html"><span class="num">3</span><span class="lbl">자유낙하</span></a>
+    <a href="lesson4-projectile-motion.html"><span class="num">4</span><span class="lbl">포물선</span></a>
+    <a href="lesson5-projectile-energy.html"><span class="num">5</span><span class="lbl">포물선E</span></a>
+    <a href="lesson6-circular-motion.html"><span class="num">6</span><span class="lbl">원운동</span></a>
+    <a href="lesson7-kepler-and-gravity.html"><span class="num">7</span><span class="lbl">케플러</span></a>
+    <a href="lesson8-gravity-and-satellites.html"><span class="num">8</span><span class="lbl">인공위성</span></a>
+    <a href="lesson9-general-relativity.html"><span class="num">9</span><span class="lbl">상대성</span></a>
+  </nav>
+
+  <div class="goals">
+    <h2>오늘 이만큼 알게 됩니다</h2>
+    <ul>
+      <li>크기만 있는 양(스칼라)과, 크기와 방향이 함께 있는 양(벡터)을 구분할 수 있다.</li>
+      <li>같은 방향·반대 방향으로 작용하는 힘을 합쳐 <b>알짜힘(합력)</b>을 구할 수 있다.</li>
+      <li>관성 법칙과 F = m·a로 알짜힘과 물체의 운동을 연결지어 설명할 수 있다.</li>
+    </ul>
+  </div>
+
+  <!-- 생각 나누기 -->
+  <section id="think">
+    <div class="think">
+      <span class="badge">생각 나누기</span>
+      <p><span class="q">롤러코스터가 내려올 때는 점점 빨라집니다.</span> 이때 롤러코스터를 빨라지게 만드는 힘에는 무엇이 있을까요? 힘이 여러 개라면, 그 힘들은 어떻게 하나로 정리할 수 있을까요?</p>
+    </div>
+  </section>
+
+  <!-- 1. 스칼라 vs 벡터 -->
+  <section id="vector">
+    <div class="sec-head"><span class="sec-num">1</span><div><h2>스칼라와 벡터</h2><span class="eng">scalar &amp; vector</span></div></div>
+    <p class="body">물리에서 다루는 값(이것을 <b class="key">물리량</b>이라고 해요)은 크게 두 가지로 나뉩니다. 물리에서는 <span class="hl">용어의 정의</span>가 매우 중요하니, 두 낱말의 뜻을 정확히 익혀 둡시다.</p>
+
+    <div class="define">
+      <span class="term">스칼라</span>
+      <p class="ko"><span class="en">scalar</span> · <b>크기만으로 완전히 나타낼 수 있는 물리량.</b> 방향이 없어 숫자처럼 더하고 뺀다. <span style="color:var(--ink-soft)">예) 길이, 시간, 온도, 질량, 속력</span></p>
+    </div>
+    <div class="define">
+      <span class="term">벡터</span>
+      <p class="ko"><span class="en">vector</span> · <b>크기와 방향을 함께 가지는 물리량.</b> 화살표로 나타내며, 화살표의 길이는 크기를, 화살표의 방향은 그 물리량의 방향을 뜻한다. <span style="color:var(--ink-soft)">예) 위치, 변위, 속도, 가속도, 힘</span></p>
+    </div>
+
+    <figure class="figure">
+      <svg viewBox="0 0 480 140" role="img" aria-label="스칼라와 벡터 비교">
+        <text x="120" y="26" text-anchor="middle" font-size="14" fill="#4a5977" font-family="'Do Hyeon',sans-serif">스칼라 · 크기만</text>
+        <rect x="66" y="48" width="108" height="46" rx="10" fill="#eef1f6" stroke="#c4d1e8" stroke-width="2"/>
+        <text x="120" y="78" text-anchor="middle" font-size="20" font-weight="700" fill="#16223a" font-family="'Space Mono',monospace">5 kg</text>
+        <text x="120" y="120" text-anchor="middle" font-size="13" fill="#8593ad">숫자 하나로 끝</text>
+        <line x1="240" y1="26" x2="240" y2="120" stroke="#d5deec" stroke-width="2" stroke-dasharray="4 5"/>
+        <text x="360" y="26" text-anchor="middle" font-size="14" fill="#2f6bff" font-family="'Do Hyeon',sans-serif">벡터 · 크기 + 방향</text>
+        <rect x="298" y="53" width="40" height="36" rx="7" fill="#e7efff" stroke="#2f6bff" stroke-width="2"/>
+        <line x1="338" y1="71" x2="442" y2="71" stroke="#f43f5e" stroke-width="5"/>
+        <polygon points="442,71 428,63 428,79" fill="#f43f5e"/>
+        <text x="392" y="60" text-anchor="middle" font-size="14" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">5 N</text>
+        <text x="368" y="120" text-anchor="middle" font-size="13" fill="#8593ad">방향(→)까지 있어야 완성</text>
+      </svg>
+      <figcaption>벡터는 <b>화살표</b>로 그린다 — 길이는 크기, 화살표 방향은 힘의 방향</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2. 알짜힘(합력) -->
+  <section id="netforce">
+    <div class="sec-head"><span class="sec-num">2</span><div><h2>여러 힘을 하나로 — 알짜힘(합력)</h2><span class="eng">net force</span></div></div>
+    <p class="body">여러 힘이 동시에 작용해도, 물체가 느끼는 건 결국 <span class="hl">그 힘들을 합친 하나의 힘</span>이에요. 알짜힘의 방향이 곧 물체가 움직이려는 방향입니다.</p>
+
+    <div class="define">
+      <span class="term">알짜힘(합력)</span>
+      <p class="ko"><span class="en">net force</span> · <b>물체에 작용하는 모든 힘을 합한 하나의 힘.</b> 물체가 실제로 어떻게 움직일지는 이 알짜힘이 결정한다. <span style="color:var(--ink-soft)">‘합력’이라고도 한다.</span></p>
+    </div>
+
+    <div class="netforce">
+      <div class="nf"><div class="big">+</div><div class="cap">같은 방향이면<br><b>더한다</b></div></div>
+      <div class="nf"><div class="big">−</div><div class="cap">반대 방향이면<br><b>뺀다</b></div></div>
+      <div class="nf"><div class="big">⟋</div><div class="cap">비스듬하면<br><b>합성</b>한다</div></div>
+    </div>
+
+    <div class="fdiag">
+      <svg viewBox="0 0 480 120" role="img" aria-label="같은 방향 두 힘의 합력">
+        <rect x="34" y="40" width="44" height="44" rx="7" fill="#eef2fa" stroke="#c4d1e8" stroke-width="2"/><text x="56" y="70" text-anchor="middle" font-size="16" fill="#4a5977">A</text>
+        <line x1="78" y1="54" x2="196" y2="54" stroke="#f43f5e" stroke-width="4"/><polygon points="196,54 184,48 184,60" fill="#f43f5e"/><text x="134" y="45" text-anchor="middle" font-size="14" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">3 N</text>
+        <line x1="78" y1="76" x2="158" y2="76" stroke="#f43f5e" stroke-width="4"/><polygon points="158,76 146,70 146,82" fill="#f43f5e"/><text x="114" y="98" text-anchor="middle" font-size="14" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">2 N</text>
+        <text x="224" y="72" text-anchor="middle" font-size="26" fill="#4a5977">=</text>
+        <rect x="250" y="40" width="44" height="44" rx="7" fill="#eef2fa" stroke="#c4d1e8" stroke-width="2"/><text x="272" y="70" text-anchor="middle" font-size="16" fill="#4a5977">A</text>
+        <line x1="294" y1="62" x2="456" y2="62" stroke="#f43f5e" stroke-width="6"/><polygon points="456,62 440,53 440,71" fill="#f43f5e"/><text x="380" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">5 N</text>
+      </svg>
+      <div class="cap"><b>같은 방향</b>이면 크기를 더한다 · 3 N + 2 N = <b style="color:var(--vector)">5 N</b></div>
+    </div>
+
+    <div class="fdiag">
+      <svg viewBox="0 0 520 120" role="img" aria-label="반대 방향 두 힘의 합력">
+        <rect x="150" y="40" width="44" height="44" rx="7" fill="#eef2fa" stroke="#c4d1e8" stroke-width="2"/><text x="172" y="70" text-anchor="middle" font-size="16" fill="#4a5977">A</text>
+        <line x1="150" y1="62" x2="62" y2="62" stroke="#f43f5e" stroke-width="4"/><polygon points="62,62 74,56 74,68" fill="#f43f5e"/><text x="102" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">2 N</text>
+        <line x1="194" y1="62" x2="330" y2="62" stroke="#f43f5e" stroke-width="4"/><polygon points="330,62 318,56 318,68" fill="#f43f5e"/><text x="256" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">5 N</text>
+        <text x="360" y="72" text-anchor="middle" font-size="26" fill="#4a5977">=</text>
+        <rect x="386" y="40" width="44" height="44" rx="7" fill="#eef2fa" stroke="#c4d1e8" stroke-width="2"/><text x="408" y="70" text-anchor="middle" font-size="16" fill="#4a5977">A</text>
+        <line x1="430" y1="62" x2="512" y2="62" stroke="#f43f5e" stroke-width="6"/><polygon points="512,62 496,53 496,71" fill="#f43f5e"/><text x="472" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">3 N</text>
+      </svg>
+      <div class="cap"><b>반대 방향</b>이면 큰 힘에서 작은 힘을 뺀다 · 5 N − 2 N = <b style="color:var(--vector)">3 N</b> (오른쪽) → 오른쪽으로 점점 빨라진다</div>
+    </div>
+
+    <!-- 시뮬레이션 1 -->
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 알짜힘(합력) 실험실</div>
+        <canvas id="sim1" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#3b82f6"></i>힘 F₁</span>
+          <span><i style="background:#22c55e"></i>힘 F₂</span>
+          <span><i style="background:#f43f5e"></i>합력(알짜힘)</span>
+          <span><i style="background:#9fb2d8"></i>평행사변형(점선)</span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>F₁ 크기</label><input id="s1_m1" type="range" min="0" max="10" step="0.5" value="4"><span class="val" id="s1_vm1">4 N</span></div>
+          <div class="ctrl"><label>F₁ 방향</label><input id="s1_a1" type="range" min="0" max="360" step="5" value="0"><span class="val" id="s1_va1">0°</span></div>
+          <div class="ctrl"><label>F₂ 크기</label><input id="s1_m2" type="range" min="0" max="10" step="0.5" value="3"><span class="val" id="s1_vm2">3 N</span></div>
+          <div class="ctrl"><label>F₂ 방향</label><input id="s1_a2" type="range" min="0" max="360" step="5" value="90"><span class="val" id="s1_va2">90°</span></div>
+          <div class="bigread">
+            <div class="bi"><span class="bl">합력의 크기</span><span class="bv" id="s1_mag">5.0 N</span></div>
+            <div class="bi"><span class="bl">합력의 방향</span><span class="bv" id="s1_ang">37°</span></div>
+          </div>
+          <div class="presets">
+            <button class="pbtn" data-p="same">같은 방향</button>
+            <button class="pbtn" data-p="opp">반대 방향</button>
+            <button class="pbtn" data-p="perp">직각 (3·4·5)</button>
+          </div>
+          <div class="verdict" id="s1_verdict">→ 물체는 <b>빨간 화살표</b> 방향으로 가속된다</div>
+        </div>
+      </div>
+    </div>
+    <p class="body" style="font-size:14.5px;color:var(--ink-soft);margin-top:10px;">파란·초록 화살표가 두 힘, <b style="color:var(--vector)">빨간 화살표</b>가 합력입니다. <b>같은·반대 방향</b>이면 두 힘을 위아래로 나란히 놓아 길이를 비교하고, <b>비스듬</b>하면 점선 평행사변형의 대각선이 합력이 됩니다.</p>
+  </section>
+
+  <!-- 3. 비스듬한 힘과 빗면 -->
+  <section id="compose">
+    <div class="sec-head"><span class="sec-num">3</span><div><h2>비스듬한 힘, 그리고 빗면</h2><span class="eng">composition on a slope</span></div></div>
+    <p class="body">힘이 나란하지 않고 비스듬하면, 두 힘을 <b class="key">합성</b>하거나 한 힘을 두 방향으로 <b class="key">분해</b>해서 다룹니다.</p>
+
+    <div class="define"><span class="term">합성</span><p class="ko"><span class="en">composition</span> · <b>두 개 이상의 벡터를 합쳐 하나의 벡터로 나타내는 것.</b> 비스듬한 두 힘은 평행사변형의 대각선이 합력이 된다.</p></div>
+    <div class="define"><span class="term">분해</span><p class="ko"><span class="en">decomposition</span> · <b>하나의 벡터를 서로 다른 두 방향의 성분으로 나누는 것.</b> 보통 가로(x)·세로(y) 두 방향으로 나눈다.</p></div>
+
+    <figure class="figure">
+      <svg viewBox="0 0 470 250" role="img" aria-label="힘 A를 Ax와 Ay로 분해하는 과정">
+        <line x1="60" y1="195" x2="440" y2="195" stroke="#c4d1e8" stroke-width="2"/><polygon points="440,195 430,190 430,200" fill="#c4d1e8"/>
+        <line x1="95" y1="215" x2="95" y2="35" stroke="#c4d1e8" stroke-width="2"/><polygon points="95,35 90,45 100,45" fill="#c4d1e8"/>
+        <text x="446" y="200" font-size="13" fill="#8593ad" font-family="'Space Mono',monospace">x</text>
+        <text x="86" y="33" font-size="13" fill="#8593ad" font-family="'Space Mono',monospace">y</text>
+        <line x1="345" y1="80" x2="345" y2="195" stroke="#9fb2d8" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <line x1="345" y1="80" x2="95" y2="80" stroke="#9fb2d8" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <line x1="95" y1="195" x2="345" y2="195" stroke="#f59e0b" stroke-width="5"/><polygon points="345,195 333,189 333,201" fill="#f59e0b"/>
+        <text x="220" y="215" text-anchor="middle" font-size="13" font-weight="700" fill="#d98708" font-family="'Space Mono',monospace">Aₓ = A cos θ</text>
+        <line x1="95" y1="195" x2="95" y2="80" stroke="#22a06b" stroke-width="5"/><polygon points="95,80 89,92 101,92" fill="#22a06b"/>
+        <text transform="translate(50,150) rotate(-90)" text-anchor="middle" font-size="13" font-weight="700" fill="#1c8b5c" font-family="'Space Mono',monospace">A_y = A sin θ</text>
+        <line x1="95" y1="195" x2="345" y2="80" stroke="#f43f5e" stroke-width="5"/><polygon points="345,80 331,84 337,95" fill="#f43f5e"/>
+        <text x="212" y="127" font-size="17" font-weight="700" fill="#f43f5e" font-family="'Space Mono',monospace">A</text>
+        <path d="M 135 195 A 40 40 0 0 0 131 178" fill="none" stroke="#7aa6ff" stroke-width="2"/>
+        <text x="150" y="184" font-size="13" fill="#7aa6ff" font-family="'Space Mono',monospace">θ</text>
+        <polyline points="105,195 105,185 95,185" fill="none" stroke="#8593ad" stroke-width="1.5"/>
+      </svg>
+      <figcaption>비스듬한 힘 <b style="color:#f43f5e">A</b>를, 바닥에 드리운 그림자(<b style="color:#d98708">Aₓ</b>)와 벽에 드리운 그림자(<b style="color:#1c8b5c">A_y</b>)로 나눈다</figcaption>
+    </figure>
+    <div class="formula">A<sub>x</sub> = A·cos θ &nbsp;&nbsp;&nbsp; A<sub>y</sub> = A·sin θ<small>비스듬한 힘 A를 가로(x)·세로(y) 성분으로 나눈 크기</small></div>
+    <p class="body">빗면 위 물체가 좋은 예입니다. 중력을 <span class="hl">빗면 방향</span>과 <span class="hl">수직 방향</span>으로 나누면, 수직 성분(mg·cos θ)은 수직항력과 상쇄돼요. 그래서 빗면을 미끄러지게 하는 알짜힘은 <b class="key">mg·sin θ − 마찰력</b> 만 남습니다.</p>
+
+    <!-- 시뮬레이션 2 -->
+    <div class="sim-shell">
+      <div class="sim-body">
+        <div class="sim-title"><span class="live">LIVE</span> 빗면 미끄럼 실험실 <span style="font-size:12px;color:#6f83ad;">· 무게 10 N (질량 1 kg, g = 10)</span></div>
+        <canvas id="sim2" class="stage"></canvas>
+        <div class="legend">
+          <span><i style="background:#9fb2d8"></i>중력 mg</span>
+          <span><i style="background:#f59e0b"></i>빗면 방향 mg·sinθ</span>
+          <span><i style="background:#3b82f6"></i>수직항력 N</span>
+          <span><i style="background:#a78bfa"></i>마찰력 f</span>
+          <span><i style="background:#f43f5e"></i>알짜힘</span>
+        </div>
+        <div class="controls">
+          <div class="ctrl"><label>경사각 θ</label><input id="s2_th" type="range" min="0" max="60" step="1" value="30"><span class="val" id="s2_vth">30°</span></div>
+          <div class="ctrl"><label>마찰력 f</label><input id="s2_f" type="range" min="0" max="10" step="0.5" value="0"><span class="val" id="s2_vf">0 N</span></div>
+          <div class="readouts">
+            <span class="chip">mg·sinθ <b id="s2_par">5.0 N</b></span>
+            <span class="chip">수직항력 N <b id="s2_perp">8.7 N</b></span>
+            <span class="chip hot">알짜힘 <b id="s2_net">5.0 N</b></span>
+            <span class="chip">가속도 <b id="s2_a">5.0</b> m/s²</span>
+          </div>
+          <div class="presets">
+            <button class="pbtn play" id="s2_roll">굴려보기 ▶</button>
+            <button class="pbtn" id="s2_check">확인문제 (30°, 마찰 0)</button>
+          </div>
+          <div class="verdict" id="s2_verdict">알짜힘이 빗면 아래로 작용 → 점점 빨라지며 미끄러진다 (등가속도)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 뉴턴 운동 법칙 -->
+  <section id="newton">
+    <div class="sec-head"><span class="sec-num">4</span><div><h2>알짜힘과 운동 — 뉴턴 운동 법칙</h2><span class="eng">Newton's laws of motion</span></div></div>
+    <p class="body">앞에서 배운 <b class="key">빗면</b>을 떠올려 봅시다. 빗면 위 물체의 알짜힘은 <b>mg·sinθ − 마찰력</b> 이었죠. 이 알짜힘이 <b>0이냐 아니냐</b>가 물체의 운동을 결정합니다.</p>
+    <div class="cards">
+      <div class="card"><h3><span class="ic" style="background:var(--accent-soft);color:var(--accent);">1</span>관성 법칙 (제1법칙)</h3><p><b>알짜힘이 0이면 물체는 원래의 운동 상태를 그대로 유지한다.</b></p><div class="ex">빗면에서 마찰력이 커서 알짜힘이 0이면 → <b>정지</b>해 있거나 <b>등속</b>으로 내려온다</div></div>
+      <div class="card"><h3><span class="ic" style="background:var(--accent-soft);color:var(--accent);">2</span>가속도 법칙 (제2법칙)</h3><p><b>알짜힘이 있으면 물체는 그 방향으로 가속된다. (a = 알짜힘 ÷ 질량)</b></p><div class="ex">빗면이 급할수록 mg·sinθ↑ → 알짜힘↑ → <b>가속도↑</b></div></div>
+    </div>
+
+    <figure class="figure">
+      <svg viewBox="0 0 470 210" role="img" aria-label="경사가 급할수록 알짜힘과 가속도가 커진다">
+        <text x="235" y="18" text-anchor="middle" font-size="13" fill="#4a5977" font-family="'Do Hyeon',sans-serif">경사가 급할수록 mg·sinθ(알짜힘)이 커져 가속도도 커진다</text>
+        <polygon points="25,172 205,120 205,172" fill="#eef2fa" stroke="#c4d1e8" stroke-width="2"/>
+        <g transform="rotate(-16 120 137)"><rect x="108" y="125" width="24" height="24" rx="4" fill="#dbe6fb" stroke="#8fb3ff" stroke-width="2"/></g>
+        <line x1="119" y1="139" x2="92" y2="147" stroke="#f43f5e" stroke-width="5"/><polygon points="92,147 104,146 102,154" fill="#f43f5e"/>
+        <text x="115" y="196" text-anchor="middle" font-size="13" fill="#4a5977">완만한 빗면 · <tspan fill="#f43f5e" font-weight="700">a 작다</tspan></text>
+        <polygon points="255,172 425,72 425,172" fill="#eef2fa" stroke="#c4d1e8" stroke-width="2"/>
+        <g transform="rotate(-30 345 117)"><rect x="333" y="105" width="24" height="24" rx="4" fill="#dbe6fb" stroke="#8fb3ff" stroke-width="2"/></g>
+        <line x1="346" y1="120" x2="298" y2="147" stroke="#f43f5e" stroke-width="6"/><polygon points="298,147 311,146 307,155" fill="#f43f5e"/>
+        <text x="345" y="196" text-anchor="middle" font-size="13" fill="#4a5977">급한 빗면 · <tspan fill="#f43f5e" font-weight="700">a 크다</tspan></text>
+      </svg>
+      <figcaption>같은 물체라도 경사가 급하면 <b style="color:#f43f5e">알짜힘</b>이 커져 더 빨리 가속된다 — 이것이 a = F / m</figcaption>
+    </figure>
+
+    <div class="formula">a = F / m<small>F = 빗면 알짜힘 = mg·sinθ − 마찰력 &nbsp;|&nbsp; 자유 낙하에서 다시 자세히 (3차시)</small></div>
+  </section>
+
+  <!-- 교과서 확인 -->
+  <section id="check">
+    <div class="check">
+      <div class="lead"><span class="tag">확인</span><b>교과서 확인 문제</b></div>
+      <p class="prob">무게가 <b>10 N</b>인 물체를 경사각 <b>30°</b>인, 마찰이 없는 빗면에 놓았습니다. 이 물체에 작용하는 <b>알짜힘의 크기</b>는 몇 N일까요? <span style="color:var(--ink-soft);font-size:14px;">(위 빗면 시뮬레이션의 "확인문제" 버튼으로 확인해 보세요.)</span></p>
+      <button class="btn" onclick="toggleAnswer('ans')">정답 확인</button>
+      <div class="answer" id="ans">마찰이 없으므로 알짜힘 = 빗면 방향 중력 성분 = mg·sin θ.<br><span class="res">10 N × sin 30° = 10 × 0.5 = 5 N</span><br>→ 물체는 빗면을 따라 아래로 미끄러지며 점점 빨라진다(등가속도 운동).</div>
+    </div>
+  </section>
+
+  <!-- 형성평가 (노션 연결) -->
+  <section id="quiz">
+    <div class="sec-head"><span class="sec-num" style="background:var(--good);">✎</span><div><h2>형성평가</h2><span class="eng">check your understanding</span></div></div>
+    <p class="body">개념 정리용 <b>OX 퀴즈 10문항</b>과 <b>모의고사 2문항</b>으로 스스로 확인해 보세요.</p>
+    <a class="link-card" href="lesson1-quiz.html">
+      <span class="lc-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <div class="lc-body"><h3>형성평가 풀러 가기</h3><p>OX 10문항 · 모의고사 2문항 · 바로 풀기</p></div>
+      <span class="lc-go">열기 →</span>
+    </a>
+  </section>
+
+  <!-- 핵심 정리 -->
+  <section id="summary">
+    <div class="summary">
+      <h2>이것만은 꼭!</h2>
+      <ul>
+        <li><b>벡터</b>는 크기와 방향을 함께 가진 값(속도·가속도·힘)이고, <b>화살표</b>로 나타낸다.</li>
+        <li><b>알짜힘(합력)</b> — 같은 방향이면 더하고, 반대 방향이면 뺀다.</li>
+        <li><b>관성 법칙</b>: 알짜힘이 0이면 정지는 계속 정지, 운동은 등속도 운동(빗면에서 마찰이 mg·sinθ와 같을 때).</li>
+        <li>알짜힘이 있으면 가속한다. <b>a = F / m</b> (F = 빗면 알짜힘 = mg·sinθ − 마찰력). 경사가 급할수록 가속도가 커진다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <nav class="foot-nav">
+    <a class="fn-home" href="index.html">☰ 역학과 에너지 목차</a>
+    <div class="fn-side"><span class="disabled">← 이전</span><a href="lesson2-motion-and-energy.html">2차시 →</a></div>
+  </nav>
+
+  <footer>역학과 에너지 · 물체의 운동 · 1차시 &nbsp;|&nbsp; 수업용 학습자료</footer>
+
+</div>
+
+<script>
+  function toggleAnswer(id){ document.getElementById(id).classList.toggle('show'); }
+
+  /* 공용 그리기 도우미 */
+  function drawArrow(ctx,x0,y0,x1,y1,color,w,label){
+    var ang=Math.atan2(y1-y0,x1-x0), len=Math.hypot(x1-x0,y1-y0);
+    ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=w; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    if(len>3){
+      var hl=9+w;
+      ctx.beginPath(); ctx.moveTo(x1,y1);
+      ctx.lineTo(x1-hl*Math.cos(ang-0.42), y1-hl*Math.sin(ang-0.42));
+      ctx.lineTo(x1-hl*Math.cos(ang+0.42), y1-hl*Math.sin(ang+0.42));
+      ctx.closePath(); ctx.fill();
+    }
+    if(label){
+      ctx.font="700 13px 'Space Mono', monospace";
+      var lx=x1+16*Math.cos(ang), ly=y1+16*Math.sin(ang);
+      ctx.textAlign=Math.cos(ang)>=-0.1?'left':'right'; ctx.textBaseline='middle';
+      ctx.lineWidth=3.5; ctx.strokeStyle='rgba(8,12,22,.92)'; ctx.lineJoin='round';
+      ctx.strokeText(label,lx,ly-4);
+      ctx.fillStyle=color; ctx.fillText(label,lx,ly-4);
+      ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    }
+  }
+
+  /* ===== 시뮬레이션 1 : 힘 합치기 ===== */
+  (function(){
+    var cv=document.getElementById('sim1'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var m1=document.getElementById('s1_m1'), a1=document.getElementById('s1_a1'),
+        m2=document.getElementById('s1_m2'), a2=document.getElementById('s1_a2');
+    var vm1=document.getElementById('s1_vm1'), va1=document.getElementById('s1_va1'),
+        vm2=document.getElementById('s1_vm2'), va2=document.getElementById('s1_va2');
+    var outMag=document.getElementById('s1_mag'), outAng=document.getElementById('s1_ang'),
+        verdict=document.getElementById('s1_verdict');
+
+    function draw(){
+      var dpr=window.devicePixelRatio||1;
+      var W=cv.clientWidth||600, H=Math.round(W*0.52);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.clearRect(0,0,W,H);
+      var M1=+m1.value, A1=+a1.value, M2=+m2.value, A2=+a2.value;
+      vm1.textContent=M1.toFixed(1)+' N'; va1.textContent=A1+'°';
+      vm2.textContent=M2.toFixed(1)+' N'; va2.textContent=A2+'°';
+      var r1={x:M1*Math.cos(A1*Math.PI/180), y:M1*Math.sin(A1*Math.PI/180)};
+      var r2={x:M2*Math.cos(A2*Math.PI/180), y:M2*Math.sin(A2*Math.PI/180)};
+      var R={x:r1.x+r2.x, y:r1.y+r2.y}, Rmag=Math.hypot(R.x,R.y);
+      // 원점 기준 네 점을 화면에 꽉 차게(자동 스케일 + 중앙정렬)
+      var xs=[0,r1.x,r2.x,R.x], ys=[0,r1.y,r2.y,R.y];
+      var minX=Math.min.apply(null,xs), maxX=Math.max.apply(null,xs);
+      var minY=Math.min.apply(null,ys), maxY=Math.max.apply(null,ys);
+      var bw=Math.max(maxX-minX,1.2), bh=Math.max(maxY-minY,1.2);
+      var sc=Math.min((W*0.74)/bw,(H*0.56)/bh); if(sc>30) sc=30;
+      var ox=W/2-((minX+maxX)/2)*sc, oy=H/2+((minY+maxY)/2)*sc;
+      function P(vx,vy){return {x:ox+vx*sc, y:oy-vy*sc};}
+      var O=P(0,0), p1=P(r1.x,r1.y), p2=P(r2.x,r2.y), pR=P(R.x,R.y);
+      // 배경 축
+      ctx.strokeStyle='rgba(120,140,180,.16)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(0,O.y); ctx.lineTo(W,O.y); ctx.moveTo(O.x,0); ctx.lineTo(O.x,H); ctx.stroke();
+      // 두 힘이 일직선인가?
+      var da=(((A2-A1)%180)+180)%180, collinear=(da<3||da>177);
+      if(collinear){
+        // 겹치지 않도록 F1·F2를 위/아래 나란한 레인으로
+        var uref=(Rmag>0.05)?{x:pR.x-O.x,y:pR.y-O.y}:{x:1,y:0};
+        var ul=Math.hypot(uref.x,uref.y)||1, perp={x:-uref.y/ul,y:uref.x/ul}, d=16;
+        if(M1>0.02) drawArrow(ctx,O.x+perp.x*d,O.y+perp.y*d,p1.x+perp.x*d,p1.y+perp.y*d,'#3b82f6',4,'F₁ '+M1.toFixed(1)+'N');
+        if(M2>0.02) drawArrow(ctx,O.x-perp.x*d,O.y-perp.y*d,p2.x-perp.x*d,p2.y-perp.y*d,'#22c55e',4,'F₂ '+M2.toFixed(1)+'N');
+      } else {
+        // 비스듬 → 평행사변형(점선)
+        ctx.setLineDash([6,6]); ctx.strokeStyle='rgba(159,178,216,.5)'; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.lineTo(pR.x,pR.y); ctx.moveTo(p2.x,p2.y); ctx.lineTo(pR.x,pR.y); ctx.stroke();
+        ctx.setLineDash([]);
+        if(M1>0.02) drawArrow(ctx,O.x,O.y,p1.x,p1.y,'#3b82f6',4,'F₁ '+M1.toFixed(1)+'N');
+        if(M2>0.02) drawArrow(ctx,O.x,O.y,p2.x,p2.y,'#22c55e',4,'F₂ '+M2.toFixed(1)+'N');
+      }
+      // 합력(각도 호 + 글로우 + 굵게)
+      if(Rmag>0.02){
+        var Rrad=Math.atan2(R.y,R.x);
+        ctx.strokeStyle='rgba(255,139,160,.85)'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.arc(O.x,O.y,28,0,-Rrad,Rrad>0); ctx.stroke();
+        ctx.save(); ctx.shadowColor='rgba(244,63,94,.6)'; ctx.shadowBlur=10;
+        drawArrow(ctx,O.x,O.y,pR.x,pR.y,'#f43f5e',7,'합력 '+Rmag.toFixed(1)+' N');
+        ctx.restore();
+      }
+      // 물체
+      ctx.fillStyle='#1b2941'; ctx.strokeStyle='#8fb3ff'; ctx.lineWidth=2;
+      ctx.fillRect(O.x-13,O.y-13,26,26); ctx.strokeRect(O.x-13,O.y-13,26,26);
+      var Rang=Math.atan2(R.y,R.x)*180/Math.PI; if(Rang<0) Rang+=360;
+      outMag.textContent=Rmag.toFixed(1)+' N';
+      outAng.textContent=Rmag<0.05?'—':Math.round(Rang)+'°';
+      verdict.innerHTML=Rmag<0.05
+        ? '두 힘이 상쇄되어 <b>알짜힘 ≈ 0</b> → 정지하거나 등속으로 움직인다 (관성)'
+        : '합력의 크기는 <b>'+Rmag.toFixed(1)+' N</b>, 이 방향으로 물체가 가속된다';
+    }
+    [m1,a1,m2,a2].forEach(function(el){el.addEventListener('input',draw);});
+    document.querySelectorAll('.pbtn[data-p]').forEach(function(b){
+      b.addEventListener('click',function(){
+        var p=b.getAttribute('data-p');
+        if(p==='same'){ m1.value=3; a1.value=0; m2.value=2; a2.value=0; }
+        if(p==='opp'){ m1.value=5; a1.value=0; m2.value=2; a2.value=180; }
+        if(p==='perp'){ m1.value=4; a1.value=0; m2.value=3; a2.value=90; }
+        draw();
+      });
+    });
+    window.addEventListener('resize',draw);
+    setTimeout(draw,50); draw();
+  })();
+
+  /* ===== 시뮬레이션 2 : 빗면 미끄럼 ===== */
+  (function(){
+    var cv=document.getElementById('sim2'); if(!cv) return;
+    var ctx=cv.getContext('2d');
+    var th=document.getElementById('s2_th'), f=document.getElementById('s2_f');
+    var vth=document.getElementById('s2_vth'), vf=document.getElementById('s2_vf');
+    var parEl=document.getElementById('s2_par'), perpEl=document.getElementById('s2_perp'),
+        netEl=document.getElementById('s2_net'), aEl=document.getElementById('s2_a'),
+        verdict=document.getElementById('s2_verdict');
+    var rollBtn=document.getElementById('s2_roll'), checkBtn=document.getElementById('s2_check');
+    var st={s:0,v:0,rolling:false,maxS:200}, lastT=0;
+    var Wt=10, g=10, m=Wt/g;
+
+    function reset(){ st.s=0; st.v=0; st.rolling=false; rollBtn.classList.add('play'); rollBtn.textContent='굴려보기 ▶'; }
+
+    function draw(){
+      var dpr=window.devicePixelRatio||1;
+      var W=cv.clientWidth||600, H=Math.round(W*0.64);
+      cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.clearRect(0,0,W,H);
+      var thR=(+th.value)*Math.PI/180, F=+f.value;
+      vth.textContent=(+th.value)+'°'; vf.textContent=F.toFixed(1)+' N';
+      var par=Wt*Math.sin(thR), perp=Wt*Math.cos(thR);
+      var net=Math.max(0,par-F), a=net/m;
+
+      var baseY=H*0.84, leftX=W*0.14;
+      var up={x:Math.cos(thR),y:-Math.sin(thR)}, down={x:-up.x,y:-up.y};
+      var maxLx=(baseY-H*0.14)/Math.max(Math.sin(thR),0.06);
+      var Lx=Math.min(W*0.66, maxLx);
+      var P0={x:leftX,y:baseY}, P1={x:P0.x+Lx*up.x,y:P0.y+Lx*up.y}, P2={x:P1.x,y:baseY};
+
+      // 바닥
+      ctx.strokeStyle='#26375a'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(W*0.05,baseY); ctx.lineTo(W*0.95,baseY); ctx.stroke();
+      // 빗면 삼각형
+      ctx.fillStyle='#141d31'; ctx.strokeStyle='#2c3e63'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(P0.x,P0.y); ctx.lineTo(P1.x,P1.y); ctx.lineTo(P2.x,P2.y); ctx.closePath(); ctx.fill(); ctx.stroke();
+      // 각도 호
+      ctx.strokeStyle='#7aa6ff'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(P0.x,P0.y,32,-thR,0); ctx.stroke();
+      ctx.fillStyle='#7aa6ff'; ctx.font="12px 'Space Mono',monospace";
+      ctx.fillText((+th.value)+'°', P0.x+38, P0.y-9);
+
+      // 박스 위치 (슬로프 위)
+      st.maxS=Lx*0.66;
+      var start=Lx*0.16;
+      var contact={x:P1.x+down.x*(start+st.s), y:P1.y+down.y*(start+st.s)};
+      var nrm={x:-Math.sin(thR),y:-Math.cos(thR)};        // 바깥 법선
+      var BC={x:contact.x+nrm.x*20, y:contact.y+nrm.y*20}; // 박스 중심
+      // 박스
+      ctx.save(); ctx.translate(BC.x,BC.y); ctx.rotate(-thR);
+      ctx.fillStyle='#1b2941'; ctx.strokeStyle='#8fb3ff'; ctx.lineWidth=2;
+      ctx.fillRect(-16,-16,32,32); ctx.strokeRect(-16,-16,32,32);
+      ctx.fillStyle='#dfe8fb'; ctx.font="11px Pretendard, sans-serif"; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('물체',0,0); ctx.restore(); ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+
+      // 힘 화살표 (알짜힘은 아래 평행 레인으로 분리 → 주황과 겹치지 않음)
+      var sc=6.5;
+      var netO={x:BC.x-nrm.x*24, y:BC.y-nrm.y*24};
+      drawArrow(ctx,BC.x,BC.y,BC.x,BC.y+Wt*sc,'#9fb2d8',4,'mg');
+      drawArrow(ctx,BC.x,BC.y,BC.x+nrm.x*perp*sc,BC.y+nrm.y*perp*sc,'#3b82f6',5,'수직항력 N');
+      drawArrow(ctx,BC.x,BC.y,BC.x+down.x*par*sc,BC.y+down.y*par*sc,'#f59e0b',5,'mg·sinθ');
+      if(F>0.02) drawArrow(ctx,BC.x,BC.y,BC.x+up.x*F*sc,BC.y+up.y*F*sc,'#a78bfa',4,'마찰력 f');
+      if(net>0.02){
+        ctx.save(); ctx.shadowColor='rgba(244,63,94,.6)'; ctx.shadowBlur=9;
+        drawArrow(ctx,netO.x,netO.y,netO.x+down.x*net*sc,netO.y+down.y*net*sc,'#f43f5e',7,'알짜힘 '+net.toFixed(1)+'N');
+        ctx.restore();
+      }
+
+      // 읽기값
+      parEl.textContent=par.toFixed(1)+' N'; perpEl.textContent=perp.toFixed(1)+' N';
+      netEl.textContent=net.toFixed(1)+' N'; aEl.textContent=a.toFixed(1);
+      verdict.innerHTML = net>0.02
+        ? '알짜힘이 빗면 아래로 작용 → <b>점점 빨라지며</b> 미끄러진다 (등가속도)'
+        : (par>0.02 ? '마찰력이 커서 알짜힘 0 → <b>정지</b>하거나 등속으로 내려온다'
+                    : '경사가 없어 미끄러지지 않는다');
+    }
+
+    function loop(t){
+      if(st.rolling){
+        var dt=Math.min(0.03,(t-lastT)/1000)||0.016;
+        var thR=(+th.value)*Math.PI/180, F=+f.value;
+        var net=Math.max(0,Wt*Math.sin(thR)-F), a=net/m;
+        st.v+=a*26*dt; st.s+=st.v*dt;
+        if(st.s>=st.maxS){ st.s=st.maxS; st.rolling=false; rollBtn.classList.add('play'); rollBtn.textContent='다시 ⟳'; }
+        if(a<=0){ st.rolling=false; rollBtn.classList.add('play'); rollBtn.textContent='굴려보기 ▶'; }
+      }
+      lastT=t; draw(); requestAnimationFrame(loop);
+    }
+
+    [th,f].forEach(function(el){ el.addEventListener('input',function(){ reset(); }); });
+    rollBtn.addEventListener('click',function(){ st.s=0; st.v=0; st.rolling=true; rollBtn.classList.remove('play'); rollBtn.textContent='구르는 중…'; });
+    checkBtn.addEventListener('click',function(){ th.value=30; f.value=0; reset(); });
+    window.addEventListener('resize',draw);
+    setTimeout(draw,50); requestAnimationFrame(loop);
+  })();
+</script>
+</body>
+</html>
