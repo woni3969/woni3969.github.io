@@ -380,21 +380,6 @@
     var c4x=document.getElementById('c4a_x'), c4y=document.getElementById('c4a_y'), c4vy=document.getElementById('c4a_vy');
     var g=10, Hm=40, STROBE=0.28;
 
-    var _COS={15:null,30:'√3/2',45:'√2/2',60:'1/2',75:null},
-        _SIN={15:null,30:'1/2',45:'√2/2',60:'√3/2',75:null},
-        _S2={15:'1/2',30:'√3/2',45:'1',60:'√3/2',75:'1/2'},
-        _SINSQ={15:null,30:'1/4',45:'1/2',60:'3/4',75:null},
-        _COSSQ={15:null,30:'3/4',45:'1/2',60:'1/4',75:null};
-    function _eq(v){ return (Math.abs(v-Math.round(v))<1e-9)?('= '+Math.round(v)):('≈ '+v.toFixed(1)); }
-    function compLine(v0,th,which){
-      var isc=(which==='cos'), r=isc?_COS[th]:_SIN[th];
-      var trig=isc?Math.cos(th*Math.PI/180):Math.sin(th*Math.PI/180);
-      var val=v0*trig;
-      var head=v0+' × '+(r?('('+r+')'):trig.toFixed(3));
-      var res=(r?_eq(val):('≈ '+val.toFixed(1)))+' m/s';
-      return head+' <span class="r">'+res+'</span>';
-    }
-    function syncAng(){ document.querySelectorAll('.angb').forEach(function(b){ b.classList.toggle('on', (+b.getAttribute('data-th'))===st.th); }); }
     var st={v0:15, t:0, running:false, done:false}, lastT=0;
     function tFall(){ return Math.sqrt(2*Hm/g); }
     function reset(){ st.t=0; st.running=false; st.done=false; goB.classList.add('play'); goB.textContent='던지기 ▶'; vv0.textContent=st.v0+' m/s'; vxEl.textContent=st.v0; }
@@ -459,6 +444,22 @@
         HEl=document.getElementById('s4b_H'), REl=document.getElementById('s4b_R'), verdict=document.getElementById('s4b_verdict');
     var c4vx=document.getElementById('c4b_vx'), c4vy=document.getElementById('c4b_vy'), c4H=document.getElementById('c4b_H'), c4R=document.getElementById('c4b_R');
     var g=10;
+
+    var _COS={15:null,30:'√3/2',45:'√2/2',60:'1/2',75:null},
+        _SIN={15:null,30:'1/2',45:'√2/2',60:'√3/2',75:null},
+        _S2={15:'1/2',30:'√3/2',45:'1',60:'√3/2',75:'1/2'},
+        _SINSQ={15:null,30:'1/4',45:'1/2',60:'3/4',75:null},
+        _COSSQ={15:null,30:'3/4',45:'1/2',60:'1/4',75:null};
+    function _eq(v){ return (Math.abs(v-Math.round(v))<1e-9)?('= '+Math.round(v)):('≈ '+v.toFixed(1)); }
+    function compLine(v0,th,which){
+      var isc=(which==='cos'), r=isc?_COS[th]:_SIN[th];
+      var trig=isc?Math.cos(th*Math.PI/180):Math.sin(th*Math.PI/180);
+      var val=v0*trig;
+      var head=v0+' × '+(r?('('+r+')'):trig.toFixed(3));
+      var res=(r?_eq(val):('≈ '+val.toFixed(1)))+' m/s';
+      return head+' <span class="r">'+res+'</span>';
+    }
+    function syncAng(){ document.querySelectorAll('.angb').forEach(function(b){ b.classList.toggle('on', (+b.getAttribute('data-th'))===st.th); }); }
     var st={v0:20, th:45, t:0, running:false, done:false}, lastT=0;
     function rad(){ return st.th*Math.PI/180; }
     function vx0(){ return st.v0*Math.cos(rad()); }
@@ -473,7 +474,7 @@
       cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
       var mL=W*0.08, mR=W*0.05, mT=H*0.10, mB=H*0.14;
       var plotW=W-mL-mR, plotH=H-mT-mB;
-      var Rmax=Math.max(Rng(),1), Hmx=Math.max(Hmax(),1);
+      var Rmax=Math.max(st.v0*st.v0/g,1), Hmx=Math.max(st.v0*st.v0/(2*g),1);  // 속력별 고정: 45°도달거리=v0²/g · 90°최대높이=v0²/2g
       var sc=Math.min(plotW/Rmax, plotH/Hmx);
       var gY=mT+plotH;
       function P(x,y){ return {x:mL+x*sc, y:gY-y*sc}; }

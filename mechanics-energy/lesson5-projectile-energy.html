@@ -357,7 +357,7 @@
       cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
       // ---- 왼쪽: 포물선 장면 ----
       var mL=W*0.06, sceneW=W*0.40, mT=H*0.10, gY=H*0.86, sceneH=gY-mT;
-      var Rmax=Math.max(Rng(),1), Hmx=Math.max(Hmax(),1);
+      var Rmax=Math.max(st.v0*st.v0/g,1), Hmx=Math.max(st.v0*st.v0/(2*g),1);  // 속력별 고정: 45°도달거리=v0²/g · 90°최대높이=v0²/2g
       var sc=Math.min((sceneW-W*0.02)/Rmax, sceneH/Hmx);
       function P(x,y){ return {x:mL+x*sc, y:gY-y*sc}; }
       ctx.strokeStyle='#4a2b3a'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(mL,gY); ctx.lineTo(mL+sceneW,gY); ctx.stroke();
@@ -369,12 +369,12 @@
       ctx.fillStyle='#f79338'; ctx.strokeStyle='#150c11'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cp.x,cp.y,9,0,2*Math.PI); ctx.fill(); ctx.stroke();
 
       // ---- 가운데: 에너지 막대(위치E 아래 + 운동E 위) ----
-      var bx=W*0.50, bw=W*0.07, full=sceneH, baseY=gY, pxE=full/ME();
+      var bx=W*0.50, bw=W*0.07, full=sceneH, baseY=gY, pxE=full/(ME()*1.12);  // 그래프 y축과 동일 스케일
       var peH=cur.pe*pxE, keH=cur.ke*pxE;
       ctx.strokeStyle='#4a2b3a'; ctx.lineWidth=1; ctx.strokeRect(bx,baseY-full,bw,full);
       ctx.fillStyle='#3b82f6'; ctx.fillRect(bx,baseY-peH,bw,peH);
       ctx.fillStyle='#f59e0b'; ctx.fillRect(bx,baseY-peH-keH,bw,keH);
-      ctx.strokeStyle='#22c55e'; ctx.lineWidth=2; ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(bx-5,baseY-full); ctx.lineTo(bx+bw+5,baseY-full); ctx.stroke(); ctx.setLineDash([]);
+      var meY=baseY-ME()*pxE; ctx.strokeStyle='#22c55e'; ctx.lineWidth=2; ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(bx-5,meY); ctx.lineTo(bx+bw+5,meY); ctx.stroke(); ctx.setLineDash([]);
       ctx.fillStyle='#9a7186'; ctx.font="11px Pretendard, sans-serif"; ctx.textAlign='center'; ctx.fillText('막대', bx+bw/2, gY+15); ctx.textAlign='left';
 
       // ---- 오른쪽: 에너지-시간 그래프 ----
